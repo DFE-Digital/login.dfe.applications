@@ -17,10 +17,10 @@ const getSettingsFromFile = (settingsPath) => {
     try {
       return JSON.parse(file);
     } catch (e) {
-      return null;
+      throw new Error(`Error parsing config json from ${settingsPath}: ${e.message}`);
     }
   }
-  return null;
+  return null
 };
 
 const fetchConfig = () => {
@@ -30,12 +30,11 @@ const fetchConfig = () => {
     if (settingsObject !== null) {
       return settingsObject;
     }
+
     const settingsPath = Path.resolve(settings);
-    if (fs.existsSync(settingsPath)) {
-      settingsObject = getSettingsFromFile(settingsPath);
-      if (settingsObject !== null) {
-        return settingsObject;
-      }
+    settingsObject = getSettingsFromFile(settingsPath);
+    if (settingsObject !== null) {
+      return settingsObject;
     }
   }
 
