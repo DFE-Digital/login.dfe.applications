@@ -1,20 +1,10 @@
-const { services } = require('./../../infrastructure/repository');
+const { findAndCountAll } = require('./data');
 const { extractPageParam, extractPageSizeParam } = require('./../utils');
 const logger = require('./../../infrastructure/logger');
 
 const query = async (page, pageSize) => {
   const offset = (page - 1) * pageSize;
-  const resultset = await services.findAndCountAll({
-    order: [
-      ['name', 'ASC'],
-    ],
-    limit: pageSize,
-    offset,
-  });
-  return {
-    services: resultset.rows,
-    numberOfRecords: resultset.count,
-  };
+  return findAndCountAll(undefined, offset, pageSize);
 };
 
 const list = async (req, res) => {
