@@ -22,6 +22,10 @@ if (config.hostingEnvironment.env !== 'dev') {
 }
 
 app.use(bodyParser.json());
+app.use((req, res, next) => {
+  req.correlationId = req.get('x-correlation-id') || `appci-${Date.now()}`;
+  next();
+});
 
 app.use('/healthcheck', healthCheck({ config }));
 if (config.hostingEnvironment.env !== 'dev') {

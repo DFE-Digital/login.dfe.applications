@@ -11,6 +11,7 @@ jest.mock('./../../../src/infrastructure/repository', () => require('./../../uti
     { id: 'svc9', name: 'Service Nine', description: '' },
   ]
 }));
+jest.mock('./../../../src/infrastructure/logger', () => require('./../../utils').mockLogger());
 
 const { mockRequest, mockResponse } = require('./../../utils');
 const { services } = require('./../../../src/infrastructure/repository');
@@ -70,6 +71,32 @@ describe('when listing services', () => {
         { id: 'svc8', name: 'Service Eight', description: '' },
         { id: 'svc9', name: 'Service Nine', description: '' },
       ],
+    });
+  });
+
+  it('then it should send 400 response if specified page is invalid', async () => {
+    req.query.page = 'not-a-number';
+
+    await list(req, res);
+
+    expect(res.status).toHaveBeenCalledTimes(1);
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.send).toHaveBeenCalledTimes(1);
+    expect(res.send).toHaveBeenCalledWith({
+      error: 'not-a-number is not a valid value for page. Expected a number'
+    });
+  });
+
+  it('then it should send 400 response if specified pageSize is invalid', async () => {
+    req.query.pageSize = 'not-a-number';
+
+    await list(req, res);
+
+    expect(res.status).toHaveBeenCalledTimes(1);
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.send).toHaveBeenCalledTimes(1);
+    expect(res.send).toHaveBeenCalledWith({
+      error: 'not-a-number is not a valid value for pageSize. Expected a number'
     });
   });
 });
