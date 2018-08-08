@@ -1,6 +1,7 @@
 const mockRequest = (customRequest = undefined) => {
   const request = Object.assign({
     get: jest.fn(),
+    correlationId: 'unit-tests',
     query: {},
   }, customRequest);
   return request;

@@ -3,6 +3,8 @@ class InvalidInputError extends Error {
     super(message || 'Input is not valid');
 
     Error.captureStackTrace(this, this.constructor);
+
+    this.isUserInputError = true;
   }
 }
 
