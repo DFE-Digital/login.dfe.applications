@@ -1,14 +1,14 @@
 jest.mock('./../../../src/infrastructure/repository', () => require('./../../utils').mockRepository({
   services: [
-    { id: 'svc1', name: 'Service One', description: '' },
-    { id: 'svc2', name: 'Service Two', description: '' },
-    { id: 'svc3', name: 'Service Three', description: '' },
-    { id: 'svc4', name: 'Service Four', description: '' },
-    { id: 'svc5', name: 'Service Five', description: '' },
-    { id: 'svc6', name: 'Service Six', description: '' },
-    { id: 'svc7', name: 'Service Seven', description: '' },
-    { id: 'svc8', name: 'Service Eight', description: '' },
-    { id: 'svc9', name: 'Service Nine', description: '' },
+    { id: 'svc1', name: 'Service One', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], params: [] },
+    { id: 'svc2', name: 'Service Two', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], params: [] },
+    { id: 'svc3', name: 'Service Three', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], params: [] },
+    { id: 'svc4', name: 'Service Four', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], params: [] },
+    { id: 'svc5', name: 'Service Five', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], params: [] },
+    { id: 'svc6', name: 'Service Six', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], params: [] },
+    { id: 'svc7', name: 'Service Seven', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], params: [] },
+    { id: 'svc8', name: 'Service Eight', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], params: [] },
+    { id: 'svc9', name: 'Service Nine', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], params: [] },
   ]
 }));
 jest.mock('./../../../src/infrastructure/logger', () => require('./../../utils').mockLogger());
@@ -47,6 +47,7 @@ describe('when listing services', () => {
       order: [
         ['name', 'ASC'],
       ],
+      include: ['redirects', 'postLogoutRedirects', 'grantTypes', 'params'],
       limit: 3,
       offset: 6,
     });
