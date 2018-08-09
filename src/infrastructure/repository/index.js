@@ -4,6 +4,10 @@ const config = require('./../config');
 
 const { makeConnection } = require('./connection');
 const servicesModel = require('./services');
+const serviceRedirectsModel = require('./serviceRedirects');
+const servicePostLogoutRedirectsModel = require('./servicePostLogoutRedirects');
+const serviceGrantTypesModel = require('./serviceGrantTypes');
+const serviceParamsModel = require('./serviceParams');
 
 const db = makeConnection();
 
@@ -26,6 +30,10 @@ const buildDataModel = (model, connection, entityModels) => {
 const dataModel = {};
 buildDataModel(dataModel, db, [
   servicesModel,
+  serviceRedirectsModel,
+  servicePostLogoutRedirectsModel,
+  serviceGrantTypesModel,
+  serviceParamsModel,
 ]);
 
 

@@ -8,9 +8,15 @@ const query = async (page, pageSize) => {
 };
 
 const list = async (req, res) => {
+  let page;
+  let pageSize;
   try {
-    const page = extractPageParam(req);
-    const pageSize = extractPageSizeParam(req);
+    page = extractPageParam(req);
+    pageSize = extractPageSizeParam(req);
+  } catch (e) {
+    return res.status(400).send({ error: e.message });
+  }
+  try {
     logger.info(`Processing list services request. CorrelationId: ${req.correlationId}, page: ${page}, pageSize: ${pageSize}`);
 
     const result = await query(page, pageSize);
@@ -20,9 +26,6 @@ const list = async (req, res) => {
 
     return res.json(result);
   } catch (e) {
-    if (e.isUserInputError) {
-      return res.status(400).send({ error: e.message });
-    }
     logger.error(`Error processing list services request - ${e.message}. CorrelationId: ${req.correlationId}, page: ${page}, pageSize: ${pageSize}`);
     throw e;
   }

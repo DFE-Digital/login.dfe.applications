@@ -16,6 +16,30 @@ const define = (db, schema) => {
       type: Sequelize.STRING,
       allowNull: true,
     },
+    clientId: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    clientSecret: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    apiSecret: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    tokenEndpointAuthMethod: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    serviceHome: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    postResetUrl: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
   }, {
     timestamps: false,
     tableName: 'service',
@@ -23,7 +47,11 @@ const define = (db, schema) => {
   });
 };
 
-const extend = () => {
+const extend = ({ services, serviceRedirects, servicePostLogoutRedirects, serviceGrantTypes, serviceParams }) => {
+  services.hasMany(serviceRedirects, { foreignKey: 'serviceId', sourceKey: 'id', as: 'redirects' });
+  services.hasMany(servicePostLogoutRedirects, { foreignKey: 'serviceId', sourceKey: 'id', as: 'postLogoutRedirects' });
+  services.hasMany(serviceGrantTypes, { foreignKey: 'serviceId', sourceKey: 'id', as: 'grantTypes' });
+  services.hasMany(serviceParams, { foreignKey: 'serviceId', sourceKey: 'id', as: 'params' });
 };
 
 module.exports = {
