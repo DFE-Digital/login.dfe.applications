@@ -1,5 +1,4 @@
 const { services } = require('./../../../infrastructure/repository');
-const logger = require('./../../../infrastructure/logger');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
