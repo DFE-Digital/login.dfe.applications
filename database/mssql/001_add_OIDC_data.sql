@@ -92,6 +92,19 @@ IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'servi
     END
 GO
 
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'serviceResponseTypes' AND TABLE_SCHEMA = 'dbo')
+    BEGIN
+        CREATE TABLE serviceResponseTypes (
+            serviceId uniqueidentifier NOT NULL,
+            responseType varchar(255) NOT NULL,
+            CONSTRAINT UQ_serviceResponseTypes_serviceresponse UNIQUE (serviceId, responseType),
+            CONSTRAINT FK_serviceResponseTypes_service FOREIGN KEY (serviceId) REFERENCES [service](id),
+        )
+
+        CREATE CLUSTERED INDEX IX_serviceResponseTypes_serviceId ON serviceResponseTypes(serviceId)
+    END
+GO
+
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'serviceParams' AND TABLE_SCHEMA = 'dbo')
     BEGIN
         CREATE TABLE serviceParams (

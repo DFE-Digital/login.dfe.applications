@@ -56,6 +56,7 @@ const upsertClient = async (client) => {
   await addServiceChildren(repository.serviceRedirects, client.redirect_uris, 'redirectUrl', service.id);
   await addServiceChildren(repository.servicePostLogoutRedirects, client.post_logout_redirect_uris, 'redirectUrl', service.id);
   await addServiceChildren(repository.serviceGrantTypes, client.grant_types, 'grantType', service.id);
+  await addServiceChildren(repository.serviceResponseTypes, client.response_types, 'responseType', service.id);
 
   const params = Object.keys(client.params).map(key => ({ key, value: client.params[key] }));
   await repository.serviceParams.destroy({ where: { serviceId: { [Op.eq]: service.id } } });

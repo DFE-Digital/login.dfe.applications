@@ -47,10 +47,11 @@ const define = (db, schema) => {
   });
 };
 
-const extend = ({ services, serviceRedirects, servicePostLogoutRedirects, serviceGrantTypes, serviceParams }) => {
+const extend = ({ services, serviceRedirects, servicePostLogoutRedirects, serviceGrantTypes, serviceResponseTypes, serviceParams }) => {
   services.hasMany(serviceRedirects, { foreignKey: 'serviceId', sourceKey: 'id', as: 'redirects' });
   services.hasMany(servicePostLogoutRedirects, { foreignKey: 'serviceId', sourceKey: 'id', as: 'postLogoutRedirects' });
   services.hasMany(serviceGrantTypes, { foreignKey: 'serviceId', sourceKey: 'id', as: 'grantTypes' });
+  services.hasMany(serviceResponseTypes, { foreignKey: 'serviceId', sourceKey: 'id', as: 'responseTypes' });
   services.hasMany(serviceParams, { foreignKey: 'serviceId', sourceKey: 'id', as: 'params' });
 };
 

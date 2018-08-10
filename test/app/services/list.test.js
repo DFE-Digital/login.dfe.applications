@@ -1,14 +1,14 @@
 jest.mock('./../../../src/infrastructure/repository', () => require('./../../utils').mockRepository({
   services: [
-    { id: 'svc1', name: 'Service One', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], params: [] },
-    { id: 'svc2', name: 'Service Two', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], params: [] },
-    { id: 'svc3', name: 'Service Three', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], params: [] },
-    { id: 'svc4', name: 'Service Four', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], params: [] },
-    { id: 'svc5', name: 'Service Five', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], params: [] },
-    { id: 'svc6', name: 'Service Six', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], params: [] },
-    { id: 'svc7', name: 'Service Seven', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], params: [] },
-    { id: 'svc8', name: 'Service Eight', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], params: [] },
-    { id: 'svc9', name: 'Service Nine', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], params: [] },
+    { id: 'svc1', name: 'Service One', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], responseTypes: [], params: [] },
+    { id: 'svc2', name: 'Service Two', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], responseTypes: [], params: [] },
+    { id: 'svc3', name: 'Service Three', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], responseTypes: [], params: [] },
+    { id: 'svc4', name: 'Service Four', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], responseTypes: [], params: [] },
+    { id: 'svc5', name: 'Service Five', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], responseTypes: [], params: [] },
+    { id: 'svc6', name: 'Service Six', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], responseTypes: [], params: [] },
+    { id: 'svc7', name: 'Service Seven', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], responseTypes: [], params: [] },
+    { id: 'svc8', name: 'Service Eight', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], responseTypes: [], params: [] },
+    { id: 'svc9', name: 'Service Nine', description: '', redirects: [], postLogoutRedirects: [], grantTypes: [], responseTypes: [], params: [] },
   ]
 }));
 jest.mock('./../../../src/infrastructure/logger', () => require('./../../utils').mockLogger());
@@ -47,7 +47,7 @@ describe('when listing services', () => {
       order: [
         ['name', 'ASC'],
       ],
-      include: ['redirects', 'postLogoutRedirects', 'grantTypes', 'params'],
+      include: ['redirects', 'postLogoutRedirects', 'grantTypes', 'responseTypes', 'params'],
       limit: 3,
       offset: 6,
     });

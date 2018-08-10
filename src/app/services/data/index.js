@@ -6,7 +6,7 @@ const defaultQueryOpts = {
   order: [
     ['name', 'ASC'],
   ],
-  include: ['redirects', 'postLogoutRedirects', 'grantTypes', 'params'],
+  include: ['redirects', 'postLogoutRedirects', 'grantTypes', 'responseTypes', 'params'],
 };
 
 const mapEntity = (entity) => {
@@ -15,6 +15,7 @@ const mapEntity = (entity) => {
   }
 
   const grantTypes = entity.grantTypes.filter(e => e.grantType != null).map(e => e.grantType);
+  const responseTypes = entity.responseTypes.filter(e => e.responseType != null).map(e => e.responseType);
   const paramsArray = entity.params.filter(e => e.paramName != null);
   const params = {};
   paramsArray.forEach(({ paramName, paramValue }) => {
@@ -35,6 +36,7 @@ const mapEntity = (entity) => {
       redirect_uris: entity.redirects.filter(e => e.redirectUrl != null).map(e => e.redirectUrl),
       post_logout_redirect_uris: entity.postLogoutRedirects.filter(e => e.redirectUrl != null).map(e => e.redirectUrl),
       grant_types: grantTypes.length > 0 ? grantTypes : undefined,
+      response_types: responseTypes.length > 0 ? responseTypes : undefined,
       params: params,
     },
   };
