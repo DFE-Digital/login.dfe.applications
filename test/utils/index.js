@@ -1,5 +1,5 @@
 const { mockRequest, mockResponse } = require('./expressMocks');
-const { mockRepository } = require('./repositoryMocks');
+const { mockRepository, mockServiceEntity } = require('./repositoryMocks');
 
 const mockLogger = () => {
   return {
@@ -13,5 +13,6 @@ module.exports = {
   mockRequest,
   mockResponse,
   mockRepository,
+  mockServiceEntity,
   mockLogger,
 };
