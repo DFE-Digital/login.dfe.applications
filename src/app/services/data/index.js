@@ -6,17 +6,18 @@ const defaultQueryOpts = {
   order: [
     ['name', 'ASC'],
   ],
-  include: ['redirects', 'postLogoutRedirects', 'grantTypes', 'responseTypes', 'params'],
 };
 
-const mapEntity = (entity) => {
+const mapEntity = async (entity) => {
   if (!entity) {
     return undefined;
   }
 
-  const grantTypes = entity.grantTypes.filter(e => e.grantType != null).map(e => e.grantType);
-  const responseTypes = entity.responseTypes.filter(e => e.responseType != null).map(e => e.responseType);
-  const paramsArray = entity.params.filter(e => e.paramName != null);
+  const redirects = (await entity.getRedirects() || []).map(e => e.redirectUrl);
+  const postLogoutRedirects = (await entity.getPostLogoutRedirects() || []).map(e => e.redirectUrl);
+  const grantTypes = (await entity.getGrantTypes() || []).map(e => e.grantType);
+  const responseTypes = (await entity.getResponseTypes() || []).map(e => e.responseType);
+  const paramsArray = (await entity.getParams() || []).filter(e => e.paramName != null);
   const params = {};
   paramsArray.forEach(({ paramName, paramValue }) => {
     params[paramName] = paramValue;
@@ -33,13 +34,20 @@ const mapEntity = (entity) => {
       token_endpoint_auth_method: entity.tokenEndpointAuthMethod || undefined,
       service_home: entity.serviceHome || undefined,
       postResetUrl: entity.postResetUrl || undefined,
-      redirect_uris: entity.redirects.filter(e => e.redirectUrl != null).map(e => e.redirectUrl),
-      post_logout_redirect_uris: entity.postLogoutRedirects.filter(e => e.redirectUrl != null).map(e => e.redirectUrl),
+      redirect_uris: redirects,
+      post_logout_redirect_uris: postLogoutRedirects,
       grant_types: grantTypes.length > 0 ? grantTypes : undefined,
       response_types: responseTypes.length > 0 ? responseTypes : undefined,
       params: params,
     },
   };
+};
+const mapEntities = async (entities) => {
+  const mapped = [];
+  for (let i = 0; i < entities.length; i++) {
+    mapped.push(await mapEntity(entities[i]));
+  }
+  return mapped;
 };
 
 const findAndCountAll = async (where, offset, limit) => {
@@ -49,7 +57,7 @@ const findAndCountAll = async (where, offset, limit) => {
     offset,
   }));
   return {
-    services: resultset.rows.map(mapEntity),
+    services: await mapEntities(resultset.rows),
     numberOfRecords: resultset.count,
   };
 };
@@ -59,7 +67,7 @@ const findAll = async (where) => {
     where,
   }));
   return {
-    services: resultset.map(mapEntity),
+    services: await mapEntities(resultset.rows),
   };
 };
 

@@ -27,6 +27,31 @@ const mockRepository = (opts) => {
   };
 };
 
+const mockServiceEntity = (id, name, description, redirects = undefined, postLogoutRedirects = undefined, grantTypes = undefined, responseTypes = undefined, params = undefined) => {
+  return {
+    id: id,
+    name: name,
+    description: description,
+
+    children: { redirects, postLogoutRedirects, grantTypes, responseTypes, params },
+
+    getRedirects: jest.fn().mockReturnValue(redirects),
+    getPostLogoutRedirects: jest.fn().mockReturnValue(postLogoutRedirects),
+    getGrantTypes: jest.fn().mockReturnValue(grantTypes),
+    getResponseTypes: jest.fn().mockReturnValue(responseTypes),
+    getParams: jest.fn().mockReturnValue(params),
+
+    mockReset: function () {
+      this.getRedirects.mockReset().mockReturnValue(children.redirects);
+      this.getPostLogoutRedirects.mockReset().mockReturnValue(children.postLogoutRedirects);
+      this.getGrantTypes.mockReset().mockReturnValue(children.grantTypes);
+      this.getResponseTypes.mockReset().mockReturnValue(children.responseTypes);
+      this.getParams.mockReset().mockReturnValue(children.params);
+    },
+  };
+};
+
 module.exports = {
   mockRepository,
+  mockServiceEntity,
 };
