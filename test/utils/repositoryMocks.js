@@ -1,6 +1,7 @@
 const mockTable = (allEntities) => {
   const entity = {
-    findAndCountAll: jest.fn().mockReturnValue({ rows: [], count: 0 }),
+    findAndCountAll: jest.fn().mockReturnValue({rows: [], count: 0}),
+    find: jest.fn().mockReturnValue(null),
   };
   if (allEntities) {
     entity.findAndCountAll.mockImplementation((opts) => {
@@ -16,24 +17,36 @@ const mockTable = (allEntities) => {
         count: allEntities.length,
       });
     });
+    entity.find.mockImplementation((opts) => {
+      return allEntities.find((x) => {
+        if(opts.where.clientId) {
+          return (x.clientId && x.clientId.toLowerCase() === opts.where.clientId)
+        }
+        if(opts.where.id) {
+          return (x.id && x.id.toLowerCase() === opts.where.id)
+        }
+        return undefined;
+      });
+    });
   }
   return entity;
 };
+
 const mockRepository = (opts) => {
-  const { services } = opts || {};
+  const {services} = opts || {};
 
   return {
     services: mockTable(services),
   };
 };
 
-const mockServiceEntity = (id, name, description, redirects = undefined, postLogoutRedirects = undefined, grantTypes = undefined, responseTypes = undefined, params = undefined) => {
+const mockServiceEntity = (id, name, description, redirects = undefined, postLogoutRedirects = undefined, grantTypes = undefined, responseTypes = undefined, params = undefined, clientId = '') => {
   return {
     id: id,
     name: name,
     description: description,
-
-    children: { redirects, postLogoutRedirects, grantTypes, responseTypes, params },
+    clientId: clientId,
+    children: {redirects, postLogoutRedirects, grantTypes, responseTypes, params},
 
     getRedirects: jest.fn().mockReturnValue(redirects),
     getPostLogoutRedirects: jest.fn().mockReturnValue(postLogoutRedirects),
