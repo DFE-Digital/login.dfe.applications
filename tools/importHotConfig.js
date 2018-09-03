@@ -133,7 +133,7 @@ const upsertClient = async (client) => {
     await scripter.updateService(service);
   } else {
     service = {
-      id: uuid(),
+      id: client.params && client.params.serviceId ? client.params.serviceId : uuid(),
       name: client.friendlyName || 'DfE Sign-in',
       clientId: client.client_id,
       clientSecret: client.client_secret,
