@@ -40,6 +40,14 @@ const define = (db, schema) => {
       type: Sequelize.STRING,
       allowNull: true,
     },
+    isMigrated: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    isExternalService: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
   }, {
     timestamps: false,
     tableName: 'service',
