@@ -1,6 +1,6 @@
 const mockTable = (allEntities) => {
   const entity = {
-    findAndCountAll: jest.fn().mockReturnValue({rows: [], count: 0}),
+    findAndCountAll: jest.fn().mockReturnValue({ rows: [], count: 0 }),
     find: jest.fn().mockReturnValue(null),
   };
   if (allEntities) {
@@ -19,10 +19,10 @@ const mockTable = (allEntities) => {
     });
     entity.find.mockImplementation((opts) => {
       return allEntities.find((x) => {
-        if(opts.where.clientId) {
+        if (opts.where.clientId) {
           return (x.clientId && x.clientId.toLowerCase() === opts.where.clientId)
         }
-        if(opts.where.id) {
+        if (opts.where.id) {
           return (x.id && x.id.toLowerCase() === opts.where.id)
         }
         return undefined;
@@ -33,26 +33,27 @@ const mockTable = (allEntities) => {
 };
 
 const mockRepository = (opts) => {
-  const {services} = opts || {};
+  const { services } = opts || {};
 
   return {
     services: mockTable(services),
   };
 };
 
-const mockServiceEntity = (id, name, description, redirects = undefined, postLogoutRedirects = undefined, grantTypes = undefined, responseTypes = undefined, params = undefined, clientId = '') => {
+const mockServiceEntity = (id, name, description, redirects = undefined, postLogoutRedirects = undefined, grantTypes = undefined, responseTypes = undefined, params = undefined, clientId = '', assertions = undefined) => {
   return {
     id: id,
     name: name,
     description: description,
     clientId: clientId,
-    children: {redirects, postLogoutRedirects, grantTypes, responseTypes, params},
+    children: { redirects, postLogoutRedirects, grantTypes, responseTypes, params, assertions },
 
     getRedirects: jest.fn().mockReturnValue(redirects),
     getPostLogoutRedirects: jest.fn().mockReturnValue(postLogoutRedirects),
     getGrantTypes: jest.fn().mockReturnValue(grantTypes),
     getResponseTypes: jest.fn().mockReturnValue(responseTypes),
     getParams: jest.fn().mockReturnValue(params),
+    getAssertions: jest.fn().mockReturnValue(assertions),
 
     mockReset: function () {
       this.getRedirects.mockReset().mockReturnValue(children.redirects);
@@ -60,6 +61,7 @@ const mockServiceEntity = (id, name, description, redirects = undefined, postLog
       this.getGrantTypes.mockReset().mockReturnValue(children.grantTypes);
       this.getResponseTypes.mockReset().mockReturnValue(children.responseTypes);
       this.getParams.mockReset().mockReturnValue(children.params);
+      this.getAssertions.mockReset().mockReturnValue(children.assertions);
     },
   };
 };

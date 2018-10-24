@@ -22,6 +22,18 @@ const mapEntity = async (entity) => {
   paramsArray.forEach(({ paramName, paramValue }) => {
     params[paramName] = paramValue;
   });
+  const assertions = (await entity.getAssertions() || []).map(e => ({
+    type: e.typeUrn,
+    value: e.value,
+    friendlyName: e.friendlyName || undefined,
+  }));
+
+  let saml;
+  if (assertions.length > 0) {
+    saml = {
+      assertions,
+    };
+  }
 
   return {
     id: entity.id,
@@ -42,6 +54,7 @@ const mapEntity = async (entity) => {
       response_types: responseTypes.length > 0 ? responseTypes : undefined,
       params: params,
     },
+    saml,
   };
 };
 const mapEntities = async (entities) => {
