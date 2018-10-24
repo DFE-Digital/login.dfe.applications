@@ -9,6 +9,7 @@ const servicePostLogoutRedirectsModel = require('./servicePostLogoutRedirects');
 const serviceGrantTypesModel = require('./serviceGrantTypes');
 const serviceResponseTypesModel = require('./serviceResponseTypes');
 const serviceParamsModel = require('./serviceParams');
+const serviceAssertionsModel = require('./serviceAssertions');
 
 const db = makeConnection();
 
@@ -36,6 +37,7 @@ buildDataModel(dataModel, db, [
   serviceGrantTypesModel,
   serviceResponseTypesModel,
   serviceParamsModel,
+  serviceAssertionsModel,
 ]);
 
 
