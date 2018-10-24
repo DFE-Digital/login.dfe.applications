@@ -25,7 +25,7 @@ const mapEntity = async (entity) => {
   const assertions = (await entity.getAssertions() || []).map(e => ({
     type: e.typeUrn,
     value: e.value,
-    friendlyName: e.friendlyName,
+    friendlyName: e.friendlyName || undefined,
   }));
 
   let saml;
