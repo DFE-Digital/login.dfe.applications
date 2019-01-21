@@ -1,4 +1,4 @@
-const { services } = require('./../../../infrastructure/repository');
+const { services, serviceRedirects, servicePostLogoutRedirects, serviceGrantTypes, serviceResponseTypes } = require('./../../../infrastructure/repository');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
@@ -94,7 +94,7 @@ const find = async (where) => {
   return mapEntity(service);
 };
 
-const update = async (service, correlationId) => {
+const update = async (service) => {
   const existing = await services.find({
     where: {
       id: {
@@ -114,7 +114,76 @@ const update = async (service, correlationId) => {
     clientSecret: service.client_secret,
     apiSecret: service.api_secret,
     serviceHome: service.service_home,
+    postResetUrl: service.postResetUrl
   })
+};
+
+const removeAllRedirectUris = async (sid) => {
+  await serviceRedirects.destroy({
+    where: {
+      serviceId: {
+        [Op.eq]: sid,
+      },
+    },
+  });
+};
+
+const addRedirectUri = async (sid, redirect) => {
+  await serviceRedirects.create({
+    serviceId: sid,
+    redirectUrl: redirect,
+  });
+};
+
+const removePostLogoutRedirects = async (sid) => {
+  await servicePostLogoutRedirects.destroy({
+    where: {
+      serviceId: {
+        [Op.eq]: sid,
+      },
+    },
+  });
+};
+
+const addPostLogoutRedirect = async (sid, redirect) => {
+  await servicePostLogoutRedirects.create({
+    serviceId: sid,
+    redirectUrl: redirect,
+  });
+};
+
+const removeGrantTypes = async (sid) => {
+  await serviceGrantTypes.destroy({
+    where: {
+      serviceId: {
+        [Op.eq]: sid,
+      },
+    },
+  });
+};
+
+const addGrantType = async (sid, grantType) => {
+  await serviceGrantTypes.create({
+    serviceId: sid,
+    grantType
+  });
+};
+
+const removeResponseTypes = async (sid) => {
+  await serviceResponseTypes.destroy({
+    where: {
+      serviceId: {
+        [Op.eq]: sid,
+      },
+    },
+  });
+};
+
+const addResponseType = async (sid, responseType) => {
+  await serviceResponseTypes.create({
+    serviceId: sid,
+    responseType
+  });
 };
 
 
@@ -122,5 +191,13 @@ module.exports = {
   findAndCountAll,
   findAll,
   find,
-  update
+  update,
+  removeAllRedirectUris,
+  addRedirectUri,
+  removePostLogoutRedirects,
+  addPostLogoutRedirect,
+  removeGrantTypes,
+  addGrantType,
+  removeResponseTypes,
+  addResponseType,
 };
