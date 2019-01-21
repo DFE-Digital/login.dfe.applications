@@ -57,6 +57,7 @@ const mapEntity = async (entity) => {
     saml,
   };
 };
+
 const mapEntities = async (entities) => {
   const mapped = [];
   for (let i = 0; i < entities.length; i++) {
@@ -93,9 +94,33 @@ const find = async (where) => {
   return mapEntity(service);
 };
 
+const update = async (service, correlationId) => {
+  const existing = await services.find({
+    where: {
+      id: {
+        [Op.eq]: service.id,
+      },
+    }
+  });
+
+  if (!existing) {
+    return null;
+  }
+
+  await existing.updateAttributes({
+    name: service.name,
+    description: service.description,
+    clientId: service.client_id,
+    clientSecret: service.client_secret,
+    apiSecret: service.api_secret,
+    serviceHome: service.service_home,
+  })
+};
+
 
 module.exports = {
   findAndCountAll,
   findAll,
   find,
+  update
 };
