@@ -1,4 +1,4 @@
-const { services } = require('./../../../infrastructure/repository');
+const { services, serviceRedirects, servicePostLogoutRedirects, serviceGrantTypes, serviceResponseTypes } = require('./../../../infrastructure/repository');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
@@ -57,6 +57,7 @@ const mapEntity = async (entity) => {
     saml,
   };
 };
+
 const mapEntities = async (entities) => {
   const mapped = [];
   for (let i = 0; i < entities.length; i++) {
@@ -93,9 +94,111 @@ const find = async (where) => {
   return mapEntity(service);
 };
 
+const update = async (id, service) => {
+  const existing = await services.find({
+    where: {
+      id: {
+        [Op.eq]: id,
+      },
+    }
+  });
+
+  if (!existing) {
+    return null;
+  }
+  const updatedService = Object.assign(existing, service);
+
+  await existing.updateAttributes({
+    name: updatedService.name,
+    description: updatedService.description,
+    clientId: updatedService.clientId,
+    clientSecret: updatedService.clientSecret,
+    apiSecret: updatedService.apiSecret,
+    serviceHome: updatedService.serviceHome,
+    postResetUrl: updatedService.postResetUrl
+  })
+};
+
+const removeAllRedirectUris = async (sid) => {
+  await serviceRedirects.destroy({
+    where: {
+      serviceId: {
+        [Op.eq]: sid,
+      },
+    },
+  });
+};
+
+const addRedirectUri = async (sid, redirect) => {
+  await serviceRedirects.create({
+    serviceId: sid,
+    redirectUrl: redirect,
+  });
+};
+
+const removePostLogoutRedirects = async (sid) => {
+  await servicePostLogoutRedirects.destroy({
+    where: {
+      serviceId: {
+        [Op.eq]: sid,
+      },
+    },
+  });
+};
+
+const addPostLogoutRedirect = async (sid, redirect) => {
+  await servicePostLogoutRedirects.create({
+    serviceId: sid,
+    redirectUrl: redirect,
+  });
+};
+
+const removeGrantTypes = async (sid) => {
+  await serviceGrantTypes.destroy({
+    where: {
+      serviceId: {
+        [Op.eq]: sid,
+      },
+    },
+  });
+};
+
+const addGrantType = async (sid, grantType) => {
+  await serviceGrantTypes.create({
+    serviceId: sid,
+    grantType
+  });
+};
+
+const removeResponseTypes = async (sid) => {
+  await serviceResponseTypes.destroy({
+    where: {
+      serviceId: {
+        [Op.eq]: sid,
+      },
+    },
+  });
+};
+
+const addResponseType = async (sid, responseType) => {
+  await serviceResponseTypes.create({
+    serviceId: sid,
+    responseType
+  });
+};
+
 
 module.exports = {
   findAndCountAll,
   findAll,
   find,
+  update,
+  removeAllRedirectUris,
+  addRedirectUri,
+  removePostLogoutRedirects,
+  addPostLogoutRedirect,
+  removeGrantTypes,
+  addGrantType,
+  removeResponseTypes,
+  addResponseType,
 };
