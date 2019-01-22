@@ -2,7 +2,7 @@ const { update, find, removeAllRedirectUris, addRedirectUri, removePostLogoutRed
 const logger = require('./../../infrastructure/logger');
 const {Op} = require('sequelize');
 
-const patchableProperties = ['name', 'description', 'client_id', 'api_secret', 'client_secret', 'service_home', 'redirect_uris', 'post_logout_redirect_uris', 'grant_types', 'response_types'];
+const patchableProperties = ['name', 'description', 'clientId', 'apiSecret', 'clientSecret', 'serviceHome', 'redirect_uris', 'post_logout_redirect_uris', 'grant_types', 'response_types', 'postResetUrl'];
 
 const validate = (req) => {
   const keys = Object.keys(req.body);
@@ -26,10 +26,6 @@ const validate = (req) => {
 const updateService = async (req, res) => {
   const serviceId = req.params.id;
   const correlationId = req.correlationId;
-  const redirectUris = req.body.redirect_uris;
-  const postLogoutRedirectUri = req.body.post_logout_redirect_uris;
-  const grantTypes = req.body.grant_types;
-  const responseTypes = req.body.response_types;
 
   logger.info(`Updating service ${serviceId} (correlation id: ${correlationId})`, { correlationId });
   try {
@@ -46,6 +42,11 @@ const updateService = async (req, res) => {
     if (validation) {
       return res.status(400).send(validation);
     }
+
+    const redirectUris = req.body.redirect_uris;
+    const postLogoutRedirectUri = req.body.post_logout_redirect_uris;
+    const grantTypes = req.body.grant_types;
+    const responseTypes = req.body.response_types;
 
     if(redirectUris) {
       await removeAllRedirectUris(serviceId);
@@ -83,9 +84,7 @@ const updateService = async (req, res) => {
       }
     }
 
-    const updatedService = Object.assign(existingService, req.body);
-
-    await update(updatedService);
+    await update(existingService.id, req.body);
     return res.status(202).send();
   } catch (e) {
     logger.error(`Error updating service ${serviceId} (correlation id: ${correlationId} - ${e.message}`);
