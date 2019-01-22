@@ -94,11 +94,11 @@ const find = async (where) => {
   return mapEntity(service);
 };
 
-const update = async (service) => {
+const update = async (id, service) => {
   const existing = await services.find({
     where: {
       id: {
-        [Op.eq]: service.id,
+        [Op.eq]: id,
       },
     }
   });
@@ -106,15 +106,16 @@ const update = async (service) => {
   if (!existing) {
     return null;
   }
+  const updatedService = Object.assign(existing, service);
 
   await existing.updateAttributes({
-    name: service.name,
-    description: service.description,
-    clientId: service.client_id,
-    clientSecret: service.client_secret,
-    apiSecret: service.api_secret,
-    serviceHome: service.service_home,
-    postResetUrl: service.postResetUrl
+    name: updatedService.name,
+    description: updatedService.description,
+    clientId: updatedService.clientId,
+    clientSecret: updatedService.clientSecret,
+    apiSecret: updatedService.apiSecret,
+    serviceHome: updatedService.serviceHome,
+    postResetUrl: updatedService.postResetUrl
   })
 };
 
