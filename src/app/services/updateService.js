@@ -2,7 +2,7 @@ const { update, find, removeAllRedirectUris, addRedirectUri, removePostLogoutRed
 const logger = require('./../../infrastructure/logger');
 const {Op} = require('sequelize');
 
-const patchableProperties = ['name', 'description', 'clientId', 'apiSecret', 'clientSecret', 'serviceHome', 'redirect_uris', 'post_logout_redirect_uris', 'grant_types', 'response_types', 'postResetUrl'];
+const patchableProperties = ['name', 'description', 'clientId', 'apiSecret', 'clientSecret', 'serviceHome', 'redirect_uris', 'post_logout_redirect_uris', 'grant_types', 'response_types', 'postResetUrl', 'tokenEndpointAuthMethod'];
 
 const validate = (req) => {
   const keys = Object.keys(req.body);
