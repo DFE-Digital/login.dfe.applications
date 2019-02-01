@@ -1,4 +1,4 @@
-const { services, serviceRedirects, servicePostLogoutRedirects, serviceGrantTypes, serviceResponseTypes } = require('./../../../infrastructure/repository');
+const { services, serviceRedirects, servicePostLogoutRedirects, serviceGrantTypes, serviceResponseTypes, serviceBanners } = require('./../../../infrastructure/repository');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
@@ -64,6 +64,20 @@ const mapEntities = async (entities) => {
     mapped.push(await mapEntity(entities[i]));
   }
   return mapped;
+};
+
+const mapBannerFromEntity = (entity) => {
+  return {
+    id: entity.id,
+    serviceId: entity.serviceId,
+    name: entity.name,
+    title: entity.title,
+    message: entity.message,
+    validFrom: entity.validFrom,
+    validTo: entity.validTo,
+    createdAt: entity.createdAt,
+    updatedAt: entity.updatedAt,
+  };
 };
 
 const findAndCountAll = async (where, offset, limit) => {
@@ -188,6 +202,30 @@ const addResponseType = async (sid, responseType) => {
   });
 };
 
+const listServiceBanners = async (sid, pageNumber = 1, pageSize = 25) => {
+  const resultSet = await serviceBanners.findAndCountAll({
+    where: {
+      serviceId: {
+        [Op.eq]: sid,
+      },
+    },
+    order: [
+      ['name', 'ASC'],
+    ],
+    limit: pageSize,
+    offset: (pageNumber - 1) * pageSize,
+  });
+
+  const totalNumberOfRecords = resultSet.count;
+  const totalNumberOfPages = Math.ceil(totalNumberOfRecords / pageSize);
+  return {
+    banners: resultSet.rows.map(mapBannerFromEntity),
+    page: pageNumber,
+    totalNumberOfPages,
+    totalNumberOfRecords,
+  }
+};
+
 
 module.exports = {
   findAndCountAll,
@@ -202,4 +240,5 @@ module.exports = {
   addGrantType,
   removeResponseTypes,
   addResponseType,
+  listServiceBanners,
 };
