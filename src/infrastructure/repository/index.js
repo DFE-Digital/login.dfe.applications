@@ -10,6 +10,7 @@ const serviceGrantTypesModel = require('./serviceGrantTypes');
 const serviceResponseTypesModel = require('./serviceResponseTypes');
 const serviceParamsModel = require('./serviceParams');
 const serviceAssertionsModel = require('./serviceAssertions');
+const serviceBannersModel = require('./serviceBanners');
 
 const db = makeConnection();
 
@@ -38,6 +39,7 @@ buildDataModel(dataModel, db, [
   serviceResponseTypesModel,
   serviceParamsModel,
   serviceAssertionsModel,
+  serviceBannersModel,
 ]);
 
 
