@@ -77,6 +77,7 @@ const mapBannerFromEntity = (entity) => {
     validTo: entity.validTo,
     createdAt: entity.createdAt,
     updatedAt: entity.updatedAt,
+    isActive: entity.isActive,
   };
 };
 
