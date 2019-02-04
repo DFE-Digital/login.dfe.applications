@@ -7,6 +7,7 @@ const list = require('./list');
 const getServiceById = require('./getServiceById');
 const updateService = require('./updateService');
 const listServiceBanners = require('./listServiceBanners');
+const upsertServiceBanner = require('./upsertServiceBanner');
 
 const router = express.Router();
 
@@ -16,6 +17,8 @@ const buildArea = () => {
   router.patch('/:id', asyncWrapper(updateService));
 
   router.get('/:id/banners', asyncWrapper(listServiceBanners));
+  router.post('/:id/banners', asyncWrapper(upsertServiceBanner));
+
   return router;
 };
 
