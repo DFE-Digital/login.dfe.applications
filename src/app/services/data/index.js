@@ -229,6 +229,20 @@ const listServiceBanners = async (sid, pageNumber = 1, pageSize = 25) => {
   }
 };
 
+const getBannerById = async (sid, bid) => {
+  const entity = await serviceBanners.find({
+    where: {
+      serviceId: {
+        [Op.eq]: sid,
+      },
+      id: {
+        [Op.eq]: bid,
+      },
+    },
+  });
+  return mapBannerFromEntity(entity);
+};
+
 const upsertServiceBanner = async (bannerId, serviceId, name, title, message, validFrom, validTo, isActive) => {
   let entity = await serviceBanners.find({
     where: {
@@ -278,4 +292,5 @@ module.exports = {
   addResponseType,
   listServiceBanners,
   upsertServiceBanner,
+  getBannerById,
 };

@@ -8,6 +8,7 @@ const getServiceById = require('./getServiceById');
 const updateService = require('./updateService');
 const listServiceBanners = require('./listServiceBanners');
 const upsertServiceBanner = require('./upsertServiceBanner');
+const getBannerById = require('./getServiceBannerById');
 
 const router = express.Router();
 
@@ -18,6 +19,8 @@ const buildArea = () => {
 
   router.get('/:id/banners', asyncWrapper(listServiceBanners));
   router.post('/:id/banners', asyncWrapper(upsertServiceBanner));
+
+  router.get('/:id/banners/:bid', asyncWrapper(getBannerById));
 
   return router;
 };
