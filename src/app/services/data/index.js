@@ -276,6 +276,19 @@ const upsertServiceBanner = async (bannerId, serviceId, name, title, message, va
   return mapBannerFromEntity(entity);
 };
 
+const removeServiceBanner = async (serviceId, bannerId) => {
+  await serviceBanners.destroy({
+    where: {
+      serviceId: {
+        [Op.eq]: serviceId,
+      },
+      id: {
+        [Op.eq]: bannerId,
+      },
+    },
+  });
+};
+
 
 module.exports = {
   findAndCountAll,
@@ -293,4 +306,5 @@ module.exports = {
   listServiceBanners,
   upsertServiceBanner,
   getBannerById,
+  removeServiceBanner,
 };
