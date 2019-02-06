@@ -1,12 +1,14 @@
 const { services, serviceRedirects, servicePostLogoutRedirects, serviceGrantTypes, serviceResponseTypes, serviceBanners } = require('./../../../infrastructure/repository');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const uuid = require('uuid/v4');
 
 const defaultQueryOpts = {
   order: [
     ['name', 'ASC'],
   ],
 };
+
 
 const mapEntity = async (entity) => {
   if (!entity) {
@@ -227,6 +229,53 @@ const listServiceBanners = async (sid, pageNumber = 1, pageSize = 25) => {
   }
 };
 
+const getBannerById = async (sid, bid) => {
+  const entity = await serviceBanners.find({
+    where: {
+      serviceId: {
+        [Op.eq]: sid,
+      },
+      id: {
+        [Op.eq]: bid,
+      },
+    },
+  });
+  return mapBannerFromEntity(entity);
+};
+
+const upsertServiceBanner = async (bannerId, serviceId, name, title, message, validFrom, validTo, isActive) => {
+  let entity = await serviceBanners.find({
+    where: {
+      id: {
+        [Op.eq]: bannerId,
+      },
+    },
+  });
+  if (entity) {
+    entity.name = name;
+    entity.title = title;
+    entity.message = message;
+    entity.validFrom = validFrom;
+    entity.validTo = validTo;
+    entity.isActive = isActive;
+    await entity.save();
+    return mapBannerFromEntity(entity);
+  }
+
+  entity = {
+    id: uuid(),
+    serviceId,
+    name,
+    title,
+    message,
+    validFrom,
+    validTo,
+    isActive,
+  };
+  await serviceBanners.create(entity);
+  return mapBannerFromEntity(entity);
+};
+
 
 module.exports = {
   findAndCountAll,
@@ -242,4 +291,6 @@ module.exports = {
   removeResponseTypes,
   addResponseType,
   listServiceBanners,
+  upsertServiceBanner,
+  getBannerById,
 };
