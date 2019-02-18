@@ -43,6 +43,7 @@ const mapEntity = async (entity) => {
     description: entity.description,
     isExternalService: entity.isExternalService,
     isMigrated: entity.isMigrated,
+    parentId: entity.parentId || undefined,
     relyingParty: {
       client_id: entity.clientId,
       client_secret: entity.clientSecret,
