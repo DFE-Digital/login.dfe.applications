@@ -48,6 +48,10 @@ const define = (db, schema) => {
       type: Sequelize.STRING,
       allowNull: true,
     },
+    parentId: {
+      type: Sequelize.UUID,
+      allowNull: true,
+    },
   }, {
     timestamps: false,
     tableName: 'service',
