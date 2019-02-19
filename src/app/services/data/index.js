@@ -1,4 +1,4 @@
-const { services, serviceRedirects, servicePostLogoutRedirects, serviceGrantTypes, serviceResponseTypes, serviceBanners } = require('./../../../infrastructure/repository');
+const { services, serviceRedirects, servicePostLogoutRedirects, serviceGrantTypes, serviceResponseTypes, serviceBanners, serviceParams } = require('./../../../infrastructure/repository');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const uuid = require('uuid/v4');
@@ -43,6 +43,7 @@ const mapEntity = async (entity) => {
     description: entity.description,
     isExternalService: entity.isExternalService,
     isMigrated: entity.isMigrated,
+    parentId: entity.parentId || undefined,
     relyingParty: {
       client_id: entity.clientId,
       client_secret: entity.clientSecret,
@@ -109,6 +110,27 @@ const find = async (where) => {
     where,
   }));
   return mapEntity(service);
+};
+
+const create = async (service) => {
+  const id = uuid();
+
+  await services.create({
+    id: id,
+    name: service.name,
+    description: service.description,
+    clientId: service.relyingParty.client_id,
+    clientSecret: service.relyingParty.client_secret,
+    apiSecret: service.relyingParty.api_secret,
+    tokenEndpointAuthMethod: service.relyingParty.token_endpoint_auth_method,
+    serviceHome: service.relyingParty.service_home,
+    postResetUrl: service.relyingParty.postResetUrl,
+    isMigrated: true,
+    isExternalService: service.isExternalService,
+    parentId: service.parentId,
+  });
+
+  return id;
 };
 
 const update = async (id, service) => {
@@ -205,6 +227,14 @@ const addResponseType = async (sid, responseType) => {
   });
 };
 
+const addServiceParam = async (sid, paramName, paramValue) => {
+  await serviceParams.create({
+    serviceId: sid,
+    paramName,
+    paramValue
+  });
+};
+
 const listServiceBanners = async (sid, pageNumber = 1, pageSize = 25) => {
   const resultSet = await serviceBanners.findAndCountAll({
     where: {
@@ -294,6 +324,7 @@ module.exports = {
   findAndCountAll,
   findAll,
   find,
+  create,
   update,
   removeAllRedirectUris,
   addRedirectUri,
@@ -303,6 +334,7 @@ module.exports = {
   addGrantType,
   removeResponseTypes,
   addResponseType,
+  addServiceParam,
   listServiceBanners,
   upsertServiceBanner,
   getBannerById,

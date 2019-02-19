@@ -1,10 +1,7 @@
-const {find} = require('./data');
+const { find } = require('./data');
 const logger = require('./../../infrastructure/logger');
-const {Op} = require('sequelize');
-
-const isUUID = (value) => {
-  return value.match(/^[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}$/i) ? true : false;
-};
+const { Op } = require('sequelize');
+const { isUUID } = require('./../utils');
 
 const getServiceById = async (req, res) => {
   const serviceId = req.params.id ? req.params.id.toLowerCase() : '';
