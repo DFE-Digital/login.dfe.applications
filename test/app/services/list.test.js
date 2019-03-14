@@ -16,6 +16,7 @@ jest.mock('./../../../src/infrastructure/repository', () => {
 });
 jest.mock('./../../../src/infrastructure/logger', () => require('./../../utils').mockLogger());
 
+const { Op } = require('sequelize');
 const { mockRequest, mockResponse } = require('./../../utils');
 const { services } = require('./../../../src/infrastructure/repository');
 const list = require('./../../../src/app/services/list');
@@ -47,6 +48,26 @@ describe('when listing services', () => {
 
     expect(services.findAndCountAll).toHaveBeenCalledTimes(1);
     expect(services.findAndCountAll).toHaveBeenCalledWith({
+      order: [
+        ['name', 'ASC'],
+      ],
+      limit: 3,
+      offset: 6,
+    });
+  });
+
+  it('then it should query repository with parent id condition if query param specified', async () => {
+    req.query.parent = 'parent-1';
+
+    await list(req, res);
+
+    expect(services.findAndCountAll).toHaveBeenCalledTimes(1);
+    expect(services.findAndCountAll).toHaveBeenCalledWith({
+      where: {
+        parentId: {
+          [Op.eq]: 'parent-1',
+        },
+      },
       order: [
         ['name', 'ASC'],
       ],

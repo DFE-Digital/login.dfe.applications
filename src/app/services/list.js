@@ -1,13 +1,20 @@
 const { findAndCountAll } = require('./data');
-const { extractPageParam, extractPageSizeParam } = require('./../utils');
+const { extractParam, extractPageParam, extractPageSizeParam } = require('./../utils');
+const { Op } = require('sequelize');
 const logger = require('./../../infrastructure/logger');
 
-const query = async (page, pageSize) => {
+const query = async (parentId, page, pageSize) => {
   const offset = (page - 1) * pageSize;
-  return findAndCountAll(undefined, offset, pageSize);
+  const where = parentId ? {
+    parentId: {
+      [Op.eq]: parentId,
+    },
+  } : undefined;
+  return findAndCountAll(where, offset, pageSize);
 };
 
 const list = async (req, res) => {
+  const parentId = extractParam(req, 'parent');
   let page;
   let pageSize;
   try {
@@ -19,7 +26,7 @@ const list = async (req, res) => {
   try {
     logger.info(`Processing list services request. CorrelationId: ${req.correlationId}, page: ${page}, pageSize: ${pageSize}`);
 
-    const result = await query(page, pageSize);
+    const result = await query(parentId, page, pageSize);
 
     result.page = page;
     result.numberOfPages = Math.ceil(result.numberOfRecords / pageSize);
