@@ -134,6 +134,19 @@ const create = async (service) => {
 };
 
 const destroy = async (id) => {
+  const dependencyCriteria = {
+    where: {
+      serviceId: {
+        [Op.eq]: id,
+      },
+    },
+  };
+  await serviceBanners.destroy(dependencyCriteria);
+  await serviceGrantTypes.destroy(dependencyCriteria);
+  await serviceResponseTypes.destroy(dependencyCriteria);
+  await serviceRedirects.destroy(dependencyCriteria);
+  await servicePostLogoutRedirects.destroy(dependencyCriteria)
+  await serviceParams.destroy(dependencyCriteria);
   await services.destroy({
     where: {
       id: {
@@ -142,6 +155,7 @@ const destroy = async (id) => {
     },
   });
 };
+
 
 
 const update = async (id, service) => {
