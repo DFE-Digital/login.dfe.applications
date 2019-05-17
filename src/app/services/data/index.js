@@ -133,6 +133,17 @@ const create = async (service) => {
   return id;
 };
 
+const destroy = async (id) => {
+  await services.destroy({
+    where: {
+      id: {
+        [Op.eq]: id,
+      },
+    },
+  });
+};
+
+
 const update = async (id, service) => {
   const existing = await services.find({
     where: {
@@ -324,6 +335,7 @@ module.exports = {
   findAndCountAll,
   findAll,
   find,
+  destroy,
   create,
   update,
   removeAllRedirectUris,
