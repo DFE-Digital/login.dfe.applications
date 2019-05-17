@@ -1,4 +1,4 @@
-const { destroy, find, removeAllRedirectUris, addRedirectUri, removePostLogoutRedirects, addPostLogoutRedirect, removeGrantTypes, addGrantType, removeResponseTypes, addResponseType} = require('./data');
+const { destroy, find} = require('./data');
 const logger = require('./../../infrastructure/logger');
 const {Op} = require('sequelize');
 
