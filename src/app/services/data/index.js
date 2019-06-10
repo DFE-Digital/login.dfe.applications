@@ -127,6 +127,7 @@ const create = async (service) => {
     postResetUrl: service.relyingParty.postResetUrl,
     isMigrated: true,
     isExternalService: service.isExternalService,
+    isChildService: service.isChildService,
     parentId: service.parentId,
   });
 
