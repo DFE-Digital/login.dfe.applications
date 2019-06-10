@@ -48,6 +48,11 @@ describe('when listing services', () => {
 
     expect(services.findAndCountAll).toHaveBeenCalledTimes(1);
     expect(services.findAndCountAll).toHaveBeenCalledWith({
+      where: {
+        isChildService: {
+          [Op.eq]: false,
+        },
+      },
       order: [
         ['name', 'ASC'],
       ],
