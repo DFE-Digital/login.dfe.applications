@@ -9,7 +9,11 @@ const query = async (parentId, page, pageSize) => {
     parentId: {
       [Op.eq]: parentId,
     },
-  } : undefined;
+  } : {
+    isChildService: {
+      [Op.eq]: false
+    }
+  };
   return findAndCountAll(where, offset, pageSize);
 };
 

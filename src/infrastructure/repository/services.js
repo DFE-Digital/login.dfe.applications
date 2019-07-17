@@ -44,6 +44,10 @@ const define = (db, schema) => {
       type: Sequelize.STRING,
       allowNull: true,
     },
+    isChildService: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
     isExternalService: {
       type: Sequelize.STRING,
       allowNull: true,
