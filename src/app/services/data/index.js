@@ -261,6 +261,21 @@ const addServiceParam = async (sid, paramName, paramValue) => {
   });
 };
 
+const updateServiceParamValue = async(sid, paramName, paramValue) => {
+  await serviceParams.update({
+    paramValue: paramValue,
+  }, {
+    where: {
+      serviceId: {
+        [Op.eq]: sid,
+      },
+      paramName: {
+        [Op.eq]: paramName,
+      }
+    },
+  });
+};
+
 const listServiceBanners = async (sid, pageNumber = 1, pageSize = 25) => {
   const resultSet = await serviceBanners.findAndCountAll({
     where: {
@@ -366,4 +381,5 @@ module.exports = {
   upsertServiceBanner,
   getBannerById,
   removeServiceBanner,
+  updateServiceParamValue,
 };

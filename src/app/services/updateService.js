@@ -1,8 +1,8 @@
-const { update, find, removeAllRedirectUris, addRedirectUri, removePostLogoutRedirects, addPostLogoutRedirect, removeGrantTypes, addGrantType, removeResponseTypes, addResponseType} = require('./data');
+const { update, find, removeAllRedirectUris, addRedirectUri, removePostLogoutRedirects, addPostLogoutRedirect, removeGrantTypes, addGrantType, removeResponseTypes, addResponseType, updateServiceParamValue } = require('./data');
 const logger = require('./../../infrastructure/logger');
 const {Op} = require('sequelize');
 
-const patchableProperties = ['name', 'description', 'clientId', 'apiSecret', 'clientSecret', 'serviceHome', 'redirect_uris', 'post_logout_redirect_uris', 'grant_types', 'response_types', 'postResetUrl', 'tokenEndpointAuthMethod'];
+const patchableProperties = ['name', 'description', 'clientId', 'apiSecret', 'clientSecret', 'serviceHome', 'redirect_uris', 'post_logout_redirect_uris', 'grant_types', 'response_types', 'postResetUrl', 'tokenEndpointAuthMethod', 'consentTitle', 'consentBody'];
 
 const validate = (req) => {
   const keys = Object.keys(req.body);
@@ -47,6 +47,8 @@ const updateService = async (req, res) => {
     const postLogoutRedirectUri = req.body.post_logout_redirect_uris;
     const grantTypes = req.body.grant_types;
     const responseTypes = req.body.response_types;
+    const consentTitle = req.body.consentTitle;
+    const consentBody = req.body.consentBody;
 
     if(redirectUris) {
       await removeAllRedirectUris(serviceId);
@@ -82,6 +84,14 @@ const updateService = async (req, res) => {
           await addResponseType(serviceId, responseTypes[i]);
         }
       }
+    }
+
+    if (consentTitle) {
+      await updateServiceParamValue(serviceId, 'consentTitle', consentTitle);
+    }
+
+    if (consentBody) {
+      await updateServiceParamValue(serviceId, 'consentBody', consentBody);
     }
 
     await update(existingService.id, req.body);
