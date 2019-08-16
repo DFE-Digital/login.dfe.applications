@@ -12,7 +12,9 @@ const listServiceBanners = require('./listServiceBanners');
 const upsertServiceBanner = require('./upsertServiceBanner');
 const getBannerById = require('./getServiceBannerById');
 const removeBanner = require('./removeServiceBanner');
-const router = express.Router();
+const grants = require('./grants');
+
+const router = express.Router({mergeParams: true});
 
 const buildArea = () => {
   router.get('/', asyncWrapper(list));
@@ -26,6 +28,7 @@ const buildArea = () => {
   router.get('/:id/banners/:bid', asyncWrapper(getBannerById));
   router.delete('/:id/banners/:bid', asyncWrapper(removeBanner));
 
+  router.use('/:id/grants', grants());
   return router;
 };
 
