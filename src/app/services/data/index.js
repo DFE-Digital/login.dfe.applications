@@ -1,4 +1,4 @@
-const { services, serviceRedirects, servicePostLogoutRedirects, serviceGrantTypes, serviceResponseTypes, serviceBanners, serviceParams } = require('./../../../infrastructure/repository');
+const {services, serviceRedirects, servicePostLogoutRedirects, serviceGrantTypes, serviceResponseTypes, serviceBanners, serviceParams} = require('./../../../infrastructure/repository');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const uuid = require('uuid/v4');
@@ -6,6 +6,12 @@ const uuid = require('uuid/v4');
 const defaultQueryOpts = {
   order: [
     ['name', 'ASC'],
+  ],
+};
+
+const defaultGrantQueryOpts = {
+  order: [
+    ['createdAt', 'DESC'],
   ],
 };
 
@@ -21,7 +27,7 @@ const mapEntity = async (entity) => {
   const responseTypes = (await entity.getResponseTypes() || []).map(e => e.responseType);
   const paramsArray = (await entity.getParams() || []).filter(e => e.paramName != null);
   const params = {};
-  paramsArray.forEach(({ paramName, paramValue }) => {
+  paramsArray.forEach(({paramName, paramValue}) => {
     params[paramName] = paramValue;
   });
   const assertions = (await entity.getAssertions() || []).map(e => ({
@@ -158,7 +164,6 @@ const destroy = async (id) => {
 };
 
 
-
 const update = async (id, service) => {
   const existing = await services.find({
     where: {
@@ -261,7 +266,7 @@ const addServiceParam = async (sid, paramName, paramValue) => {
   });
 };
 
-const updateServiceParamValue = async(sid, paramName, paramValue) => {
+const updateServiceParamValue = async (sid, paramName, paramValue) => {
   await serviceParams.update({
     paramValue: paramValue,
   }, {
@@ -359,6 +364,8 @@ const removeServiceBanner = async (serviceId, bannerId) => {
     },
   });
 };
+
+
 
 
 module.exports = {
