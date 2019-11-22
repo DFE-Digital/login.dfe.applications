@@ -28,7 +28,7 @@
     "login.dfe.audit.winston-sequelize-transport": "git+https://github.com/DFE-Digital/login.dfe.audit.winston-sequelize-transport.git#v2.10",
     "login.dfe.express-error-handling": "git+https://github.com/DFE-Digital/login.dfe.express-error-handling.git#v1.2",
     "login.dfe.healthcheck": "git+https://github.com/DFE-Digital/login.dfe.healthcheck.git#v1.6",
-    "sequelize": "^4.44.3",
+    "sequelize": "^5.15.1",
     "uuid": "^3.3.2",
     "winston": "^2.4.3"
   },
