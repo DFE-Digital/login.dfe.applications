@@ -24,7 +24,7 @@ const makeConnection = () => {
 
 
   const databaseName = config.database.name || 'postgres';
-  const encryptDb = config.database.encrypt || false;
+  const encryptDb = config.database.encrypt || true;
   const dbOpts = {
     retry: {
       match: [
