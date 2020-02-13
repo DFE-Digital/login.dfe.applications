@@ -52,7 +52,7 @@ describe('when getting toggle flags', () => {
     it('then it should find two flags as true', async () => {
         await getToggleFlags(req, res);
         expect(listOfFlags).toHaveBeenCalledTimes(1);
-        expect(listOfFlags.mock.results[0].value[0]).toEqual(true);
+        expect(listOfFlags.mock.results[0].value[0].flag).toEqual(true);
         expect(listOfFlags.mock.results[0].value[1].flag).toEqual(false);
     });
 
