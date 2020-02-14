@@ -11,6 +11,7 @@ const serviceResponseTypesModel = require('./serviceResponseTypes');
 const serviceParamsModel = require('./serviceParams');
 const serviceAssertionsModel = require('./serviceAssertions');
 const serviceBannersModel = require('./serviceBanners');
+const serviceConstantsModel = require('./servicesToggleFlags');
 const grants = require('./grants');
 const tokens = require('./tokens');
 
@@ -44,6 +45,7 @@ buildDataModel(dataModel, db, [
   serviceBannersModel,
   grants,
   tokens,
+  serviceConstantsModel
 ]);
 
 
