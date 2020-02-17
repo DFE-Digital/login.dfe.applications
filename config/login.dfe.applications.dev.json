@@ -5,7 +5,7 @@
     "host": "localhost",
     "port": 44380,
     "protocol": "https",
-    "applicationInsights": "6261c542-1f69-416d-80a9-a01cd0707a26",
+    "applicationInsights": "",
     "sslCert":"-----BEGIN CERTIFICATE-----\nMIICpDCCAYwCCQCpL26HWzURNTANBgkqhkiG9w0BAQsFADAUMRIwEAYDVQQDDAls\nb2NhbGhvc3QwHhcNMjAwMjAxMTAyNzQ2WhcNMzAwMTI5MTAyNzQ2WjAUMRIwEAYD\nVQQDDAlsb2NhbGhvc3QwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDI\nkbS9mq9gChtfkFR5nRSBLFupdiNtSGNnCzAXa1x52KMPqf9cp2ACbOG535uZ8I8m\nF1/sh18BSCUzuZKT4a88SlE5k4RmawmL9WsD9a0f3Ny+i43kn/OBc8efD7EUaaCr\nhzrRyynYb/cpVFsEjV0FYElsdAQNmqnCbRNkye31XirQQzhCFRbyvnr1wfIr6dDo\nkcvMbPKhdhPBjH+comsVs+qyffNkF6bDyaMPjdIi+hEa00DNmiS822poCzbJEJmK\nYhm+piB0rCeLn87dYBmZPC/gX8EeWWUch5MqbB4THH+Ed8t7Iuz5vierZ1T41Ptm\netpFa3HiU/2MMdMb9u1NAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAI/P1LdlfZUc\nkYeCLmBZ7Rk0CbwODMRShIzB1pW/r1k/oEwlXU3+p3laMp0od0tzrwbdUERSzQ53\nbPZa2nA6ALLmjSXMprT2yuaCmwSBsJFJvIqxC2lihAavSBEddBNR1CPvLNkSi8o6\n4+G4ZuvbhZXv7Q+u6fuZkY8twdR2tF+hHA4beqRImK6GxRFS6ZzC13+SwFSFKtou\naFnf5lPbTBeZu7P3v70BcS6bl6jT7uIrwAfRpoyPITFzEydcGuMhlm3z/b6p0tKr\nR+ZzRY1/0HaT5K0BkriV4Lh2HlF+EEZ7QHwElhYeCBvUHhH1l14i6UoU3+NgNNsw\nH6qEHhHk1x0=\n-----END CERTIFICATE-----",
     "sslKey":"-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAyJG0vZqvYAobX5BUeZ0UgSxbqXYjbUhjZwswF2tcedijD6n/\nXKdgAmzhud+bmfCPJhdf7IdfAUglM7mSk+GvPEpROZOEZmsJi/VrA/WtH9zcvouN\n5J/zgXPHnw+xFGmgq4c60csp2G/3KVRbBI1dBWBJbHQEDZqpwm0TZMnt9V4q0EM4\nQhUW8r569cHyK+nQ6JHLzGzyoXYTwYx/nKJrFbPqsn3zZBemw8mjD43SIvoRGtNA\nzZokvNtqaAs2yRCZimIZvqYgdKwni5/O3WAZmTwv4F/BHlllHIeTKmweExx/hHfL\neyLs+b4nq2dU+NT7ZnraRWtx4lP9jDHTG/btTQIDAQABAoIBAEUc6FIZlmsasHoK\nqwFJHoKwfVl0qxqCQjaExWqchT47Z10DcEpGJrBPQq0hH2Y5Xap7jYNc1mEDskYT\noS2yLAczeK/FZG9CXQTMabbwllqPacWDIz7v2yH1eokWCCgHieTxcVRPlLjPRDUK\nq15zM+WhW0uy4p6pd+vWWEN3zbapwrcgAsLnzBBvQWNFsoTpBanuVOsCsczmQ7Kt\noLvNHLXOhuX3a32Dy1I9+66r2HUpOj98Enl+K6DMvVYZI7I4uqZrh8NMh4thQdfr\nPC2pjmPB4JMpQqvXuWXUDNV5o+eNP21D4IEo+2Kr2pnLucAYu4wqoQtG7/cdB6ES\npNnWvCECgYEA84L2psJqDl24kfvynO6qftEGF4WRKqr73+G2FYMQODl4NmUU+DuK\nXfa5w6+CWkD0bIklyrLa4J5sJxsnlrXVU6hqclH4pXaHvbHvE2uJSjYi7ZQLflcp\nIngqMsRUGNYf3LV8RANhpnZfg/EdBAxpwaBx5BHgjIua2HGFo/LaxNkCgYEA0tr0\n1E1un+FsgKUeMxmLVUclPXu+w2BX2RAIzFI1EWW/QAkBWpi6tZ1PvX7ztOeAOayY\ny92vMLkwYXp/6qCtRNOl5aB6zJQkVONe0UR/jn8bV02ieDQLE11lhQTzWwydVbTz\npFcOen4StU1qgQkMSoGwQWTR+DZqcTlYODlQU5UCgYBf6HDk9SV4Swlq1eSUUpvs\nHr9bfEvUlktlvixNBLXaryfdpKpBqpGwuIApxnJ8waCDLvEniJIUbdEDBfrtrOg8\nbtSd+hMIeEq2N+KFr5D/HZtcHzb3p7SX0uQr4o+MyKj78K7kysAnI/Ays0BOW+U7\nUcoJndDnCgUOwod0Ly5i4QKBgQDMcJ3HptgmzpO8W9xfIVpWMegqp+u7VZN3k7Nk\nICTyHFwFw3V7mPAXHVLuYcP72CYcRXvU1rmBHV2KdhLGtEmrnSaR8Tp/VvevEtGh\nR7ABwr4ItO5da+B9QyYmhjlKQ33dVtiQtBQGsmyDO2+Tculm6D2z+gQXjPNBmp8t\nzGxUzQKBgHmrFHNoZN+MJ3diS8atqoWpTzjdHW4TPTB+Zdspzf2vT9HTIUYyrddw\nrR2FisKOj7WXvKoK/W6pmlECpGirvDTmwawcv1KOYuObukUU5blriN5FHoALqKnu\nUAI8tS0hiZTzwf6SCLbJQTdCF0vCaT+4yLXw3lt/6RHimeAkXuOr\n-----END RSA PRIVATE KEY-----",
      "agentKeepAlive": {
@@ -19,11 +19,11 @@
     "applicationName": "Applications API",
     "logLevel": "debug",
     "auditDb": {
-      "host": "s141d01-signin-shd-sql.database.windows.net",
-      "username": "3Z4R66fCgTfaXbkukgpP",
-      "password": "eXbRR!29TRUTqBbBVRrV",
-      "dialect": "mssql",
-      "name": "s141d01-signin-audit-db",
+      "host": "",
+      "username": "",
+      "password": "",
+      "dialect": "",
+      "name": "",
       "encrypt": true,
       "schema": "dbo",
       "pool": {
@@ -36,15 +36,15 @@
   },
   "auth": {
     "type": "aad",
-    "identityMetadata": "https://login.microsoftonline.com/9c7d9dd3-840c-4b3f-818e-552865082e16/.well-known/openid-configuration",
-    "clientID": "b220f0ce-ad01-49c2-aa72-379aec0cb096"
+    "identityMetadata": "",
+    "clientID": ""
   },
   "database": {
-    "host": "s141d01-signin-shd-sql.database.windows.net",
-    "username": "3Z4R66fCgTfaXbkukgpP",
-    "password": "eXbRR!29TRUTqBbBVRrV",
-    "dialect": "mssql",
-    "name": "s141d01-signin-organisations-db",
+    "host": "",
+    "username": "",
+    "password": "",
+    "dialect": "",
+    "name": "",
     "encrypt": true,
     "schema": "dbo",
     "pool": {
