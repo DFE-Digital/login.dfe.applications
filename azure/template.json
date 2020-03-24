@@ -164,7 +164,7 @@
                         "value": "[parameters('customHostName')]"
                     },
                     "certificateThumbprint": {
-                        "value": "[reference(parameters('appServicePlanName')).outputs.appServicePlanId.Value]"
+                        "value": "[reference(concat(parameters('appServiceName'), '-certificate')).outputs.certificateThumbprint.value]"
                     }
                 }
             },
