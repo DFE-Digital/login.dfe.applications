@@ -104,7 +104,7 @@ const addServiceChildren = async (model, source, valueFieldName, serviceId) => {
 };
 const upsertClient = async (client) => {
   console.info(`Upserting client ${client.client_id}`);
-  let service = await repository.services.find({
+  let service = await repository.services.findOne({
     where: {
       clientId: {
         [Op.eq]: client.client_id,
@@ -112,7 +112,7 @@ const upsertClient = async (client) => {
     }
   });
   if (!service && client.params && client.params.serviceId) {
-    service = await repository.services.find({
+    service = await repository.services.findOne({
       where: {
         id: {
           [Op.eq]: client.params.serviceId,

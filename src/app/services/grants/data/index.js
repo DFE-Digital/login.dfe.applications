@@ -56,7 +56,7 @@ const mapTokenFromEntity = (entity) => {
 };
 
 const upsertGrant = async (grantId, userId, email, jti, serviceId, scope, organisationId, organisationName) => {
-  let entity = await grants.find({
+  let entity = await grants.findOne({
     where: {
       id: {
         [Op.eq]: grantId,
@@ -123,7 +123,7 @@ const createToken = async (grantId, active, kind, exp, jti, sid) => {
 };
 
 const updateToken = async (grantId, jti, active) => {
-  let entity = await tokens.find({
+  let entity = await tokens.findOne({
     where: {
       grantId: {
         [Op.eq]: grantId,
