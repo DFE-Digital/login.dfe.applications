@@ -92,7 +92,7 @@
         },
         "subnetPrefix": {
             "type": "string",
-            "defaultValue": "acc-sn",
+            "defaultValue": "app-sn",
             "metadata": {
                 "description": "Prefix of the subnet to integrate the app service with"
             }
