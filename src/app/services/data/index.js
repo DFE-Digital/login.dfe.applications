@@ -112,7 +112,7 @@ const findAll = async (where) => {
 };
 
 const find = async (where) => {
-  const service = await services.find(Object.assign({}, defaultQueryOpts, {
+  const service = await services.findOne(Object.assign({}, defaultQueryOpts, {
     where,
   }));
   return mapEntity(service);
@@ -165,7 +165,7 @@ const destroy = async (id) => {
 
 
 const update = async (id, service) => {
-  const existing = await services.find({
+  const existing = await services.findOne({
     where: {
       id: {
         [Op.eq]: id,
@@ -178,7 +178,7 @@ const update = async (id, service) => {
   }
   const updatedService = Object.assign(existing, service);
 
-  await existing.updateAttributes({
+  await existing.update({
     name: updatedService.name,
     description: updatedService.description,
     clientId: updatedService.clientId,
@@ -306,7 +306,7 @@ const listServiceBanners = async (sid, pageNumber = 1, pageSize = 25) => {
 };
 
 const getBannerById = async (sid, bid) => {
-  const entity = await serviceBanners.find({
+  const entity = await serviceBanners.findOne({
     where: {
       serviceId: {
         [Op.eq]: sid,
@@ -320,7 +320,7 @@ const getBannerById = async (sid, bid) => {
 };
 
 const upsertServiceBanner = async (bannerId, serviceId, name, title, message, validFrom, validTo, isActive) => {
-  let entity = await serviceBanners.find({
+  let entity = await serviceBanners.findOne({
     where: {
       id: {
         [Op.eq]: bannerId,
