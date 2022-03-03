@@ -1,7 +1,7 @@
 const { grants, tokens } = require('./../../../../infrastructure/repository');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const uuid = require('uuid/v4');
+const { v4: uuid } = require('uuid');
 
 
 const defaultGrantQueryOpts = {
