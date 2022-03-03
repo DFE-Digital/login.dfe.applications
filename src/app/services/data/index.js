@@ -1,7 +1,7 @@
 const {services, serviceRedirects, servicePostLogoutRedirects, serviceGrantTypes, serviceResponseTypes, serviceBanners, serviceParams} = require('./../../../infrastructure/repository');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const uuid = require('uuid/v4');
+const { v4: uuid } = require('uuid');
 
 const defaultQueryOpts = {
   order: [
