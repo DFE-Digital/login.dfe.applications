@@ -6,8 +6,6 @@ const WinstonSequelizeTransport = require('login.dfe.audit.winston-sequelize-tra
 const appInsights = require('applicationinsights');
 const AppInsightsTransport = require('login.dfe.winston-appinsights');
 
-//const logLevel = (config && config.loggerSettings && config.loggerSettings.logLevel) ? config.loggerSettings.logLevel : 'info';
-
 const customLevels = {
   levels: {
     audit: 0,
@@ -30,8 +28,6 @@ const loggerConfig = {
   levels: customLevels.levels,
   transports: [],
 };
-
-//loggerConfig.transports.push(new (winston.transports.Console)({level: logLevel, colorize: true}));
 
 const sequelizeTransport = WinstonSequelizeTransport(config);
 if (sequelizeTransport) {
