@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const repository = require('./../src/infrastructure/repository');
 const { Op } = require('sequelize');
-const uuid = require('uuid/v4');
+const { v4: uuid } = require('uuid');
 const uniq = require('lodash/uniq');
 const { promisify } = require('util');
 
