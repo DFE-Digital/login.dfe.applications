@@ -61,8 +61,10 @@ const mapEntity = async (entity) => {
       post_logout_redirect_uris: postLogoutRedirects,
       grant_types: grantTypes.length > 0 ? grantTypes : undefined,
       response_types: responseTypes.length > 0 ? responseTypes : undefined,
-      params: params,
+      params,
     },
+    isIdOnlyService: entity.isIdOnlyService,
+    isHiddenService: entity.isHiddenService,
     saml,
   };
 };
@@ -74,6 +76,18 @@ const mapEntities = async (entities) => {
   }
   return mapped;
 };
+
+const mapIdOnlyServiceEntity = (entity) => ({
+  id: entity.id,
+  name: entity.name,
+  description: entity.description,
+  clientId: entity.clientId,
+  isExternalService: entity.isExternalService,
+  isMigrated: entity.isMigrated,
+  parentId: entity.parentId || undefined,
+  isIdOnlyService: entity.isIdOnlyService,
+  isHiddenService: entity.isHiddenService,
+});
 
 const mapBannerFromEntity = (entity) => {
   return {
@@ -108,6 +122,13 @@ const findAll = async (where) => {
   }));
   return {
     services: await mapEntities(resultset.rows),
+  };
+};
+
+const findAllIdOnlyToShow = async (where) => {
+  const resultset = await services.findAll({ ...defaultQueryOpts, where });
+  return {
+    idOnlyServices: resultset.map(mapIdOnlyServiceEntity),
   };
 };
 
@@ -389,4 +410,5 @@ module.exports = {
   getBannerById,
   removeServiceBanner,
   updateServiceParamValue,
+  findAllIdOnlyToShow,
 };
