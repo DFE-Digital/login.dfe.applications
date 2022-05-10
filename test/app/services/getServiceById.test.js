@@ -33,8 +33,8 @@ describe('when getting users of services', () => {
   it('then it should find by clientId', async () => {
     req.params.id = 'gias';
     await getServicesById(req, res);
-    expect(services.find).toHaveBeenCalledTimes(1);
-    expect(services.find.mock.calls[0][0]).toEqual({
+    expect(services.findOne).toHaveBeenCalledTimes(1);
+    expect(services.findOne.mock.calls[0][0]).toEqual({
       order: [
         ['name', 'ASC'],
       ],
@@ -49,8 +49,8 @@ describe('when getting users of services', () => {
   it('then it should find by id', async () => {
     const id = req.params.id;
     await getServicesById(req, res);
-    expect(services.find).toHaveBeenCalledTimes(2);
-    expect(services.find.mock.calls[0][0]).toEqual({
+    expect(services.findOne).toHaveBeenCalledTimes(2);
+    expect(services.findOne.mock.calls[0][0]).toEqual({
       order: [
         ['name', 'ASC'],
       ],
