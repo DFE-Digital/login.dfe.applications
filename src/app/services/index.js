@@ -13,12 +13,14 @@ const upsertServiceBanner = require('./upsertServiceBanner');
 const getBannerById = require('./getServiceBannerById');
 const removeBanner = require('./removeServiceBanner');
 const grants = require('./grants');
+const listIdOnlyServices = require('./listIdOnlyServices');
 
-const router = express.Router({mergeParams: true});
+const router = express.Router({ mergeParams: true });
 
 const buildArea = () => {
   router.get('/', asyncWrapper(list));
   router.post('/', asyncWrapper(createService));
+  router.get('/id-only', asyncWrapper(listIdOnlyServices));
   router.get('/:id', asyncWrapper(getServiceById));
   router.patch('/:id', asyncWrapper(updateService));
   router.delete('/:id', asyncWrapper(deleteService));
