@@ -65,6 +65,3 @@ typings/
 .idea/watcherTasks.xml
 access.log
 \.idea/markdown-exported-files\.xml
-
-.vscode
-local-config/

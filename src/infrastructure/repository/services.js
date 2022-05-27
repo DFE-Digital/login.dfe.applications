@@ -56,14 +56,6 @@ const define = (db, schema) => {
       type: Sequelize.UUID,
       allowNull: true,
     },
-    isIdOnlyService: {
-      type: Sequelize.BOOLEAN,
-      allowNull: false,
-    },
-    isHiddenService: {
-      type: Sequelize.BOOLEAN,
-      allowNull: false,
-    },
   }, {
     timestamps: false,
     tableName: 'service',
