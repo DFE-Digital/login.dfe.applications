@@ -2,8 +2,6 @@ const mockTable = (allEntities) => {
   const entity = {
     findAndCountAll: jest.fn().mockReturnValue({ rows: [], count: 0 }),
     find: jest.fn().mockReturnValue(null),
-    findOne: jest.fn().mockReturnValue(null),
-    findAll: jest.fn().mockReturnValue(null),
   };
   if (allEntities) {
     entity.findAndCountAll.mockImplementation((opts) => {
@@ -19,7 +17,6 @@ const mockTable = (allEntities) => {
         count: allEntities.length,
       });
     });
-
     entity.find.mockImplementation((opts) => {
       return allEntities.find((x) => {
         if (opts.where.clientId) {
@@ -31,8 +28,6 @@ const mockTable = (allEntities) => {
         return undefined;
       });
     });
-
-    entity.findAll.mockImplementation(() => allEntities.filter((x) => (x.isIdOnlyService === true && x.isHiddenService === false)));
   }
   return entity;
 };
@@ -45,14 +40,12 @@ const mockRepository = (opts) => {
   };
 };
 
-const mockServiceEntity = (id, name, description, isIdOnlyService, isHiddenService, redirects = undefined, postLogoutRedirects = undefined, grantTypes = undefined, responseTypes = undefined, params = undefined, clientId = '', assertions = undefined) => {
- return {
+const mockServiceEntity = (id, name, description, redirects = undefined, postLogoutRedirects = undefined, grantTypes = undefined, responseTypes = undefined, params = undefined, clientId = '', assertions = undefined) => {
+  return {
     id: id,
     name: name,
     description: description,
     clientId: clientId,
-    isIdOnlyService,
-    isHiddenService,
     children: { redirects, postLogoutRedirects, grantTypes, responseTypes, params, assertions },
 
     getRedirects: jest.fn().mockReturnValue(redirects),
