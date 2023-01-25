@@ -1,8 +1,8 @@
-const services = require('./app/services');
-const constants = require('./app/constants');
+const services = require('./services');
+const constants = require('./constants');
 const registerRoutes = (app) => {
-  app.use('/app/services', services());
-  app.use('/app/constants', constants);
+  app.use('/services', services());
+  app.use('/constants', constants);
 };
 
 module.exports = registerRoutes;
