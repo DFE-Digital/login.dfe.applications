@@ -152,7 +152,7 @@ stages:
 
 
 - ${{ each var in variables }}:
-  - ${{ if in(var.key, 'idm',tran','dev','test','int','pp','pr') }}:
+  - ${{ if in(var.key, 'idm','tran','dev','test','int','pp','pr') }}:
     - ${{ if eq(var.value, 'true') }}:
       - stage: Deployment_${{var.Key}}
         displayName: "Deployment [${{var.Key}}]"
