@@ -6,10 +6,12 @@ const define = (db, schema) => {
     serviceId: {
       type: Sequelize.UUID,
       allowNull: false,
+      primaryKey: true,
     },
     paramName: {
       type: Sequelize.STRING,
       allowNull: false,
+      primaryKey: true,
     },
     paramValue: {
       type: Sequelize.STRING,
