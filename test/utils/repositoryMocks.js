@@ -1,7 +1,7 @@
 const mockTable = (allEntities) => {
   const entity = {
     findAndCountAll: jest.fn().mockReturnValue({ rows: [], count: 0 }),
-    find: jest.fn().mockReturnValue(null),
+    findOne: jest.fn().mockReturnValue(null),
   };
   if (allEntities) {
     entity.findAndCountAll.mockImplementation((opts) => {
@@ -17,7 +17,7 @@ const mockTable = (allEntities) => {
         count: allEntities.length,
       });
     });
-    entity.find.mockImplementation((opts) => {
+    entity.findOne.mockImplementation((opts) => {
       return allEntities.find((x) => {
         if (opts.where.clientId) {
           return (x.clientId && x.clientId.toLowerCase() === opts.where.clientId)
