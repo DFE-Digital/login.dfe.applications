@@ -38,6 +38,7 @@ describe('when getting users of services', () => {
       order: [
         ['name', 'ASC'],
       ],
+      include: ['params', 'assertions'],
       where: {
         clientId: {
           [Op.eq]: 'gias'
@@ -54,6 +55,7 @@ describe('when getting users of services', () => {
       order: [
         ['name', 'ASC'],
       ],
+      include: ['params', 'assertions'],
       where: {
         id: {
           [Op.eq]: id
