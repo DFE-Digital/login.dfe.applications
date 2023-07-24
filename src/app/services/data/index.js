@@ -108,7 +108,7 @@ const findAll = async (where) => {
     where,
   }));
   return {
-    services: await mapEntities(resultset.rows),
+    services: await mapEntities(resultset),
   };
 };
 
