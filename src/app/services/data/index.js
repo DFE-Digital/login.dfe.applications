@@ -68,13 +68,7 @@ const mapEntity = async (entity) => {
   };
 };
 
-const mapEntities = async (entities) => {
-  const mapped = [];
-  for (let i = 0; i < entities.length; i++) {
-    mapped.push(await mapEntity(entities[i]));
-  }
-  return mapped;
-};
+const mapEntities = async (entities) => Promise.all(entities.map((entity) => mapEntity(entity)));
 
 const mapBannerFromEntity = (entity) => {
   return {
