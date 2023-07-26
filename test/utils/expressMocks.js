@@ -13,6 +13,7 @@ const mockResponse = (customResponse = undefined) => {
     status: jest.fn(),
     json: jest.fn(),
     contentType: jest.fn(),
+    statusMessage: '',
   }, customResponse);
   response.mockResetAll = function () {
     this.send.mockReset().mockReturnValue(this);
