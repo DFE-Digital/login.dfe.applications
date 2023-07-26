@@ -48,7 +48,7 @@ const res = mockUtils.mockResponse();
 const sharedBefore = (single) => {
   req = mockUtils.mockRequest({
     params: {
-      id: single ? 'c5a04382-c972-4ac7-b42a-755a6b41b0de'
+      ids: single ? 'c5a04382-c972-4ac7-b42a-755a6b41b0de'
         : 'c5a04382-c972-4ac7-b42a-755a6b41b0de,8fda7e47-102f-45f0-ad59-da2d1d17a2e9,6f66c408-aeda-4c4b-92ea-3fa5e0b4a4f6',
     },
     query: {
@@ -71,6 +71,12 @@ Testing scenarios:
 */
 describe('When retrieving information for either one or multiple services', () => {
   beforeEach(() => sharedBefore(true));
+
+  it('returns a 404 response if the IDs param is empty', async () => {
+    req.params.ids = '';
+    await getSummaries(req, res);
+    expect(res.status).toHaveBeenCalledWith(404);
+  });
 });
 
 /*
