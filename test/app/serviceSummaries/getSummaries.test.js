@@ -34,6 +34,31 @@ jest.mock('./../../../src/infrastructure/repository', () => {
       mockServiceEntity('a73630bc-afa0-4471-b1a3-f3e874d2c081', 'Service Eight', 'Test', [], redirects, grants, response, params, 'svc8', []),
       mockServiceEntity('6f66c408-aeda-4c4b-92ea-3fa5e0b4a4f6', 'Service Nine', 'Test', redirects, redirects, grants, response, params, 'svc9', assertions),
     ],
+    rawAttributes: {
+      id: {},
+      name: {},
+      description: {},
+      clientId: {},
+      clientSecret: {},
+      apiSecret: {},
+      tokenEndpointAuthMethod: {},
+      serviceHome: {},
+      postResetUrl: {},
+      isMigrated: {},
+      isChildService: {},
+      isExternalService: {},
+      parentId: {},
+    },
+    associations: {
+      redirects: {},
+      postLogoutRedirects: {},
+      grantTypes: {},
+      responseTypes: {},
+      params: {},
+      assertions: {},
+      banners: {},
+      grants: {},
+    },
   });
 });
 jest.mock('./../../../src/infrastructure/logger', () => mockUtils.mockLogger());
