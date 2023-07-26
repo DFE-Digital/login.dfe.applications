@@ -102,6 +102,12 @@ describe('When retrieving information for either one or multiple services', () =
     await getSummaries(req, res);
     expect(res.status).toHaveBeenCalledWith(404);
   });
+
+  it('returns a 404 response if no matching service could be found', async () => {
+    req.params.ids = 'd6a04382-c972-4ac7-b42a-755a6b41b0ef';
+    await getSummaries(req, res);
+    expect(res.status).toHaveBeenCalledWith(404);
+  });
 });
 
 /*
