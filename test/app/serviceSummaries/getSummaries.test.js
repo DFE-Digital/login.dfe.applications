@@ -83,6 +83,13 @@ const sharedBefore = (single) => {
   res.mockResetAll();
 };
 
+const getAllowedFields = () => {
+  const hiddenFields = ['banners', 'grants', 'isChildService'];
+  const serviceAttributes = Object.keys(services.rawAttributes);
+  const serviceAssociations = Object.keys(services.associations);
+  return serviceAttributes.concat(serviceAssociations).filter((field) => !hiddenFields.includes(field));
+};
+
 /*
 Testing scenarios:
 
@@ -97,17 +104,27 @@ Testing scenarios:
 describe('When retrieving information for either one or multiple services', () => {
   beforeEach(() => sharedBefore(true));
 
-  it('returns a 404 response if the IDs param is empty', async () => {
+  it('returns a 404 response status if the IDs param is empty', async () => {
     req.params.ids = '';
     await getSummaries(req, res);
     expect(res.status).toHaveBeenCalledWith(404);
     expect(res.statusMessage).toBe('No service IDs were requested.');
   });
 
-  it('returns a 404 response if no matching service could be found', async () => {
+  it('returns a 404 response status if no matching service could be found', async () => {
     req.params.ids = 'd6a04382-c972-4ac7-b42a-755a6b41b0ef';
     await getSummaries(req, res);
     expect(res.status).toHaveBeenCalledWith(404);
+  });
+
+  it('returns a 400 response status if one of the requested fields does not exist', async () => {
+    const invalidFields = ['colour', 'shape'];
+    req.query.fields = `id,name,description,${invalidFields.join()}`;
+    await getSummaries(req, res);
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.statusMessage).toBe(
+      `Invalid fields used: ${invalidFields.join()}! Allowed fields: ${getAllowedFields().join()}`,
+    );
   });
 });
 
