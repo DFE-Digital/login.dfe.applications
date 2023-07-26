@@ -117,7 +117,17 @@ describe('When retrieving information for either one or multiple services', () =
     expect(res.status).toHaveBeenCalledWith(404);
   });
 
-  it('returns a 400 response status if one of the requested fields does not exist', async () => {
+  it('returns a 400 response status if one requested field does not exist', async () => {
+    const invalidField = 'colour';
+    req.query.fields = `id,name,description,${invalidField}`;
+    await getSummaries(req, res);
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.statusMessage).toBe(
+      `Invalid fields used: ${invalidField}! Allowed fields: ${getAllowedFields().join()}`,
+    );
+  });
+
+  it('returns a 400 response status if multiple requested fields do not exist', async () => {
     const invalidFields = ['colour', 'shape'];
     req.query.fields = `id,name,description,${invalidFields.join()}`;
     await getSummaries(req, res);
