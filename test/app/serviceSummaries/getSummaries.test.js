@@ -70,6 +70,7 @@ const summaryData = require('../../../src/app/serviceSummaries/data');
 
 let req;
 const res = mockUtils.mockResponse();
+
 const sharedBefore = (single) => {
   req = mockUtils.mockRequest({
     params: {
@@ -83,12 +84,10 @@ const sharedBefore = (single) => {
   res.mockResetAll();
 };
 
-const getAllowedFields = () => {
-  const hiddenFields = ['banners', 'grants', 'isChildService'];
-  const serviceAttributes = Object.keys(services.rawAttributes);
-  const serviceAssociations = Object.keys(services.associations);
-  return serviceAttributes.concat(serviceAssociations).filter((field) => !hiddenFields.includes(field));
-};
+const hiddenFields = ['banners', 'grants', 'isChildService'];
+const allowedAttributes = Object.keys(services.rawAttributes).filter((field) => !hiddenFields.includes(field));
+const allowedAssociations = Object.keys(services.associations).filter((field) => !hiddenFields.includes(field));
+const allowedFields = allowedAttributes.concat(allowedAssociations).filter((field) => !hiddenFields.includes(field));
 
 /*
 Testing scenarios:
@@ -123,7 +122,7 @@ describe('When retrieving information for either one or multiple services', () =
     await getSummaries(req, res);
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.statusMessage).toBe(
-      `Invalid fields used: ${invalidField}! Allowed fields: ${getAllowedFields().join()}`,
+      `Invalid fields used: ${invalidField}! Allowed fields: ${allowedFields.join()}`,
     );
   });
 
@@ -133,7 +132,7 @@ describe('When retrieving information for either one or multiple services', () =
     await getSummaries(req, res);
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.statusMessage).toBe(
-      `Invalid fields used: ${invalidFields.join()}! Allowed fields: ${getAllowedFields().join()}`,
+      `Invalid fields used: ${invalidFields.join()}! Allowed fields: ${allowedFields.join()}`,
     );
   });
 });
