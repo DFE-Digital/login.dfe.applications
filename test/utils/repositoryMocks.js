@@ -1,7 +1,9 @@
-const mockTable = (allEntities) => {
+const mockTable = (allEntities, extraData = {}) => {
   const entity = {
     findAndCountAll: jest.fn().mockReturnValue({ rows: [], count: 0 }),
     findOne: jest.fn().mockReturnValue(null),
+    rawAttributes: extraData.rawAttributes,
+    associations: extraData.associations,
   };
   if (allEntities) {
     entity.findAndCountAll.mockImplementation((opts) => {
@@ -33,10 +35,10 @@ const mockTable = (allEntities) => {
 };
 
 const mockRepository = (opts) => {
-  const { services } = opts || {};
+  const { services, ...extraData } = opts || {};
 
   return {
-    services: mockTable(services),
+    services: mockTable(services, extraData),
   };
 };
 
@@ -53,7 +55,9 @@ const mockServiceEntity = (id, name, description, redirects = undefined, postLog
     getGrantTypes: jest.fn().mockReturnValue(grantTypes),
     getResponseTypes: jest.fn().mockReturnValue(responseTypes),
     getParams: jest.fn().mockReturnValue(params),
+    params,
     getAssertions: jest.fn().mockReturnValue(assertions),
+    assertions,
 
     mockReset: function () {
       this.getRedirects.mockReset().mockReturnValue(children.redirects);
