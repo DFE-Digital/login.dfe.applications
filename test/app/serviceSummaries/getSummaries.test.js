@@ -101,6 +101,7 @@ describe('When retrieving information for either one or multiple services', () =
     req.params.ids = '';
     await getSummaries(req, res);
     expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.statusMessage).toBe('No service IDs were requested.');
   });
 
   it('returns a 404 response if no matching service could be found', async () => {
