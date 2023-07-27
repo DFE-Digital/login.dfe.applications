@@ -20,6 +20,7 @@ const mockResponse = (customResponse = undefined) => {
     this.status.mockReset().mockReturnValue(this);
     this.json.mockReset().mockReturnValue(this);
     this.contentType.mockReset().mockReturnValue(this);
+    this.statusMessage = '';
   };
   response.mockResetAll();
   return response;
