@@ -84,10 +84,13 @@ const sharedBefore = (single) => {
   res.mockResetAll();
 };
 
+// Matches /src/app/serviceSummaries/getSummaries.js/getSummaries.
 const hiddenFields = ['banners', 'grants', 'isChildService'];
 const allowedAttributes = Object.keys(services.rawAttributes).filter((field) => !hiddenFields.includes(field));
 const allowedAssociations = Object.keys(services.associations).filter((field) => !hiddenFields.includes(field));
 const allowedFields = allowedAttributes.concat(allowedAssociations).filter((field) => !hiddenFields.includes(field));
+// Matches /src/app/serviceSummaries/data/index.js/removeLazyAssociations.
+const lazyLoadedAssociations = ['redirects', 'postLogoutRedirects', 'grantTypes', 'responseTypes'];
 
 /*
 Testing scenarios:
@@ -95,10 +98,10 @@ Testing scenarios:
 - When service IDs list is empty, then a 404 error is returned.
 - When no services could be found, then a 404 error is returned.
 - When fields are requested that are not part of the model, then a 400 error is returned.
-- When no fields are requested, then all attributes/associations are contained in the query.
+- When no fields are requested, then all necessary attributes/associations are contained in the query.
 - When specific attribute fields are requested, then the attributes field of the query contains them.
-- When specific association fields are requested, then the include field of the query contains them.
-- When a mix of attribute and association fields are requested, then the include field of the query contains them.
+- When specific association fields are requested, then the include field of the query contains the ones that aren't lazy loaded.
+- When a mix of attribute and association fields are requested, then the respective query contains them.
 */
 describe('When retrieving information for either one or multiple services', () => {
   beforeEach(() => sharedBefore(true));
