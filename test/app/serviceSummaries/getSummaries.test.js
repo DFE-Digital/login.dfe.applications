@@ -138,6 +138,16 @@ describe('When retrieving information for either one or multiple services', () =
       `Invalid fields used: ${invalidFields.join()}! Allowed fields: ${allowedFields.join()}`,
     );
   });
+
+  it('queries the database with all available attributes and associations, when no fields are requested', async () => {
+    await getSummaries(req, res);
+    expect(services.findOne).toHaveBeenCalled();
+    const firstCall = services.findOne.mock.calls[0][0];
+    expect(firstCall).toHaveProperty('attributes', allowedAttributes);
+    expect(firstCall).toHaveProperty('include', allowedAssociations.filter(
+      (association) => !lazyLoadedAssociations.includes(association),
+    ));
+  });
 });
 
 /*
