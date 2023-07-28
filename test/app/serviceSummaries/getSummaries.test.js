@@ -148,6 +148,38 @@ describe('When retrieving information for either one or multiple services', () =
       (association) => !lazyLoadedAssociations.includes(association),
     ));
   });
+
+  it('queries the database with requested attributes, when they are specified', async () => {
+    const expectedAttributes = ['id', 'name', 'description'];
+    req.query.fields = expectedAttributes.join();
+    await getSummaries(req, res);
+    const firstCall = services.findOne.mock.calls[0][0];
+    expect(firstCall).toHaveProperty('attributes', expectedAttributes);
+    expect(firstCall).toHaveProperty('include', []);
+  });
+
+  it('queries the database with requested associations, when they are specified', async () => {
+    const expectedAssociations = ['params', 'assertions', 'redirects'];
+    req.query.fields = expectedAssociations.join();
+    await getSummaries(req, res);
+    const firstCall = services.findOne.mock.calls[0][0];
+    expect(firstCall).toHaveProperty('attributes', []);
+    expect(firstCall).toHaveProperty('include', expectedAssociations.filter(
+      (association) => !lazyLoadedAssociations.includes(association),
+    ));
+  });
+
+  it('queries the database with requested attributes/associations, when they are specified', async () => {
+    const expectedAttributes = ['id', 'name', 'description'];
+    const expectedAssociations = ['params', 'assertions', 'redirects'];
+    req.query.fields = expectedAttributes.concat(expectedAssociations).join();
+    await getSummaries(req, res);
+    const firstCall = services.findOne.mock.calls[0][0];
+    expect(firstCall).toHaveProperty('attributes', expectedAttributes);
+    expect(firstCall).toHaveProperty('include', expectedAssociations.filter(
+      (association) => !lazyLoadedAssociations.includes(association),
+    ));
+  });
 });
 
 /*
