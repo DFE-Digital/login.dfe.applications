@@ -192,6 +192,13 @@ Testing scenarios:
 */
 describe('When retrieving information for multiple services', () => {
   beforeEach(() => sharedBefore(false));
+
+  it('returns a 413 response if there are more than 50 IDs in the request', async () => {
+    req.params.ids = new Array(51).fill('foo').join();
+    await getSummaries(req, res);
+    expect(res.status).toHaveBeenCalledWith(413);
+    expect(res.statusMessage).toBe('Maximum of 50 service IDs per request.');
+  });
 });
 
 /*
