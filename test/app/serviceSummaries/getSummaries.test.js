@@ -67,6 +67,7 @@ const { Op } = require('sequelize');
 const { services } = require('../../../src/infrastructure/repository');
 const getSummaries = require('../../../src/app/serviceSummaries/getSummaries');
 const summaryData = require('../../../src/app/serviceSummaries/data');
+const getServiceById = require('../../../src/app/services/getServiceById');
 const { isUUID } = require('../../../src/app/utils');
 
 let req;
@@ -298,5 +299,31 @@ describe('When retrieving information for one service', () => {
         [Op.eq]: requestedId,
       },
     });
+  });
+
+  it('returns objects that match the shape of the getServiceById function', async () => {
+    // Test each of the IDs in the test repository.
+    const idsToTest = [
+      'c5a04382-c972-4ac7-b42a-755a6b41b0de',
+      '2dd5ba2c-1616-4100-9629-c11df1f2b77f',
+      'db6071bb-ef09-4b4b-b2a7-479236c307b3',
+      'fc035093-e1a8-4acf-95bc-2d455e83376c',
+      '8fda7e47-102f-45f0-ad59-da2d1d17a2e9',
+      '58efd928-23a1-42bc-915f-1083663a8c88',
+      '740194f3-2a59-4170-9541-61a366952e30',
+      'a73630bc-afa0-4471-b1a3-f3e874d2c081',
+      '6f66c408-aeda-4c4b-92ea-3fa5e0b4a4f6',
+    ];
+    const oldValues = await Promise.all(idsToTest.map(async (id, index) => {
+      req.params.id = id;
+      await getServiceById(req, res);
+      return res.send.mock.calls[index][0];
+    }));
+    const newValues = await Promise.all(idsToTest.map(async (id, index) => {
+      req.params.ids = id;
+      await getSummaries(req, res);
+      return res.send.mock.calls[index + idsToTest.length][0];
+    }));
+    expect(newValues).toEqual(oldValues);
   });
 });
