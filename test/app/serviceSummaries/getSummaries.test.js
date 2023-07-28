@@ -260,6 +260,7 @@ describe('When retrieving information for one service', () => {
   it('queries the database using id EQ (equals) when a single service ID (UUID) is requested', async () => {
     const requestedId = (req.params.ids) ? req.params.ids.toLowerCase().split(',')[0] : '';
     await getSummaries(req, res);
+    expect(services.findOne).toHaveBeenCalledTimes(1);
     const dbCall = services.findOne.mock.calls[0][0];
     expect(dbCall).toHaveProperty('where', {
       id: {
@@ -290,6 +291,7 @@ describe('When retrieving information for one service', () => {
     req.params.ids = 'foo';
     const requestedId = (req.params.ids) ? req.params.ids.toLowerCase().split(',')[0] : '';
     await getSummaries(req, res);
+    expect(services.findOne).toHaveBeenCalledTimes(1);
     const dbCall = services.findOne.mock.calls[0][0];
     expect(dbCall).toHaveProperty('where', {
       clientId: {
