@@ -67,10 +67,12 @@ const { Op } = require('sequelize');
 const { services } = require('../../../src/infrastructure/repository');
 const getSummaries = require('../../../src/app/serviceSummaries/getSummaries');
 const summaryData = require('../../../src/app/serviceSummaries/data');
+const { isUUID } = require('../../../src/app/utils');
 
 let req;
 const res = mockUtils.mockResponse();
 
+// Set up starting request (based on whether it's a single/multiple service request) and reset response.
 const sharedBefore = (single) => {
   req = mockUtils.mockRequest({
     params: {
@@ -198,6 +200,50 @@ describe('When retrieving information for multiple services', () => {
     await getSummaries(req, res);
     expect(res.status).toHaveBeenCalledWith(413);
     expect(res.statusMessage).toBe('Maximum of 50 service IDs per request.');
+  });
+
+  it('queries the database using id IN when multiple service IDs (UUIDs) are requested', async () => {
+    const requestedIds = (req.params.ids) ? req.params.ids.toLowerCase().split(',') : '';
+    await getSummaries(req, res);
+    const dbCall = services.findAll.mock.calls[0][0];
+    expect(dbCall).toHaveProperty('where', {
+      id: {
+        [Op.in]: requestedIds,
+      },
+    });
+  });
+
+  it('queries the database using clientId IN when multiple service IDs (clientIds) are requested', async () => {
+    req.params.ids = 'foo,bar,buzz';
+    const requestedIds = (req.params.ids) ? req.params.ids.toLowerCase().split(',') : '';
+    await getSummaries(req, res);
+    const dbCall = services.findAll.mock.calls[0][0];
+    expect(dbCall).toHaveProperty('where', {
+      clientId: {
+        [Op.in]: requestedIds,
+      },
+    });
+  });
+
+  it('queries the database using id IN OR clientId IN when multiple service IDs (UUIDs & clientIds) are requested', async () => {
+    req.params.ids = `${req.params.ids},svc3,svc7`;
+    const requestedIds = (req.params.ids) ? req.params.ids.toLowerCase().split(',') : '';
+    await getSummaries(req, res);
+    const dbCall = services.findAll.mock.calls[0][0];
+    expect(dbCall).toHaveProperty('where', {
+      [Op.or]: [
+        {
+          id: {
+            [Op.in]: requestedIds.filter((id) => isUUID(id)),
+          },
+        },
+        {
+          clientId: {
+            [Op.in]: requestedIds.filter((id) => !isUUID(id)),
+          },
+        },
+      ],
+    });
   });
 });
 
