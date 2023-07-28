@@ -1,6 +1,9 @@
+const { Op } = require('sequelize');
+
 const mockTable = (allEntities, extraData = {}) => {
   const entity = {
     findAndCountAll: jest.fn().mockReturnValue({ rows: [], count: 0 }),
+    findAll: jest.fn().mockReturnValue([]),
     findOne: jest.fn().mockReturnValue(null),
     rawAttributes: extraData.rawAttributes,
     associations: extraData.associations,
@@ -19,13 +22,34 @@ const mockTable = (allEntities, extraData = {}) => {
         count: allEntities.length,
       });
     });
+    entity.findAll.mockImplementation((opts) => {
+      const matchingEntities = allEntities.filter((x) => {
+        if (opts.where[Op.or]) {
+          const orValues = opts.where[Op.or];
+          const idIndex = (typeof orValues[0].id !== 'undefined') ? 0 : 1;
+          const clientIdIndex = (typeof orValues[0].clientId !== 'undefined') ? 0 : 1;
+          return (
+            (x.id && orValues[idIndex].id[Op.in].includes(x.id.toLowerCase()))
+            || (x.clientId && orValues[clientIdIndex].clientId[Op.in].includes(x.clientId.toLowerCase()))
+          );
+        }
+        if (opts.where.clientId) {
+          return (x.clientId && opts.where.clientId[Op.in].includes(x.clientId.toLowerCase()));
+        }
+        if (opts.where.id) {
+          return (x.id && opts.where.id[Op.in].includes(x.id.toLowerCase()));
+        }
+        return false;
+      });
+      return [...new Set(matchingEntities)];
+    });
     entity.findOne.mockImplementation((opts) => {
       return allEntities.find((x) => {
         if (opts.where.clientId) {
-          return (x.clientId && x.clientId.toLowerCase() === opts.where.clientId)
+          return (x.clientId && x.clientId.toLowerCase() === opts.where.clientId[Op.eq]);
         }
         if (opts.where.id) {
-          return (x.id && x.id.toLowerCase() === opts.where.id)
+          return (x.id && x.id.toLowerCase() === opts.where.id[Op.eq]);
         }
         return undefined;
       });
