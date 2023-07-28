@@ -256,4 +256,45 @@ Testing scenarios:
 */
 describe('When retrieving information for one service', () => {
   beforeEach(() => sharedBefore(true));
+
+  it('queries the database using id EQ (equals) when a single service ID (UUID) is requested', async () => {
+    const requestedId = (req.params.ids) ? req.params.ids.toLowerCase().split(',')[0] : '';
+    await getSummaries(req, res);
+    const dbCall = services.findOne.mock.calls[0][0];
+    expect(dbCall).toHaveProperty('where', {
+      id: {
+        [Op.eq]: requestedId,
+      },
+    });
+  });
+
+  it('queries the database twice, once with id, and again with clientId if no id record is found (to match getServiceById functionality)', async () => {
+    // Doesn't exist in the mock.
+    const requestedId = '7eb49ebd-949c-428f-9eb3-c3e2a59747e2';
+    req.params.ids = requestedId;
+    await getSummaries(req, res);
+    expect(services.findOne).toHaveBeenCalledTimes(2);
+    expect(services.findOne.mock.calls[0][0]).toHaveProperty('where', {
+      id: {
+        [Op.eq]: requestedId,
+      },
+    });
+    expect(services.findOne.mock.calls[1][0]).toHaveProperty('where', {
+      clientId: {
+        [Op.eq]: requestedId,
+      },
+    });
+  });
+
+  it('queries the database using id EQ (equals) when a single service ID (clientId) is requested', async () => {
+    req.params.ids = 'foo';
+    const requestedId = (req.params.ids) ? req.params.ids.toLowerCase().split(',')[0] : '';
+    await getSummaries(req, res);
+    const dbCall = services.findOne.mock.calls[0][0];
+    expect(dbCall).toHaveProperty('where', {
+      clientId: {
+        [Op.eq]: requestedId,
+      },
+    });
+  });
 });
