@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const mockUtils = require('../../utils');
 
 jest.mock('./../../../src/infrastructure/repository', () => {
@@ -63,10 +64,8 @@ jest.mock('./../../../src/infrastructure/repository', () => {
 });
 jest.mock('./../../../src/infrastructure/logger', () => mockUtils.mockLogger());
 
-const { Op } = require('sequelize');
 const { services } = require('../../../src/infrastructure/repository');
 const getSummaries = require('../../../src/app/serviceSummaries/getSummaries');
-const summaryData = require('../../../src/app/serviceSummaries/data');
 const getServiceById = require('../../../src/app/services/getServiceById');
 const { isUUID } = require('../../../src/app/utils');
 
@@ -100,7 +99,8 @@ Testing scenarios:
 
 - When service IDs list is empty, then a 404 error is returned.
 - When no services could be found, then a 404 error is returned.
-- When fields are requested that are not part of the model, then a 400 error is returned.
+- When fields are requested that are not part of the model, then a 400 error is returned (one or multiple).
+- When all valid fields are requested, then a 400 error is NOT returned (to ensure filter is working correctly).
 - When no fields are requested, then all necessary attributes/associations are contained in the query.
 - When specific attribute fields are requested, then the attributes field of the query contains them.
 - When specific association fields are requested, then the include field of the query contains the ones that aren't lazy loaded.
@@ -140,6 +140,12 @@ describe('When retrieving information for either one or multiple services', () =
     expect(res.statusMessage).toBe(
       `Invalid fields used: ${invalidFields.join()}! Allowed fields: ${allowedFields.join()}`,
     );
+  });
+
+  it('does not return a 400 response status if all fields are requested', async () => {
+    req.query.fields = allowedFields.join();
+    await getSummaries(req, res);
+    expect(res.status).not.toHaveBeenCalledWith(400);
   });
 
   it('queries the database with all available attributes and associations, when no fields are requested', async () => {
