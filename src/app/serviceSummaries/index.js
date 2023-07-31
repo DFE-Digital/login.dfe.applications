@@ -9,13 +9,13 @@ const validateServiceIds = (serviceIds) => {
   let statusCode = null;
 
   if (!serviceIds) {
-    statusMessage = 'No service IDs were requested.';
     statusCode = 404;
+    statusMessage = 'No service IDs were requested.';
   }
 
   if (serviceIds.length > 50) {
-    statusMessage = 'Maximum of 50 service IDs per request.';
     statusCode = 400;
+    statusMessage = 'Maximum of 50 service IDs per request.';
   }
 
   return { statusCode, statusMessage };
