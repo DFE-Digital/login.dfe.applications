@@ -15,7 +15,7 @@ const validateServiceIds = (serviceIds) => {
 
   if (serviceIds.length > 50) {
     statusMessage = 'Maximum of 50 service IDs per request.';
-    statusCode = 413;
+    statusCode = 400;
   }
 
   return { statusCode, statusMessage };

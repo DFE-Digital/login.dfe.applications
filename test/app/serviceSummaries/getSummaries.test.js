@@ -194,7 +194,7 @@ describe('When retrieving information for either one or multiple services', () =
 /*
 Testing scenarios:
 
-- When there are more than 50 service IDs in the request, then a 413 error is returned.
+- When there are more than 50 service IDs in the request, then a 400 error is returned.
 - When there is a list of multiple UUIDs, then the queryOptions 'where' contains them using IN.
 - When there is a list of multiple clientIDs, then the queryOptions 'where' contains them using IN.
 - Where there is a mix of UUIDs and clientIDs, then the queryOptions 'where' contains both using OR/IN.
@@ -202,10 +202,10 @@ Testing scenarios:
 describe('When retrieving information for multiple services', () => {
   beforeEach(() => sharedBefore(false));
 
-  it('returns a 413 response if there are more than 50 IDs in the request', async () => {
+  it('returns a 400 response if there are more than 50 IDs in the request', async () => {
     req.params.ids = new Array(51).fill('foo').join();
     await getSummaries(req, res);
-    expect(res.status).toHaveBeenCalledWith(413);
+    expect(res.status).toHaveBeenCalledWith(400);
     expect(res.statusMessage).toBe('Maximum of 50 service IDs per request.');
   });
 
