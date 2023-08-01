@@ -68,11 +68,9 @@ const mapEntity = async (entity, queryOptions) => {
   };
 };
 
-const mapEntities = async (entities, queryOptions) => {
-  return Promise.all(
-    entities.map((entity) => mapEntity(entity, queryOptions))
-  );
-};
+const mapEntities = async (entities, queryOptions) => Promise.all(
+  entities.map((entity) => mapEntity(entity, queryOptions)),
+);
 
 const findAndCountAll = async (queryOptions) => {
   const optimisedOptions = removeLazyAssociations(queryOptions);
