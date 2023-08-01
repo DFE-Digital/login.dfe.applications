@@ -9,6 +9,6 @@
     "max-len": 0
   },
   "env": {
-    "jest/globals": true
+    "jest": true
   }
 }
