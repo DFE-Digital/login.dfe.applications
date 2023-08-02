@@ -5,13 +5,14 @@ const defaultQueryOpts = {
     ['name', 'ASC'],
   ],
 };
+const unusedServiceFields = ['banners', 'grants', 'isChildService'];
+const lazyLoadedServiceAssociations = ['redirects', 'postLogoutRedirects', 'grantTypes', 'responseTypes'];
 
 // REMOVE THIS once all lazy loaded associations have been given primary keys.
 const removeLazyAssociations = (queryOptions) => {
-  const lazyLoadedAssociations = ['redirects', 'postLogoutRedirects', 'grantTypes', 'responseTypes'];
   // Make a copy of queryOptions so the original isn't modified.
   const newQueryOptions = { ...queryOptions };
-  newQueryOptions.include = queryOptions.include.filter((x) => !lazyLoadedAssociations.includes(x));
+  newQueryOptions.include = queryOptions.include.filter((x) => !lazyLoadedServiceAssociations.includes(x));
   return newQueryOptions;
 };
 
@@ -105,4 +106,6 @@ module.exports = {
   findAndCountAll,
   findAll,
   find,
+  lazyLoadedServiceAssociations,
+  unusedServiceFields,
 };
