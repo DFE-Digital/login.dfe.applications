@@ -102,6 +102,7 @@ Testing scenarios:
 - When service IDs list is empty, then a 404 error is returned.
 - When no services could be found, then a 404 error is returned.
 - When fields are requested that are not part of the model, then a 400 error is returned (one or multiple).
+- When an unused fields is requested, then a 400 error is returned.
 - When all valid fields are requested, then a 400 error is NOT returned (to ensure filter is working correctly).
 - When no fields are requested, then all necessary attributes/associations are contained in the query.
 - When specific attribute fields are requested, then the attributes field of the query contains them.
@@ -141,6 +142,16 @@ describe('When retrieving information for either one or multiple services', () =
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.statusMessage).toBe(
       `Invalid fields used: ${invalidFields.join()}! Allowed fields: ${allowedFields.join()}`,
+    );
+  });
+
+  it('returns a 400 response status if an unused field is requested', async () => {
+    const unusedField = unusedServiceFields[Math.floor(Math.random() * unusedServiceFields.length)];
+    req.query.fields = unusedField;
+    await getSummaries(req, res);
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.statusMessage).toBe(
+      `Invalid fields used: ${unusedField}! Allowed fields: ${allowedFields.join()}`,
     );
   });
 
