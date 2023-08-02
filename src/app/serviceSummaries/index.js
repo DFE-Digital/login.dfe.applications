@@ -1,5 +1,9 @@
 const { Op } = require('sequelize');
-const { find, findAll } = require('./data');
+const {
+  find,
+  findAll,
+  unusedServiceFields,
+} = require('./data');
 const logger = require('../../infrastructure/logger');
 const { isUUID } = require('../utils');
 const dataModel = require('../../infrastructure/repository');
@@ -68,9 +72,12 @@ const getSummaries = async (req, res) => {
 
   const fields = (req.query.fields) ? [...new Set(req.query.fields.split(','))] : [];
   // The below attributes/associations are not used in the returned object.
-  const hiddenFields = ['banners', 'grants', 'isChildService'];
-  const serviceAttributes = Object.keys(dataModel.services.rawAttributes).filter((field) => !hiddenFields.includes(field));
-  const serviceAssociations = Object.keys(dataModel.services.associations).filter((field) => !hiddenFields.includes(field));
+  const serviceAttributes = Object.keys(dataModel.services.rawAttributes).filter(
+    (field) => !unusedServiceFields.includes(field),
+  );
+  const serviceAssociations = Object.keys(dataModel.services.associations).filter(
+    (field) => !unusedServiceFields.includes(field),
+  );
   const allowedFields = serviceAttributes.concat(serviceAssociations);
 
   if (fields && !fields.every((field) => allowedFields.includes(field))) {

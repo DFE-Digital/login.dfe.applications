@@ -67,6 +67,7 @@ jest.mock('./../../../src/infrastructure/logger', () => mockUtils.mockLogger());
 const { services } = require('../../../src/infrastructure/repository');
 const getSummaries = require('../../../src/app/serviceSummaries');
 const getServiceById = require('../../../src/app/services/getServiceById');
+const { lazyLoadedServiceAssociations, unusedServiceFields } = require('../../../src/app/serviceSummaries/data');
 const { isUUID } = require('../../../src/app/utils');
 
 let req;
@@ -86,13 +87,14 @@ const sharedBefore = (single) => {
   res.mockResetAll();
 };
 
-// Matches /src/app/serviceSummaries/getSummaries.js/getSummaries.
-const hiddenFields = ['banners', 'grants', 'isChildService'];
-const allowedAttributes = Object.keys(services.rawAttributes).filter((field) => !hiddenFields.includes(field));
-const allowedAssociations = Object.keys(services.associations).filter((field) => !hiddenFields.includes(field));
-const allowedFields = allowedAttributes.concat(allowedAssociations).filter((field) => !hiddenFields.includes(field));
-// Matches /src/app/serviceSummaries/data/index.js/removeLazyAssociations.
-const lazyLoadedAssociations = ['redirects', 'postLogoutRedirects', 'grantTypes', 'responseTypes'];
+const hiddenFields = unusedServiceFields;
+const allowedAttributes = Object.keys(services.rawAttributes).filter(
+  (field) => !hiddenFields.includes(field),
+);
+const allowedAssociations = Object.keys(services.associations).filter(
+  (field) => !hiddenFields.includes(field),
+);
+const allowedFields = allowedAttributes.concat(allowedAssociations);
 
 /*
 Testing scenarios:
@@ -154,7 +156,7 @@ describe('When retrieving information for either one or multiple services', () =
     const firstCall = services.findOne.mock.calls[0][0];
     expect(firstCall).toHaveProperty('attributes', allowedAttributes);
     expect(firstCall).toHaveProperty('include', allowedAssociations.filter(
-      (association) => !lazyLoadedAssociations.includes(association),
+      (association) => !lazyLoadedServiceAssociations.includes(association),
     ));
   });
 
@@ -174,7 +176,7 @@ describe('When retrieving information for either one or multiple services', () =
     const firstCall = services.findOne.mock.calls[0][0];
     expect(firstCall).toHaveProperty('attributes', []);
     expect(firstCall).toHaveProperty('include', expectedAssociations.filter(
-      (association) => !lazyLoadedAssociations.includes(association),
+      (association) => !lazyLoadedServiceAssociations.includes(association),
     ));
   });
 
@@ -186,7 +188,7 @@ describe('When retrieving information for either one or multiple services', () =
     const firstCall = services.findOne.mock.calls[0][0];
     expect(firstCall).toHaveProperty('attributes', expectedAttributes);
     expect(firstCall).toHaveProperty('include', expectedAssociations.filter(
-      (association) => !lazyLoadedAssociations.includes(association),
+      (association) => !lazyLoadedServiceAssociations.includes(association),
     ));
   });
 });
