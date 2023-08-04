@@ -7,6 +7,8 @@ const defaultQueryOpts = {
   order: [
     ['name', 'ASC'],
   ],
+  // Use eager loading on associations that have primary keys.
+  include: ['params', 'assertions'],
 };
 
 const defaultGrantQueryOpts = {
@@ -14,7 +16,6 @@ const defaultGrantQueryOpts = {
     ['createdAt', 'DESC'],
   ],
 };
-
 
 const mapEntity = async (entity) => {
   if (!entity) {
@@ -25,12 +26,12 @@ const mapEntity = async (entity) => {
   const postLogoutRedirects = (await entity.getPostLogoutRedirects() || []).map(e => e.redirectUrl);
   const grantTypes = (await entity.getGrantTypes() || []).map(e => e.grantType);
   const responseTypes = (await entity.getResponseTypes() || []).map(e => e.responseType);
-  const paramsArray = (await entity.getParams() || []).filter(e => e.paramName != null);
+  const paramsArray = (entity.params || []).filter(e => e.paramName != null);
   const params = {};
   paramsArray.forEach(({paramName, paramValue}) => {
     params[paramName] = paramValue;
   });
-  const assertions = (await entity.getAssertions() || []).map(e => ({
+  const assertions = (entity.assertions || []).map(e => ({
     type: e.typeUrn,
     value: e.value,
     friendlyName: e.friendlyName || undefined,
@@ -67,13 +68,7 @@ const mapEntity = async (entity) => {
   };
 };
 
-const mapEntities = async (entities) => {
-  const mapped = [];
-  for (let i = 0; i < entities.length; i++) {
-    mapped.push(await mapEntity(entities[i]));
-  }
-  return mapped;
-};
+const mapEntities = async (entities) => Promise.all(entities.map((entity) => mapEntity(entity)));
 
 const mapBannerFromEntity = (entity) => {
   return {
@@ -107,7 +102,7 @@ const findAll = async (where) => {
     where,
   }));
   return {
-    services: await mapEntities(resultset.rows),
+    services: await mapEntities(resultset),
   };
 };
 

@@ -56,6 +56,7 @@ describe('when listing services', () => {
       order: [
         ['name', 'ASC'],
       ],
+      include: ['params', 'assertions'],
       limit: 3,
       offset: 6,
     });
@@ -76,6 +77,7 @@ describe('when listing services', () => {
       order: [
         ['name', 'ASC'],
       ],
+      include: ['params', 'assertions'],
       limit: 3,
       offset: 6,
     });
