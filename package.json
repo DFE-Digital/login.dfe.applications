@@ -7,7 +7,7 @@
     "test": "./node_modules/.bin/jest"
   },
   "engines": {
-    "node": "14.x.x"
+    "node": "18.x.x"
   },
   "repository": {
     "type": "git",
@@ -20,31 +20,32 @@
   },
   "homepage": "https://github.com/DFE-Digital/login.dfe.applications#readme",
   "dependencies": {
-    "@slack/webhook": "^5.0.4",
+    "@slack/webhook": "^7.0.1",
     "applicationinsights": "^2.1.9",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "helmet": "^5.0.2",
+    "helmet": "^7.1.0",
     "lodash": "^4.17.21",
-    "login.dfe.api.auth": "git+https://github.com/DFE-Digital/login.dfe.api.auth.git#v2.0.2",
-    "login.dfe.audit.winston-sequelize-transport": "git+https://github.com/DFE-Digital/login.dfe.audit.winston-sequelize-transport.git#v2.12",
-    "login.dfe.express-error-handling": "git+https://github.com/DFE-Digital/login.dfe.express-error-handling.git#v1.7.0",
-    "login.dfe.healthcheck": "git+https://github.com/DFE-Digital/login.dfe.healthcheck.git#v1.8",
-    "login.dfe.winston-appinsights": "git+https://github.com/DFE-Digital/login.dfe.winston-appinsights.git#v3.0",
-    "node-cron": "^2.0.3",
-    "pm2": "^4.5.6",
+    "login.dfe.api.auth": "git+https://github.com/DFE-Digital/login.dfe.api.auth.git#v2.3.0",
+    "login.dfe.audit.transporter": "^3.0.0",
+    "login.dfe.audit.winston-sequelize-transport": "git+https://github.com/DFE-Digital/login.dfe.audit.winston-sequelize-transport.git#v3.1.0",
+    "login.dfe.express-error-handling": "git+https://github.com/DFE-Digital/login.dfe.express-error-handling.git#v3.0.0",
+    "login.dfe.healthcheck": "git+https://github.com/DFE-Digital/login.dfe.healthcheck.git#v3.0.0",
+    "login.dfe.winston-appinsights": "git+https://github.com/DFE-Digital/login.dfe.winston-appinsights.git#v5.0.0",
+    "node-cron": "^3.0.3",
+    "pm2": "^5.3.0",
     "sequelize": "^6.3.3",
-    "tedious": "^8.3.0",
-    "uuid": "^8.3.2",
+    "tedious": "^16.6.0",
+    "uuid": "^9.0.1",
     "winston": "^3.4.0"
   },
   "devDependencies": {
-    "eslint": "^6.5.1",
-    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint": "^8.53.0",
+    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.23.2",
-    "eslint-plugin-jest": "^21.27.2",
-    "jest": "^24.9.0",
-    "jest-cli": "^24.9.0",
+    "eslint-plugin-jest": "^27.6.0",
+    "jest": "^29.7.0",
+    "jest-cli": "^29.7.0",
     "sequelize-mock": "^0.10.2"
   },
   "jest": {
