@@ -52,6 +52,14 @@ const define = (db, schema) => {
       type: Sequelize.STRING,
       allowNull: true,
     },
+    isIdOnlyService: {
+      type: Sequelize.BOOLEAN,
+      allowNull: true,
+    },
+    isHiddenService: {
+      type: Sequelize.BOOLEAN,
+      allowNull: true,
+    },
     parentId: {
       type: Sequelize.UUID,
       allowNull: true,
