@@ -1,17 +1,18 @@
 {
     "version": "0.2.0",
     "configurations": [
-      {
-        "type": "node",
-        "request": "launch",
-        "name": "Launch Applications",
-        "skipFiles": ["<node_internals>/**"],
-        "env": {
-          "settings": "${workspaceFolder}/config/login.dfe.applications.local.json"
-        },
-        "program": "${workspaceFolder}/src/index.js",
-        "outputCapture": "std"
-      }
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Applications",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "env": {
+                "settings": "${workspaceFolder}/config/local-config.json"
+            },
+            "program": "${workspaceFolder}/src/index.js",
+            "outputCapture": "std"
+        }
     ]
-  }
-  
+}
