@@ -16,7 +16,7 @@ const getServiceBannerById = async (req, res) => {
   } catch (e) {
     logger.error(`Error getting banner with id ${bannerId} for service ${serviceId}`, {
       correlationId,
-      ...e,
+      error: { ...e },
     });
     throw e;
   }

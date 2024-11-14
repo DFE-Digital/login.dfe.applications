@@ -36,7 +36,7 @@ const list = async (req, res) => {
 
     return res.json(result);
   } catch (e) {
-    logger.error(`Error processing list service grants request - page: ${page}, pageSize: ${pageSize}`, { correlationId, ...e });
+    logger.error(`Error processing list service grants request - page: ${page}, pageSize: ${pageSize}`, { correlationId, error: { ...e } });
     throw e;
   }
 };

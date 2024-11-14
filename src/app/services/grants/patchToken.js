@@ -42,7 +42,7 @@ const action = async (req, res) => {
 
     return res.status(202).json(token);
   } catch (e) {
-    logger.error('Error processing create token request', { correlationId, ...e });
+    logger.error('Error processing create token request', { correlationId, error: { ...e } });
     throw e;
   }
 };

@@ -23,7 +23,7 @@ const deleteService = async (req, res) => {
     await destroy(existingService.id);
     return res.status(202).send();
   } catch (e) {
-    logger.error(`Error deleting service ${serviceId}`, { correlationId, ...e });
+    logger.error(`Error deleting service ${serviceId}`, { correlationId, error: { ...e } });
     throw e;
   }
 };

@@ -29,7 +29,7 @@ const getServiceById = async (req, res) => {
     return res.status(200).send(service);
   } catch (e) {
     const { correlationId } = req;
-    logger.error(e, { correlationId, ...e });
+    logger.error('getServiceById', { correlationId, error: { ...e } });
     throw e;
   }
 };

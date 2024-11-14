@@ -29,7 +29,7 @@ const listOfFilteredFlags = async (type, serviceName) => {
 
     return listOfflags;
   } catch (e) {
-    logger.error(`Error getting list of toggle flags - ${e.message} for type - ${type} and service name - ${serviceName} `, { ...e });
+    logger.error(`Error getting list of toggle flags - for type - ${type} and service name - ${serviceName} `, { error: { ...e } });
     throw e;
   }
 };
@@ -46,7 +46,7 @@ const listOfFlags = async () => {
 
     return listOfflags;
   } catch (e) {
-    logger.error('Error getting list of toggle flags', { ...e });
+    logger.error('Error getting list of toggle flags', { error: { ...e } });
     throw e;
   }
 };

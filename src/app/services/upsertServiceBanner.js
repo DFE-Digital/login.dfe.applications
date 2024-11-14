@@ -54,7 +54,7 @@ const upsertBanner = async (req, res) => {
 
     return res.status(202).json(banner);
   } catch (e) {
-    logger.error('Error processing upsert service banner request', { correlationId, ...e });
+    logger.error('Error processing upsert service banner request', { correlationId, error: { ...e } });
     throw e;
   }
 };

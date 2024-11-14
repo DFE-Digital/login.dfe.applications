@@ -107,7 +107,7 @@ const getSummaries = async (req, res) => {
 
     return res.status(200).send(serviceInfo);
   } catch (e) {
-    logger.error(e, { ...e });
+    logger.error('getSingleService', { error: { ...e } });
     throw e;
   }
 };
