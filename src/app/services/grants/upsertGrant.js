@@ -63,7 +63,7 @@ const action = async (req, res) => {
 
     return res.status(202).json(grant);
   } catch (e) {
-    logger.error('Error processing upsert for grant request.', { correlationId, ...e });
+    logger.error('Error processing upsert for grant request.', { correlationId, error: { ...e } });
     throw e;
   }
 };

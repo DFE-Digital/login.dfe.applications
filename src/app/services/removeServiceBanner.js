@@ -8,7 +8,7 @@ const deleteServiceBanner = async (req, res) => {
     await removeServiceBanner(req.params.id, req.params.bid);
     return res.status(204).send();
   } catch (e) {
-    logger.error('Error processing remove service banner request', { correlationId, ...e });
+    logger.error('Error processing remove service banner request', { correlationId, error: { ...e } });
     throw e;
   }
 };

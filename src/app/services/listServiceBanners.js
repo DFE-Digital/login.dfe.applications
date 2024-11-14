@@ -20,7 +20,7 @@ const listBannersForService = async (req, res) => {
     const pageOfBanners = await listServiceBanners(req.params.id, page, pageSize);
     return res.json(pageOfBanners);
   } catch (e) {
-    logger.error(`Error processing list service banners request - page: ${page}, pageSize: ${pageSize}`, { correlationId, ...e });
+    logger.error(`Error processing list service banners request - page: ${page}, pageSize: ${pageSize}`, { correlationId, error: { ...e } });
   }
 };
 

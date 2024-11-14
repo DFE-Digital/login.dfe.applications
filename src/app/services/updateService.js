@@ -109,7 +109,7 @@ const updateService = async (req, res) => {
     await update(existingService.id, req.body);
     return res.status(202).send();
   } catch (e) {
-    logger.error(`Error updating service ${serviceId}`, { correlationId, ...e });
+    logger.error(`Error updating service ${serviceId}`, { correlationId, error: { ...e } });
     throw e;
   }
 };
