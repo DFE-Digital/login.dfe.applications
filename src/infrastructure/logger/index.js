@@ -5,7 +5,7 @@ const {
 } = require('winston');
 
 const {
-  combine, prettyPrint, errors, simple, colorize,
+  combine, prettyPrint, errors, simple, timestamp, json,
 } = format;
 
 const appInsights = require('applicationinsights');
@@ -47,8 +47,8 @@ const loggerConfig = {
 loggerConfig.transports.push(new transports.Console({
   format: combine(
     hideAudit(),
-    colorize({ all: true }),
-    simple(),
+    timestamp(),
+    json(),
   ),
   level: logLevel,
 }));
