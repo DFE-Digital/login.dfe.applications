@@ -1,7 +1,7 @@
 'use strict';
-const {createToken} = require('./data');
-const logger = require('./../../../infrastructure/logger');
 
+const { createToken } = require('./data');
+const logger = require('../../../infrastructure/logger');
 
 const validate = (req) => {
   const model = {
@@ -39,8 +39,9 @@ const action = async (req, res) => {
       errors: model.errors,
     });
   }
+  const { correlationId } = req;
   try {
-    logger.info(`Processing create Token. CorrelationId: ${req.correlationId}`);
+    logger.info('Processing create Token.', { correlationId });
     const token = await createToken(
       model.token.grantId,
       model.token.active,
@@ -52,7 +53,7 @@ const action = async (req, res) => {
 
     return res.status(202).json(token);
   } catch (e) {
-    logger.error(`Error processing create token request - ${e.message}. CorrelationId: ${req.correlationId}`);
+    logger.error('Error processing create token request.', { correlationId, ...e });
     throw e;
   }
 };
