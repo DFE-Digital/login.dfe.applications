@@ -1,8 +1,17 @@
-const { create, addRedirectUri, addPostLogoutRedirect, addGrantType, addResponseType, addServiceParam, find } = require('./data');
-const logger = require('./../../infrastructure/logger');
 const { Op } = require('sequelize');
-const { forEachAsync } = require('./../utils');
-const { isUUID } = require('./../utils');
+
+const {
+  create,
+  addRedirectUri,
+  addPostLogoutRedirect,
+  addGrantType,
+  addResponseType,
+  addServiceParam,
+  find,
+} = require('./data');
+
+const { forEachAsync } = require('../utils');
+const { isUUID } = require('../utils');
 
 const parseAndValidateRequest = async (req) => {
   const relyingParty = req.body.relyingParty || {};
@@ -50,7 +59,7 @@ const parseAndValidateRequest = async (req) => {
         [Op.eq]: model.service.relyingParty.client_id,
       },
     });
-    if(existingServiceWithClientId) {
+    if (existingServiceWithClientId) {
       model.validationErrors.push(`relyingParty.client_id must be unique. ${model.service.relyingParty.client_id} is already assigned`);
     }
   }

@@ -1,11 +1,11 @@
-const { findAndCountAllGrants } = require('./data');
-const { extractPageParam, extractPageSizeParam } = require('./../../utils');
 const { Op } = require('sequelize');
-const logger = require('./../../../infrastructure/logger');
+const { findAndCountAllGrants } = require('./data');
+const { extractPageParam, extractPageSizeParam } = require('../../utils');
+const logger = require('../../../infrastructure/logger');
 
 const query = async (serviceId, page, pageSize) => {
   const offset = (page - 1) * pageSize;
-  const where =  {
+  const where = {
     serviceId: {
       [Op.eq]: serviceId,
     },
@@ -16,14 +16,17 @@ const query = async (serviceId, page, pageSize) => {
 const list = async (req, res) => {
   let page;
   let pageSize;
+
   try {
     page = extractPageParam(req);
     pageSize = extractPageSizeParam(req);
   } catch (e) {
     return res.status(400).send({ error: e.message });
   }
+
+  const { correlationId } = req;
   try {
-    logger.info(`Processing list service grants request. CorrelationId: ${req.correlationId}, page: ${page}, pageSize: ${pageSize}`);
+    logger.debug(`Processing list service grants request. CorrelationId: page: ${page}, pageSize: ${pageSize}`, { correlationId });
     const serviceId = req.app.service.id;
 
     const result = await query(serviceId, page, pageSize);
@@ -33,7 +36,7 @@ const list = async (req, res) => {
 
     return res.json(result);
   } catch (e) {
-    logger.error(`Error processing list service grants request - ${e.message}. CorrelationId: ${req.correlationId}, page: ${page}, pageSize: ${pageSize}`);
+    logger.error(`Error processing list service grants request - page: ${page}, pageSize: ${pageSize}`, { correlationId, ...e });
     throw e;
   }
 };

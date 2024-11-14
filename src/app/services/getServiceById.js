@@ -1,7 +1,7 @@
-const { find } = require('./data');
-const logger = require('./../../infrastructure/logger');
 const { Op } = require('sequelize');
-const { isUUID } = require('./../utils');
+const { find } = require('./data');
+const logger = require('../../infrastructure/logger');
+const { isUUID } = require('../utils');
 
 const getServiceById = async (req, res) => {
   const serviceId = req.params.id ? req.params.id.toLowerCase() : '';
@@ -28,10 +28,10 @@ const getServiceById = async (req, res) => {
     }
     return res.status(200).send(service);
   } catch (e) {
-    logger.error(e);
+    const { correlationId } = req;
+    logger.error(e, { correlationId, ...e });
     throw e;
   }
-
 };
 
 module.exports = getServiceById;
