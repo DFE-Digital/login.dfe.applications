@@ -1,5 +1,5 @@
 const { upsertServiceBanner } = require('./data');
-const logger = require('./../../infrastructure/logger');
+const logger = require('../../infrastructure/logger');
 
 const validate = (req) => {
   const model = {
@@ -37,8 +37,10 @@ const upsertBanner = async (req, res) => {
       errors: model.errors,
     });
   }
+
+  const { correlationId } = req;
   try {
-    logger.info(`Processing upsert service banner request. CorrelationId: ${req.correlationId}`);
+    logger.info('Processing upsert service banner request.', { correlationId });
     const banner = await upsertServiceBanner(
       model.banner.bannerId,
       model.banner.serviceId,
@@ -52,11 +54,9 @@ const upsertBanner = async (req, res) => {
 
     return res.status(202).json(banner);
   } catch (e) {
-    logger.error(`Error processing upsert service banner request - ${e.message}. CorrelationId: ${req.correlationId}`);
+    logger.error('Error processing upsert service banner request', { correlationId, error: { ...e } });
     throw e;
   }
 };
 
 module.exports = upsertBanner;
-
-

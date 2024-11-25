@@ -1,10 +1,11 @@
 const { listServiceBanners } = require('./data');
-const { extractPageParam, extractPageSizeParam } = require('./../utils');
-const logger = require('./../../infrastructure/logger');
+const { extractPageParam, extractPageSizeParam } = require('../utils');
+const logger = require('../../infrastructure/logger');
 
 const listBannersForService = async (req, res) => {
   let page;
   let pageSize;
+
   try {
     page = extractPageParam(req);
     pageSize = extractPageSizeParam(req);
@@ -12,13 +13,14 @@ const listBannersForService = async (req, res) => {
     return res.status(400).send({ error: e.message });
   }
 
+  const { correlationId } = req;
   try {
-    logger.info(`Processing list service banners request. CorrelationId: ${req.correlationId}, page: ${page}, pageSize: ${pageSize}`);
+    logger.debug(`Processing list service banners request. page: ${page}, pageSize: ${pageSize}`, { correlationId });
 
     const pageOfBanners = await listServiceBanners(req.params.id, page, pageSize);
     return res.json(pageOfBanners);
-  } catch(e) {
-    logger.error(`Error processing list service banners request - ${e.message}. CorrelationId: ${req.correlationId}, page: ${page}, pageSize: ${pageSize}`);
+  } catch (e) {
+    logger.error(`Error processing list service banners request - page: ${page}, pageSize: ${pageSize}`, { correlationId, error: { ...e } });
   }
 };
 
