@@ -1,12 +1,12 @@
-const { destroy, find} = require('./data');
-const logger = require('./../../infrastructure/logger');
-const {Op} = require('sequelize');
+const { Op } = require('sequelize');
+const { destroy, find } = require('./data');
+const logger = require('../../infrastructure/logger');
 
 const deleteService = async (req, res) => {
   const serviceId = req.params.id;
-  const correlationId = req.correlationId;
+  const { correlationId } = req;
 
-  logger.info(`Deleting service ${serviceId} (correlation id: ${correlationId})`, { correlationId });
+  logger.info(`Deleting service ${serviceId}`, { correlationId });
   try {
     const existingService = await find({
       id: {
@@ -18,14 +18,12 @@ const deleteService = async (req, res) => {
     }
 
     if (!existingService.parentId) {
-      return res.status(400).send("Top level services are not deletable.");
+      return res.status(400).send('Top level services are not deletable.');
     }
-
-
     await destroy(existingService.id);
     return res.status(202).send();
   } catch (e) {
-    logger.error(`Error deleting service ${serviceId} (correlation id: ${correlationId} - ${e.message}`);
+    logger.error(`Error deleting service ${serviceId}`, { correlationId, error: { ...e } });
     throw e;
   }
 };

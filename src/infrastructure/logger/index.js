@@ -5,7 +5,7 @@ const {
 } = require('winston');
 
 const {
-  combine, prettyPrint, errors, simple, colorize,
+  combine, prettyPrint, errors, simple, timestamp, json,
 } = format;
 
 const appInsights = require('applicationinsights');
@@ -23,7 +23,6 @@ const customLevels = {
     info: 3,
     verbose: 4,
     debug: 5,
-    silly: 6,
   },
   colors: {
     audit: 'magenta',
@@ -32,7 +31,6 @@ const customLevels = {
     info: 'blue',
     verbose: 'cyan',
     debug: 'green',
-    silly: 'cyan',
   },
 };
 
@@ -49,8 +47,8 @@ const loggerConfig = {
 loggerConfig.transports.push(new transports.Console({
   format: combine(
     hideAudit(),
-    colorize({ all: true }),
-    simple(),
+    timestamp(),
+    json(),
   ),
   level: logLevel,
 }));
@@ -63,17 +61,24 @@ if (auditTransport) {
 }
 
 if (config.hostingEnvironment.applicationInsights) {
-  appInsights.setup(config.hostingEnvironment.applicationInsights)
+  appInsights
+    .setup(config.hostingEnvironment.applicationInsights)
     .setAutoCollectConsole(false, false)
     .setSendLiveMetrics(config.loggerSettings.aiSendLiveMetrics || false)
     .start();
-  loggerConfig.transports.push(new AppInsightsTransport({
-    format: combine(hideAudit(), format.json()),
-    client: appInsights.defaultClient,
-    applicationName: config.loggerSettings.applicationName || 'Applications',
-    type: 'event',
-    treatErrorsAsExceptions: true,
-  }));
+
+  loggerConfig.transports.push(
+    new AppInsightsTransport({
+      format: combine(
+        hideAudit(),
+        format.json(),
+      ),
+      client: appInsights.defaultClient,
+      applicationName: config.loggerSettings.applicationName || 'Applications',
+      type: 'event',
+      treatErrorsAsExceptions: true,
+    }),
+  );
 }
 
 const logger = createLogger({
