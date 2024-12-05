@@ -2,6 +2,15 @@
   "name": "login.dfe.applications",
   "version": "5.0.0",
   "description": "",
+  "engines": {
+    "node": "18.x.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DFE-Digital/login.dfe.applications.git"
+  },
+  "author": "",
+  "license": "MIT",
   "scripts": {
     "dev": "settings='./config/login.dfe.applications.dev.json' node src/index.js",
     "dev:checks": "npm run lint && npm run test",
@@ -15,19 +24,6 @@
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
   },
-  "engines": {
-    "node": "18.x.x"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DFE-Digital/login.dfe.applications.git"
-  },
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/DFE-Digital/login.dfe.applications/issues"
-  },
-  "homepage": "https://github.com/DFE-Digital/login.dfe.applications#readme",
   "dependencies": {
     "@slack/webhook": "^7.0.1",
     "applicationinsights": "^2.1.9",
