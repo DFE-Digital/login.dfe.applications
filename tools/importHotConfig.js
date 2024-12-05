@@ -4,7 +4,6 @@ const repository = require("./../src/infrastructure/repository");
 const { Op } = require("sequelize");
 const { v4: uuid } = require("uuid");
 const uniq = require("lodash/uniq");
-const { promisify } = require("util");
 
 class Scripter {
   start(saveToPath) {
@@ -39,7 +38,7 @@ class Scripter {
     if (data === null || data === undefined) {
       return "NULL";
     }
-    return `'${data.toString().replace(/\'/gi, "''")}'`;
+    return `'${data.toString().replace(/'/gi, "''")}'`;
   }
 
   async updateService(service) {

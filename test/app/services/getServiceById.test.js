@@ -13,7 +13,6 @@ const { Op } = require("sequelize");
 const { mockRequest, mockResponse } = require("./../../utils");
 const { services } = require("./../../../src/infrastructure/repository");
 const getServicesById = require("./../../../src/app/services/getServiceById");
-const servicesData = require("./../../../src/app/services/data/index");
 
 const res = mockResponse();
 

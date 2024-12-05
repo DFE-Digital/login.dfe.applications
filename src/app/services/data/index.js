@@ -17,10 +17,6 @@ const defaultQueryOpts = {
   include: ["params", "assertions"],
 };
 
-const defaultGrantQueryOpts = {
-  order: [["createdAt", "DESC"]],
-};
-
 const mapEntity = async (entity) => {
   if (!entity) {
     return undefined;

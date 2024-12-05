@@ -15,7 +15,7 @@ const tokens = require("./tokens");
 
 const db = makeConnection();
 
-const defineStatic = (model) => {};
+const defineStatic = () => {};
 const buildDataModel = (model, connection, entityModels) => {
   const dbSchema = config.database.schema || "services";
 
