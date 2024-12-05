@@ -1,20 +1,24 @@
-const {services, serviceRedirects, servicePostLogoutRedirects, serviceGrantTypes, serviceResponseTypes, serviceBanners, serviceParams} = require('./../../../infrastructure/repository');
-const Sequelize = require('sequelize');
+const {
+  services,
+  serviceRedirects,
+  servicePostLogoutRedirects,
+  serviceGrantTypes,
+  serviceResponseTypes,
+  serviceBanners,
+  serviceParams,
+} = require("./../../../infrastructure/repository");
+const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
-const { v4: uuid } = require('uuid');
+const { v4: uuid } = require("uuid");
 
 const defaultQueryOpts = {
-  order: [
-    ['name', 'ASC'],
-  ],
+  order: [["name", "ASC"]],
   // Use eager loading on associations that have primary keys.
-  include: ['params', 'assertions'],
+  include: ["params", "assertions"],
 };
 
 const defaultGrantQueryOpts = {
-  order: [
-    ['createdAt', 'DESC'],
-  ],
+  order: [["createdAt", "DESC"]],
 };
 
 const mapEntity = async (entity) => {
@@ -22,16 +26,24 @@ const mapEntity = async (entity) => {
     return undefined;
   }
 
-  const redirects = (await entity.getRedirects() || []).map(e => e.redirectUrl);
-  const postLogoutRedirects = (await entity.getPostLogoutRedirects() || []).map(e => e.redirectUrl);
-  const grantTypes = (await entity.getGrantTypes() || []).map(e => e.grantType);
-  const responseTypes = (await entity.getResponseTypes() || []).map(e => e.responseType);
-  const paramsArray = (entity.params || []).filter(e => e.paramName != null);
+  const redirects = ((await entity.getRedirects()) || []).map(
+    (e) => e.redirectUrl,
+  );
+  const postLogoutRedirects = (
+    (await entity.getPostLogoutRedirects()) || []
+  ).map((e) => e.redirectUrl);
+  const grantTypes = ((await entity.getGrantTypes()) || []).map(
+    (e) => e.grantType,
+  );
+  const responseTypes = ((await entity.getResponseTypes()) || []).map(
+    (e) => e.responseType,
+  );
+  const paramsArray = (entity.params || []).filter((e) => e.paramName != null);
   const params = {};
-  paramsArray.forEach(({paramName, paramValue}) => {
+  paramsArray.forEach(({ paramName, paramValue }) => {
     params[paramName] = paramValue;
   });
-  const assertions = (entity.assertions || []).map(e => ({
+  const assertions = (entity.assertions || []).map((e) => ({
     type: e.typeUrn,
     value: e.value,
     friendlyName: e.friendlyName || undefined,
@@ -70,7 +82,8 @@ const mapEntity = async (entity) => {
   };
 };
 
-const mapEntities = async (entities) => Promise.all(entities.map((entity) => mapEntity(entity)));
+const mapEntities = async (entities) =>
+  Promise.all(entities.map((entity) => mapEntity(entity)));
 
 const mapBannerFromEntity = (entity) => {
   return {
@@ -88,11 +101,13 @@ const mapBannerFromEntity = (entity) => {
 };
 
 const findAndCountAll = async (where, offset, limit) => {
-  const resultset = await services.findAndCountAll(Object.assign({}, defaultQueryOpts, {
-    where,
-    limit,
-    offset,
-  }));
+  const resultset = await services.findAndCountAll(
+    Object.assign({}, defaultQueryOpts, {
+      where,
+      limit,
+      offset,
+    }),
+  );
   return {
     services: await mapEntities(resultset.rows),
     numberOfRecords: resultset.count,
@@ -100,18 +115,22 @@ const findAndCountAll = async (where, offset, limit) => {
 };
 
 const findAll = async (where) => {
-  const resultset = await services.findAll(Object.assign({}, defaultQueryOpts, {
-    where,
-  }));
+  const resultset = await services.findAll(
+    Object.assign({}, defaultQueryOpts, {
+      where,
+    }),
+  );
   return {
     services: await mapEntities(resultset),
   };
 };
 
 const find = async (where) => {
-  const service = await services.findOne(Object.assign({}, defaultQueryOpts, {
-    where,
-  }));
+  const service = await services.findOne(
+    Object.assign({}, defaultQueryOpts, {
+      where,
+    }),
+  );
   return mapEntity(service);
 };
 
@@ -149,7 +168,7 @@ const destroy = async (id) => {
   await serviceGrantTypes.destroy(dependencyCriteria);
   await serviceResponseTypes.destroy(dependencyCriteria);
   await serviceRedirects.destroy(dependencyCriteria);
-  await servicePostLogoutRedirects.destroy(dependencyCriteria)
+  await servicePostLogoutRedirects.destroy(dependencyCriteria);
   await serviceParams.destroy(dependencyCriteria);
   await services.destroy({
     where: {
@@ -160,14 +179,13 @@ const destroy = async (id) => {
   });
 };
 
-
 const update = async (id, service) => {
   const existing = await services.findOne({
     where: {
       id: {
         [Op.eq]: id,
       },
-    }
+    },
   });
 
   if (!existing) {
@@ -183,8 +201,8 @@ const update = async (id, service) => {
     apiSecret: updatedService.apiSecret,
     serviceHome: updatedService.serviceHome,
     postResetUrl: updatedService.postResetUrl,
-    tokenEndpointAuthMethod: updatedService.tokenEndpointAuthMethod
-  })
+    tokenEndpointAuthMethod: updatedService.tokenEndpointAuthMethod,
+  });
 };
 
 const removeAllRedirectUris = async (sid) => {
@@ -234,7 +252,7 @@ const removeGrantTypes = async (sid) => {
 const addGrantType = async (sid, grantType) => {
   await serviceGrantTypes.create({
     serviceId: sid,
-    grantType
+    grantType,
   });
 };
 
@@ -251,7 +269,7 @@ const removeResponseTypes = async (sid) => {
 const addResponseType = async (sid, responseType) => {
   await serviceResponseTypes.create({
     serviceId: sid,
-    responseType
+    responseType,
   });
 };
 
@@ -259,23 +277,26 @@ const addServiceParam = async (sid, paramName, paramValue) => {
   await serviceParams.create({
     serviceId: sid,
     paramName,
-    paramValue
+    paramValue,
   });
 };
 
 const updateServiceParamValue = async (sid, paramName, paramValue) => {
-  await serviceParams.update({
-    paramValue: paramValue,
-  }, {
-    where: {
-      serviceId: {
-        [Op.eq]: sid,
-      },
-      paramName: {
-        [Op.eq]: paramName,
-      }
+  await serviceParams.update(
+    {
+      paramValue: paramValue,
     },
-  });
+    {
+      where: {
+        serviceId: {
+          [Op.eq]: sid,
+        },
+        paramName: {
+          [Op.eq]: paramName,
+        },
+      },
+    },
+  );
 };
 
 const listServiceBanners = async (sid, pageNumber = 1, pageSize = 25) => {
@@ -285,9 +306,7 @@ const listServiceBanners = async (sid, pageNumber = 1, pageSize = 25) => {
         [Op.eq]: sid,
       },
     },
-    order: [
-      ['name', 'ASC'],
-    ],
+    order: [["name", "ASC"]],
     limit: pageSize,
     offset: (pageNumber - 1) * pageSize,
   });
@@ -299,7 +318,7 @@ const listServiceBanners = async (sid, pageNumber = 1, pageSize = 25) => {
     page: pageNumber,
     totalNumberOfPages,
     totalNumberOfRecords,
-  }
+  };
 };
 
 const getBannerById = async (sid, bid) => {
@@ -316,7 +335,16 @@ const getBannerById = async (sid, bid) => {
   return mapBannerFromEntity(entity);
 };
 
-const upsertServiceBanner = async (bannerId, serviceId, name, title, message, validFrom, validTo, isActive) => {
+const upsertServiceBanner = async (
+  bannerId,
+  serviceId,
+  name,
+  title,
+  message,
+  validFrom,
+  validTo,
+  isActive,
+) => {
   let entity = await serviceBanners.findOne({
     where: {
       id: {
@@ -361,9 +389,6 @@ const removeServiceBanner = async (serviceId, bannerId) => {
     },
   });
 };
-
-
-
 
 module.exports = {
   findAndCountAll,

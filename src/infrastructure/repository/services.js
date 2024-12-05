@@ -73,7 +73,7 @@ const define = (db, schema) => {
       timestamps: false,
       tableName: "service",
       schema,
-    }
+    },
   );
 };
 

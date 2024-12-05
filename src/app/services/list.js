@@ -1,25 +1,31 @@
-const { Op } = require('sequelize');
-const { findAndCountAll } = require('./data');
-const { extractParam, extractPageParam, extractPageSizeParam } = require('../utils');
-const logger = require('../../infrastructure/logger');
+const { Op } = require("sequelize");
+const { findAndCountAll } = require("./data");
+const {
+  extractParam,
+  extractPageParam,
+  extractPageSizeParam,
+} = require("../utils");
+const logger = require("../../infrastructure/logger");
 
 const query = async (parentId, page, pageSize) => {
   const offset = (page - 1) * pageSize;
-  const where = parentId ? {
-    parentId: {
-      [Op.eq]: parentId,
-    },
-  } : {
-    isChildService: {
-      [Op.eq]: false,
-    },
-  };
+  const where = parentId
+    ? {
+        parentId: {
+          [Op.eq]: parentId,
+        },
+      }
+    : {
+        isChildService: {
+          [Op.eq]: false,
+        },
+      };
   return findAndCountAll(where, offset, pageSize);
 };
 
 const list = async (req, res) => {
   const { correlationId } = req;
-  const parentId = extractParam(req, 'parent');
+  const parentId = extractParam(req, "parent");
   let page;
   let pageSize;
   try {
@@ -29,7 +35,10 @@ const list = async (req, res) => {
     return res.status(400).send({ error: e.message });
   }
   try {
-    logger.debug(`Processing list services request. page: ${page}, pageSize: ${pageSize}`, { correlationId });
+    logger.debug(
+      `Processing list services request. page: ${page}, pageSize: ${pageSize}`,
+      { correlationId },
+    );
 
     const result = await query(parentId, page, pageSize);
 
@@ -38,7 +47,10 @@ const list = async (req, res) => {
 
     return res.json(result);
   } catch (e) {
-    logger.error(`Error processing list services request - page: ${page}, pageSize: ${pageSize}`, { correlationId, error: { ...e } });
+    logger.error(
+      `Error processing list services request - page: ${page}, pageSize: ${pageSize}`,
+      { correlationId, error: { ...e } },
+    );
     throw e;
   }
 };

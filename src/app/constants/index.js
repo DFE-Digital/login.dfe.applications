@@ -1,25 +1,28 @@
-'use strict';
+"use strict";
 
-const express = require('express');
-const apiAuth = require('login.dfe.api.auth');
-const config = require('./../../infrastructure/config');
-const { asyncWrapper } = require('login.dfe.express-error-handling');
+const express = require("express");
+const apiAuth = require("login.dfe.api.auth");
+const config = require("./../../infrastructure/config");
+const { asyncWrapper } = require("login.dfe.express-error-handling");
 
-const { getFilteredToggleFlags, getToggleFlags } = require('./getToggleFlags');
+const { getFilteredToggleFlags, getToggleFlags } = require("./getToggleFlags");
 
 const constantsRoutes = () => {
-    const router = express.Router();
-  
-    // Add auth middleware.
-    if (config.hostingEnvironment.env !== 'dev') {
-      router.use(apiAuth(router, config));
-    }
-  
-    // Map routes to functions.
-    router.get('/toggleflags', asyncWrapper(getToggleFlags));
-    router.get('/toggleflags/:type/:service_name', asyncWrapper(getFilteredToggleFlags));
+  const router = express.Router();
 
-    return router;
-  };
+  // Add auth middleware.
+  if (config.hostingEnvironment.env !== "dev") {
+    router.use(apiAuth(router, config));
+  }
 
-  module.exports = constantsRoutes();
+  // Map routes to functions.
+  router.get("/toggleflags", asyncWrapper(getToggleFlags));
+  router.get(
+    "/toggleflags/:type/:service_name",
+    asyncWrapper(getFilteredToggleFlags),
+  );
+
+  return router;
+};
+
+module.exports = constantsRoutes();
