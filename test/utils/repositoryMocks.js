@@ -111,17 +111,6 @@ const mockServiceEntity = (
     params,
     getAssertions: jest.fn().mockReturnValue(assertions),
     assertions,
-
-    mockReset: function () {
-      this.getRedirects.mockReset().mockReturnValue(children.redirects);
-      this.getPostLogoutRedirects
-        .mockReset()
-        .mockReturnValue(children.postLogoutRedirects);
-      this.getGrantTypes.mockReset().mockReturnValue(children.grantTypes);
-      this.getResponseTypes.mockReset().mockReturnValue(children.responseTypes);
-      this.getParams.mockReset().mockReturnValue(children.params);
-      this.getAssertions.mockReset().mockReturnValue(children.assertions);
-    },
   };
 };
 

@@ -10,7 +10,7 @@ const envName = config.notifications.envName;
 
 pm2.connect(function (err) {
   function scaleDown() {
-    pm2.scale(APP_NAME, 2, (err, procs) => {
+    pm2.scale(APP_NAME, 2, (err) => {
       if (err) {
         let msg = `${envName} - Error SCALING Application Instances to 2 instances, will try again`;
         SlackService.postMessage(msg);
@@ -26,7 +26,7 @@ pm2.connect(function (err) {
   }
 
   function scaleUp() {
-    pm2.scale(APP_NAME, "+2", (err, procs) => {
+    pm2.scale(APP_NAME, "+2", (err) => {
       if (err) {
         let msg = `${envName} - Error SCALING Application Instances to 4 instances. Will try again`;
         SlackService.postMessage(msg);
@@ -74,7 +74,7 @@ pm2.connect(function (err) {
       exec_mode: "cluster",
       instances: 2,
     },
-    (err, apps) => {
+    (err) => {
       if (err) {
         throw err;
       } else {
