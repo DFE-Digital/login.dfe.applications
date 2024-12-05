@@ -1,5 +1,5 @@
-const { mockRequest, mockResponse } = require('./expressMocks');
-const { mockRepository, mockServiceEntity } = require('./repositoryMocks');
+const { mockRequest, mockResponse } = require("./expressMocks");
+const { mockRepository, mockServiceEntity } = require("./repositoryMocks");
 
 const mockLogger = () => {
   return {
@@ -11,23 +11,26 @@ const mockLogger = () => {
 };
 
 const mockConfig = (customConfig) => {
-  return Object.assign({
-    notifications: {
-      connectionString: 'some-redis-connection-string',
+  return Object.assign(
+    {
+      notifications: {
+        connectionString: "some-redis-connection-string",
+      },
+      database: {
+        host: "localhost",
+        name: "orgs",
+        username: "username",
+        password: "password",
+        dialect: "mssql",
+        schema: "dbo",
+        pool: {
+          max: 5,
+          min: 0,
+        },
+      },
     },
-    database: {
-      "host": "localhost",
-      "name": "orgs",
-      "username": "username",
-      "password": "password",
-      "dialect": "mssql",
-      "schema": "dbo",
-      "pool": {
-        "max": 5,
-        "min": 0
-      }
-    }
-  }, customConfig);
+    customConfig,
+  );
 };
 
 module.exports = {
@@ -36,5 +39,5 @@ module.exports = {
   mockRepository,
   mockServiceEntity,
   mockLogger,
-  mockConfig
+  mockConfig,
 };

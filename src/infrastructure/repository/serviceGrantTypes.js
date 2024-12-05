@@ -1,30 +1,33 @@
-const Sequelize = require('sequelize').default;
+const Sequelize = require("sequelize").default;
 const Op = Sequelize.Op;
 
 const define = (db, schema) => {
-  const model = db.define('serviceGrantTypes', {
-    serviceId: {
-      type: Sequelize.UUID,
-      allowNull: false,
+  const model = db.define(
+    "serviceGrantTypes",
+    {
+      serviceId: {
+        type: Sequelize.UUID,
+        allowNull: false,
+      },
+      grantType: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
     },
-    grantType: {
-      type: Sequelize.STRING,
-      allowNull: false,
+    {
+      timestamps: false,
+      tableName: "serviceGrantTypes",
+      schema,
     },
-  }, {
-    timestamps: false,
-    tableName: 'serviceGrantTypes',
-    schema,
-  });
-  model.removeAttribute('id');
+  );
+  model.removeAttribute("id");
   return model;
 };
 
-const extend = () => {
-};
+const extend = () => {};
 
 module.exports = {
-  name: 'serviceGrantTypes',
+  name: "serviceGrantTypes",
   define,
   extend,
 };

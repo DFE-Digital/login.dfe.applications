@@ -1,4 +1,4 @@
-const { Op } = require('sequelize');
+const { Op } = require("sequelize");
 
 const mockTable = (allEntities, extraData = {}) => {
   const entity = {
@@ -26,18 +26,26 @@ const mockTable = (allEntities, extraData = {}) => {
       const matchingEntities = allEntities.filter((x) => {
         if (opts.where[Op.or]) {
           const orValues = opts.where[Op.or];
-          const idIndex = (typeof orValues[0].id !== 'undefined') ? 0 : 1;
-          const clientIdIndex = (typeof orValues[0].clientId !== 'undefined') ? 0 : 1;
+          const idIndex = typeof orValues[0].id !== "undefined" ? 0 : 1;
+          const clientIdIndex =
+            typeof orValues[0].clientId !== "undefined" ? 0 : 1;
           return (
-            (x.id && orValues[idIndex].id[Op.in].includes(x.id.toLowerCase()))
-            || (x.clientId && orValues[clientIdIndex].clientId[Op.in].includes(x.clientId.toLowerCase()))
+            (x.id &&
+              orValues[idIndex].id[Op.in].includes(x.id.toLowerCase())) ||
+            (x.clientId &&
+              orValues[clientIdIndex].clientId[Op.in].includes(
+                x.clientId.toLowerCase(),
+              ))
           );
         }
         if (opts.where.clientId) {
-          return (x.clientId && opts.where.clientId[Op.in].includes(x.clientId.toLowerCase()));
+          return (
+            x.clientId &&
+            opts.where.clientId[Op.in].includes(x.clientId.toLowerCase())
+          );
         }
         if (opts.where.id) {
-          return (x.id && opts.where.id[Op.in].includes(x.id.toLowerCase()));
+          return x.id && opts.where.id[Op.in].includes(x.id.toLowerCase());
         }
         return false;
       });
@@ -46,10 +54,13 @@ const mockTable = (allEntities, extraData = {}) => {
     entity.findOne.mockImplementation((opts) => {
       return allEntities.find((x) => {
         if (opts.where.clientId) {
-          return (x.clientId && x.clientId.toLowerCase() === opts.where.clientId[Op.eq]);
+          return (
+            x.clientId &&
+            x.clientId.toLowerCase() === opts.where.clientId[Op.eq]
+          );
         }
         if (opts.where.id) {
-          return (x.id && x.id.toLowerCase() === opts.where.id[Op.eq]);
+          return x.id && x.id.toLowerCase() === opts.where.id[Op.eq];
         }
         return undefined;
       });
@@ -66,13 +77,31 @@ const mockRepository = (opts) => {
   };
 };
 
-const mockServiceEntity = (id, name, description, redirects = undefined, postLogoutRedirects = undefined, grantTypes = undefined, responseTypes = undefined, params = undefined, clientId = '', assertions = undefined) => {
+const mockServiceEntity = (
+  id,
+  name,
+  description,
+  redirects = undefined,
+  postLogoutRedirects = undefined,
+  grantTypes = undefined,
+  responseTypes = undefined,
+  params = undefined,
+  clientId = "",
+  assertions = undefined,
+) => {
   return {
     id: id,
     name: name,
     description: description,
     clientId: clientId,
-    children: { redirects, postLogoutRedirects, grantTypes, responseTypes, params, assertions },
+    children: {
+      redirects,
+      postLogoutRedirects,
+      grantTypes,
+      responseTypes,
+      params,
+      assertions,
+    },
 
     getRedirects: jest.fn().mockReturnValue(redirects),
     getPostLogoutRedirects: jest.fn().mockReturnValue(postLogoutRedirects),
@@ -85,7 +114,9 @@ const mockServiceEntity = (id, name, description, redirects = undefined, postLog
 
     mockReset: function () {
       this.getRedirects.mockReset().mockReturnValue(children.redirects);
-      this.getPostLogoutRedirects.mockReset().mockReturnValue(children.postLogoutRedirects);
+      this.getPostLogoutRedirects
+        .mockReset()
+        .mockReturnValue(children.postLogoutRedirects);
       this.getGrantTypes.mockReset().mockReturnValue(children.grantTypes);
       this.getResponseTypes.mockReset().mockReturnValue(children.responseTypes);
       this.getParams.mockReset().mockReturnValue(children.params);
