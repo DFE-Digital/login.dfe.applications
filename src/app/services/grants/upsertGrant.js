@@ -1,5 +1,3 @@
-"use strict";
-
 const { upsertGrant } = require("./data");
 const logger = require("../../../infrastructure/logger");
 
