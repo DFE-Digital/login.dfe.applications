@@ -1,5 +1,3 @@
-"use strict";
-
 const { createToken } = require("./data");
 const logger = require("../../../infrastructure/logger");
 
