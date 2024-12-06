@@ -1,13 +1,10 @@
-const { grants, tokens } = require('./../../../../infrastructure/repository');
-const Sequelize = require('sequelize');
+const { grants, tokens } = require("./../../../../infrastructure/repository");
+const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
-const { v4: uuid } = require('uuid');
-
+const { v4: uuid } = require("uuid");
 
 const defaultGrantQueryOpts = {
-  order: [
-    ['createdAt', 'DESC'],
-  ],
+  order: [["createdAt", "DESC"]],
 };
 
 const mapGrantEntities = async (entities) => {
@@ -51,11 +48,20 @@ const mapTokenFromEntity = (entity) => {
     jti: entity.jti,
     sid: entity.sid,
     createdAt: entity.createdAt,
-    updatedAt: entity.updatedAt
-  }
+    updatedAt: entity.updatedAt,
+  };
 };
 
-const upsertGrant = async (grantId, userId, email, jti, serviceId, scope, organisationId, organisationName) => {
+const upsertGrant = async (
+  grantId,
+  userId,
+  email,
+  jti,
+  serviceId,
+  scope,
+  organisationId,
+  organisationName,
+) => {
   let entity = await grants.findOne({
     where: {
       id: {
@@ -84,11 +90,13 @@ const upsertGrant = async (grantId, userId, email, jti, serviceId, scope, organi
 };
 
 const findAndCountAllGrants = async (where, offset, limit) => {
-  const resultset = await grants.findAndCountAll(Object.assign({}, defaultGrantQueryOpts, {
-    where,
-    limit,
-    offset,
-  }));
+  const resultset = await grants.findAndCountAll(
+    Object.assign({}, defaultGrantQueryOpts, {
+      where,
+      limit,
+      offset,
+    }),
+  );
   return {
     grants: await mapGrantEntities(resultset.rows),
     numberOfRecords: resultset.count,
@@ -96,11 +104,13 @@ const findAndCountAllGrants = async (where, offset, limit) => {
 };
 
 const findAndCountAllTokens = async (where, offset, limit) => {
-  const resultset = await tokens.findAndCountAll(Object.assign({}, defaultGrantQueryOpts, {
-    where,
-    limit,
-    offset,
-  }));
+  const resultset = await tokens.findAndCountAll(
+    Object.assign({}, defaultGrantQueryOpts, {
+      where,
+      limit,
+      offset,
+    }),
+  );
   return {
     tokens: await mapTokenEntities(resultset.rows),
     numberOfRecords: resultset.count,
@@ -115,7 +125,7 @@ const createToken = async (grantId, active, kind, exp, jti, sid) => {
     kind,
     exp,
     jti,
-    sid
+    sid,
   };
 
   await tokens.create(entity);
@@ -129,8 +139,8 @@ const updateToken = async (grantId, jti, active) => {
         [Op.eq]: grantId,
       },
       jti: {
-        [Op.eq]: jti
-      }
+        [Op.eq]: jti,
+      },
     },
   });
   if (entity) {

@@ -1,7 +1,5 @@
-'use strict';
-
-const { createToken } = require('./data');
-const logger = require('../../../infrastructure/logger');
+const { createToken } = require("./data");
+const logger = require("../../../infrastructure/logger");
 
 const validate = (req) => {
   const model = {
@@ -17,16 +15,16 @@ const validate = (req) => {
   };
 
   if (!model.token.grantId) {
-    model.errors.push('grantId must be specified');
+    model.errors.push("grantId must be specified");
   }
   if (!model.token.kind) {
-    model.errors.push('kind must be specified');
+    model.errors.push("kind must be specified");
   }
   if (!model.token.jti) {
-    model.errors.push('jti must be specified');
+    model.errors.push("jti must be specified");
   }
   if (!model.token.exp) {
-    model.errors.push('exp must be specified');
+    model.errors.push("exp must be specified");
   }
 
   return model;
@@ -41,7 +39,7 @@ const action = async (req, res) => {
   }
   const { correlationId } = req;
   try {
-    logger.info('Processing create Token.', { correlationId });
+    logger.info("Processing create Token.", { correlationId });
     const token = await createToken(
       model.token.grantId,
       model.token.active,
@@ -53,7 +51,10 @@ const action = async (req, res) => {
 
     return res.status(202).json(token);
   } catch (e) {
-    logger.error('Error processing create token request.', { correlationId, error: { ...e } });
+    logger.error("Error processing create token request.", {
+      correlationId,
+      error: { ...e },
+    });
     throw e;
   }
 };

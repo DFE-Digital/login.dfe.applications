@@ -1,5 +1,4 @@
 const Sequelize = require("sequelize").default;
-const Op = Sequelize.Op;
 
 const define = (db, schema) => {
   return db.define(
@@ -73,7 +72,7 @@ const define = (db, schema) => {
       timestamps: false,
       tableName: "service",
       schema,
-    }
+    },
   );
 };
 
