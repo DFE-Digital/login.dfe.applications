@@ -1,7 +1,5 @@
-'use strict';
-
-const { upsertGrant } = require('./data');
-const logger = require('../../../infrastructure/logger');
+const { upsertGrant } = require("./data");
+const logger = require("../../../infrastructure/logger");
 
 const validate = (req) => {
   const model = {
@@ -18,22 +16,22 @@ const validate = (req) => {
     errors: [],
   };
   if (!model.grant.serviceId) {
-    model.errors.push('serviceId must be specified');
+    model.errors.push("serviceId must be specified");
   }
   if (!model.grant.grantId) {
-    model.errors.push('grantId must be specified');
+    model.errors.push("grantId must be specified");
   }
   if (!model.grant.userId) {
-    model.errors.push('userId must be specified');
+    model.errors.push("userId must be specified");
   }
   if (!model.grant.email) {
-    model.errors.push('email must be specified');
+    model.errors.push("email must be specified");
   }
   if (!model.grant.jti) {
-    model.errors.push('jti must be specified');
+    model.errors.push("jti must be specified");
   }
   if (!model.grant.scope) {
-    model.errors.push('scope must be specified');
+    model.errors.push("scope must be specified");
   }
 
   return model;
@@ -49,7 +47,7 @@ const action = async (req, res) => {
 
   const { correlationId } = req;
   try {
-    logger.info('Processing upsert grant.', { correlationId });
+    logger.info("Processing upsert grant.", { correlationId });
     const grant = await upsertGrant(
       model.grant.grantId,
       model.grant.userId,
@@ -63,7 +61,10 @@ const action = async (req, res) => {
 
     return res.status(202).json(grant);
   } catch (e) {
-    logger.error('Error processing upsert for grant request.', { correlationId, error: { ...e } });
+    logger.error("Error processing upsert for grant request.", {
+      correlationId,
+      error: { ...e },
+    });
     throw e;
   }
 };

@@ -1,7 +1,7 @@
-const { Op } = require('sequelize');
-const { findAndCountAllTokens } = require('./data');
-const { extractPageParam, extractPageSizeParam } = require('../../utils');
-const logger = require('../../../infrastructure/logger');
+const { Op } = require("sequelize");
+const { findAndCountAllTokens } = require("./data");
+const { extractPageParam, extractPageSizeParam } = require("../../utils");
+const logger = require("../../../infrastructure/logger");
 
 const query = async (grantId, page, pageSize) => {
   const offset = (page - 1) * pageSize;
@@ -26,7 +26,10 @@ const list = async (req, res) => {
 
   const { correlationId } = req;
   try {
-    logger.debug(`Processing list service grant tokens request. page: ${page}, pageSize: ${pageSize}`, { correlationId });
+    logger.debug(
+      `Processing list service grant tokens request. page: ${page}, pageSize: ${pageSize}`,
+      { correlationId },
+    );
 
     const { grantId } = req.params;
     const result = await query(grantId, page, pageSize);
@@ -36,7 +39,10 @@ const list = async (req, res) => {
 
     return res.json(result);
   } catch (e) {
-    logger.error(`Error processing list service grant tokens request - page: ${page}, pageSize: ${pageSize}`, { correlationId, error: { ...e } });
+    logger.error(
+      `Error processing list service grant tokens request - page: ${page}, pageSize: ${pageSize}`,
+      { correlationId, error: { ...e } },
+    );
     throw e;
   }
 };

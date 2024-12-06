@@ -1,6 +1,6 @@
-const { Op } = require('sequelize');
-const { destroy, find } = require('./data');
-const logger = require('../../infrastructure/logger');
+const { Op } = require("sequelize");
+const { destroy, find } = require("./data");
+const logger = require("../../infrastructure/logger");
 
 const deleteService = async (req, res) => {
   const serviceId = req.params.id;
@@ -18,12 +18,15 @@ const deleteService = async (req, res) => {
     }
 
     if (!existingService.parentId) {
-      return res.status(400).send('Top level services are not deletable.');
+      return res.status(400).send("Top level services are not deletable.");
     }
     await destroy(existingService.id);
     return res.status(202).send();
   } catch (e) {
-    logger.error(`Error deleting service ${serviceId}`, { correlationId, error: { ...e } });
+    logger.error(`Error deleting service ${serviceId}`, {
+      correlationId,
+      error: { ...e },
+    });
     throw e;
   }
 };

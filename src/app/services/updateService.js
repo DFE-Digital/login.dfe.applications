@@ -1,4 +1,4 @@
-const { Op } = require('sequelize');
+const { Op } = require("sequelize");
 const {
   update,
   find,
@@ -11,10 +11,25 @@ const {
   removeResponseTypes,
   addResponseType,
   updateServiceParamValue,
-} = require('./data');
-const logger = require('../../infrastructure/logger');
+} = require("./data");
+const logger = require("../../infrastructure/logger");
 
-const patchableProperties = ['name', 'description', 'clientId', 'apiSecret', 'clientSecret', 'serviceHome', 'redirect_uris', 'post_logout_redirect_uris', 'grant_types', 'response_types', 'postResetUrl', 'tokenEndpointAuthMethod', 'consentTitle', 'consentBody'];
+const patchableProperties = [
+  "name",
+  "description",
+  "clientId",
+  "apiSecret",
+  "clientSecret",
+  "serviceHome",
+  "redirect_uris",
+  "post_logout_redirect_uris",
+  "grant_types",
+  "response_types",
+  "postResetUrl",
+  "tokenEndpointAuthMethod",
+  "consentTitle",
+  "consentBody",
+];
 
 const validate = (req) => {
   const keys = Object.keys(req.body);
@@ -27,7 +42,13 @@ const validate = (req) => {
     if (!patchableProperties.find((x) => x === key)) {
       return `${key} is not a patchable property. Patchable properties ${patchableProperties}`;
     }
-    if ((key === 'redirect_uris' || key === 'post_logout_redirect_uris' || key === 'grant_types' || key === 'response_types') && !(value instanceof Array)) {
+    if (
+      (key === "redirect_uris" ||
+        key === "post_logout_redirect_uris" ||
+        key === "grant_types" ||
+        key === "response_types") &&
+      !(value instanceof Array)
+    ) {
       return `${key} must be an array`;
     }
     return null;
@@ -99,17 +120,20 @@ const updateService = async (req, res) => {
     }
 
     if (consentTitle) {
-      await updateServiceParamValue(serviceId, 'consentTitle', consentTitle);
+      await updateServiceParamValue(serviceId, "consentTitle", consentTitle);
     }
 
     if (consentBody) {
-      await updateServiceParamValue(serviceId, 'consentBody', consentBody);
+      await updateServiceParamValue(serviceId, "consentBody", consentBody);
     }
 
     await update(existingService.id, req.body);
     return res.status(202).send();
   } catch (e) {
-    logger.error(`Error updating service ${serviceId}`, { correlationId, error: { ...e } });
+    logger.error(`Error updating service ${serviceId}`, {
+      correlationId,
+      error: { ...e },
+    });
     throw e;
   }
 };

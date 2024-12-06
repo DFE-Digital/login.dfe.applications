@@ -1,36 +1,38 @@
-const Sequelize = require('sequelize').default;
-const Op = Sequelize.Op;
+const Sequelize = require("sequelize").default;
 
 const define = (db, schema) => {
-  const model = db.define('serviceParams', {
-    serviceId: {
-      type: Sequelize.UUID,
-      allowNull: false,
-      primaryKey: true,
+  const model = db.define(
+    "serviceParams",
+    {
+      serviceId: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        primaryKey: true,
+      },
+      paramName: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        primaryKey: true,
+      },
+      paramValue: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
     },
-    paramName: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      primaryKey: true,
+    {
+      timestamps: false,
+      tableName: "serviceParams",
+      schema,
     },
-    paramValue: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-  }, {
-    timestamps: false,
-    tableName: 'serviceParams',
-    schema,
-  });
-  model.removeAttribute('id');
+  );
+  model.removeAttribute("id");
   return model;
 };
 
-const extend = () => {
-};
+const extend = () => {};
 
 module.exports = {
-  name: 'serviceParams',
+  name: "serviceParams",
   define,
   extend,
 };
