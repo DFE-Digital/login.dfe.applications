@@ -2,9 +2,6 @@
   "name": "login.dfe.applications",
   "version": "6.0.0",
   "description": "",
-  "engines": {
-    "node": "18.x.x"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DFE-Digital/login.dfe.applications.git"
