@@ -40,8 +40,8 @@ app.use(
     useDefaults: false,
     directives: {
       defaultSrc: ["'self'"],
-      childSrc: ["none"],
-      objectSrc: ["none"],
+      childSrc: [`'none'`],
+      objectSrc: [`'none'`],
       scriptSrc: scriptSources,
       styleSrc: [
         "'self'",
