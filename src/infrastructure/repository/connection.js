@@ -2,8 +2,6 @@ const Sequelize = require("sequelize").default;
 const assert = require("assert");
 const config = require("./../config");
 
-const Op = Sequelize.Op;
-
 const getIntValueOrDefault = (value, defaultValue = 0) => {
   if (!value) {
     return defaultValue;
@@ -52,7 +50,6 @@ const makeConnection = () => {
     },
     host: config.database.host,
     dialect: config.database.dialect,
-    operatorsAliases: Op,
     dialectOptions: {
       encrypt: encryptDb,
     },
