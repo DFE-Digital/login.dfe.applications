@@ -20,6 +20,7 @@ const parseAndValidateRequest = async (req) => {
       name: req.body.name,
       description: req.body.description || "",
       isExternalService: req.body.isExternalService || false,
+      isIdOnlyService: req.body.isIdOnlyService || false,
       isChildService: req.body.isChildService || false,
       parentId: req.body.parentId || undefined,
       relyingParty: {

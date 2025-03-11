@@ -29,6 +29,7 @@ const service = {
   name: "service one",
   description: "the first service",
   isExternalService: true,
+  isIdOnlyService: false,
   isChildService: true,
   parentId: "service-a",
   relyingParty: {
