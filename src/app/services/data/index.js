@@ -146,6 +146,7 @@ const create = async (service) => {
     isMigrated: true,
     isExternalService: service.isExternalService,
     isIdOnlyService: service.isIdOnlyService,
+    isHiddenService: service.isHiddenService,
     isChildService: service.isChildService,
     parentId: service.parentId,
   });
