@@ -61,6 +61,7 @@ const makeConnection = () => {
       min: getIntValueOrDefault(config.database.pool.min, 0),
       acquire: getIntValueOrDefault(config.database.pool.acquire, 10000),
       idle: getIntValueOrDefault(config.database.pool.idle, 10000),
+      maxUses: 10,
     };
   }
 
