@@ -17,7 +17,7 @@ const config = {
       encrypt: true,
       schema: "dbo",
       pool: {
-        max: 10,
+        max: 1,
         min: 0,
         acquire: 30000,
         idle: 10000
@@ -80,4 +80,4 @@ function mimicLegacySettings(config) {
 
 mimicLegacySettings(config);
 
-module.exports = config; 
+module.exports = config;
