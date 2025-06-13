@@ -17,7 +17,7 @@ const config = {
       encrypt: true,
       schema: "dbo",
       pool: {
-        max: 1,
+        max: 1000,
         min: 0,
         acquire: 30000,
         idle: 10000
