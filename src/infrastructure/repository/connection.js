@@ -40,6 +40,7 @@ const makeConnection = () => {
         /SequelizeHostNotReachableError/,
         /SequelizeInvalidConnectionError/,
         /SequelizeConnectionTimedOutError/,
+        /TimeoutError/,
       ],
       name: "query",
       backoffBase: 100,
