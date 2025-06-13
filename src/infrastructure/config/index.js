@@ -19,7 +19,7 @@ const config = {
       pool: {
         max: 1,
         min: 0,
-        acquire: 10000,
+        acquire: 30000,
         idle: 10000
       }
     }
