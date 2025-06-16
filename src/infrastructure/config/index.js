@@ -36,7 +36,7 @@ const config = {
       ? process.env.LOCAL_SSL_KEY.replace(/\\n/g, "\n")
       : "",
     protocol: "https",
-    // applicationInsights: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING,
+    applicationInsights: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING,
     agentKeepAlive: {
       maxSockets: 30,
       maxFreeSockets: 10,
