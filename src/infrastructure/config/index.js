@@ -17,7 +17,7 @@ const config = {
       encrypt: true,
       schema: "dbo",
       pool: {
-        max: 1000,
+        max: 10,
         min: 0,
         acquire: 30000,
         idle: 10000
@@ -29,10 +29,14 @@ const config = {
     env: process.env.LOCAL_ENV || "azure",
     host: process.env.LOCAL_HOST || process.env.STANDALONE_APPLICATIONS_HOST_NAME,
     port: process.env.LOCAL_PORT_APPLICATION || 443,
-    sslCert: process.env.LOCAL_SSL_CERT || "",
-    sslKey: process.env.LOCAL_SSL_KEY || "",
+    sslCert: process.env.LOCAL_SSL_CERT
+      ? process.env.LOCAL_SSL_CERT.replace(/\\n/g, "\n")
+      : "",
+    sslKey: process.env.LOCAL_SSL_KEY
+      ? process.env.LOCAL_SSL_KEY.replace(/\\n/g, "\n")
+      : "",
     protocol: "https",
-    applicationInsights: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING,
+    // applicationInsights: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING,
     agentKeepAlive: {
       maxSockets: 30,
       maxFreeSockets: 10,
@@ -54,7 +58,7 @@ const config = {
     encrypt: true,
     schema: "dbo",
     pool: {
-      max: 10,
+      max: 1000,
       min: 0,
       acquire: 30000,
       idle: 10000
