@@ -102,6 +102,7 @@ const findAndCountAll = async (where, offset, limit) => {
       where,
       limit,
       offset,
+      distinct: true,
     }),
   );
   return {
