@@ -33,7 +33,7 @@
     "login.dfe.api.auth": "^2.3.4",
     "login.dfe.audit.transporter": "^4.0.3",
     "login.dfe.audit.winston-sequelize-transport": "^3.2.6",
-    "login.dfe.express-error-handling": "^3.0.3",
+    "login.dfe.express-error-handling": "^3.0.5",
     "login.dfe.healthcheck": "^3.0.3",
     "node-cron": "^3.0.3",
     "pm2": "^5.4.3",
