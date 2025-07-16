@@ -54,10 +54,12 @@ const config = {
     encrypt: true,
     schema: "dbo",
     pool: {
-      max: 10,
-      min: 0,
-      acquire: 30000,
-      idle: 10000
+      min: process.env.SQL_POOL_MIN,
+      max: process.env.SQL_POOL_MAX,
+      acquire: process.env.SQL_POOL_ACQUIRE,
+      idle: process.env.SQL_POOL_IDLE,
+      evict: process.env.SQL_POOL_EVICT,
+      maxUses: process.env.SQL_POOL_MAX_USES,
     }
   },
   notifications: {
@@ -80,4 +82,4 @@ function mimicLegacySettings(config) {
 
 mimicLegacySettings(config);
 
-module.exports = config; 
+module.exports = config;
