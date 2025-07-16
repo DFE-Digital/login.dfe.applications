@@ -59,6 +59,7 @@ describe("when listing services", () => {
       include: ["params", "assertions"],
       limit: 3,
       offset: 6,
+      distinct: true,
     });
   });
 
@@ -78,6 +79,7 @@ describe("when listing services", () => {
       include: ["params", "assertions"],
       limit: 3,
       offset: 6,
+      distinct: true,
     });
   });
 
