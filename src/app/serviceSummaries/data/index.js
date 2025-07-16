@@ -87,11 +87,15 @@ const mapEntity = async (entity, queryOptions) => {
 const mapEntities = async (entities, queryOptions) =>
   Promise.all(entities.map((entity) => mapEntity(entity, queryOptions)));
 
+// Note: Not currently used by anything.  It was intending to be used as part of
+// NSA-7220, but that seems to have stalled.  Possibly remove this if not needed
+// in the future?
 const findAndCountAll = async (queryOptions) => {
   const optimisedOptions = removeLazyAssociations(queryOptions);
   const resultSet = await services.findAndCountAll({
     ...defaultQueryOpts,
     ...optimisedOptions,
+    distinct: true,
   });
   return {
     services: await mapEntities(resultSet.rows, queryOptions),
