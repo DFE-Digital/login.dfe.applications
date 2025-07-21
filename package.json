@@ -31,8 +31,6 @@
     "lodash": "^4.17.21",
     "login.dfe.api-client": "^1.0.11",
     "login.dfe.api.auth": "^2.3.4",
-    "login.dfe.audit.transporter": "^4.0.3",
-    "login.dfe.audit.winston-sequelize-transport": "^3.2.6",
     "login.dfe.express-error-handling": "^3.0.5",
     "login.dfe.healthcheck": "^3.0.3",
     "node-cron": "^3.0.3",
