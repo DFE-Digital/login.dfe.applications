@@ -1,19 +1,11 @@
-const WinstonSequelizeTransport = require("login.dfe.audit.winston-sequelize-transport");
-
 const {
   setupApplicationInsights,
   setupLogging,
 } = require("login.dfe.api-client/logging");
-const AuditTransporter = require("login.dfe.audit.transporter");
+
 const config = require("../config");
 
 const additionalTransports = [];
-
-const sequelizeTransport = WinstonSequelizeTransport(config);
-
-if (sequelizeTransport) {
-  additionalTransports.push(sequelizeTransport);
-}
 
 if (config.hostingEnvironment.applicationInsights) {
   setupApplicationInsights(config.hostingEnvironment.applicationInsights);
@@ -21,12 +13,13 @@ if (config.hostingEnvironment.applicationInsights) {
 
 const applicationName = config.loggerSettings.applicationName || "Applications";
 
-additionalTransports.push(
-  AuditTransporter({
-    application: applicationName,
-    level: "audit",
-  }),
-);
+/**
+ * To enable audit logging, update the logger to include `login.dfe.audit.transporter` as an additional transporter.
+ *
+ * Docs: https://dfe-secureaccess.atlassian.net/wiki/spaces/NSA/pages/4381868040/Process+to+centralise+component+API+calls+into+login.dfe.api-client+package#Update-to-use-logging-capabilities-from-login.dfe.api-client
+ *
+ * Example: https://github.com/DFE-Digital/login.dfe.services/pull/646
+ */
 
 module.exports = setupLogging({
   applicationName: applicationName,
