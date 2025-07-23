@@ -29,8 +29,8 @@ const config = {
     env: process.env.LOCAL_ENV || "azure",
     host: process.env.LOCAL_HOST || process.env.STANDALONE_APPLICATIONS_HOST_NAME,
     port: process.env.LOCAL_PORT_APPLICATION || 443,
-    sslCert: process.env.LOCAL_SSL_CERT || "",
-    sslKey: process.env.LOCAL_SSL_KEY || "",
+    sslCert: process.env.LOCAL_SSL_CERT ? process.env.LOCAL_SSL_CERT.replace(/\n/g, '\n') : "",
+    sslKey: process.env.LOCAL_SSL_KEY ? process.env.LOCAL_SSL_KEY.replace(/\n/g, '\n') : "",
     protocol: "https",
     applicationInsights: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING,
     agentKeepAlive: {
