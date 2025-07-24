@@ -7,10 +7,12 @@ const define = (db, schema) => {
       serviceId: {
         type: Sequelize.UUID,
         allowNull: false,
+        primaryKey: true,
       },
       redirectUrl: {
         type: Sequelize.STRING,
         allowNull: false,
+        primaryKey: true,
       },
     },
     {

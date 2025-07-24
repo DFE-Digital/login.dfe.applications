@@ -3,23 +3,15 @@ const { services } = require("../../../infrastructure/repository");
 const defaultQueryOpts = {
   order: [["name", "ASC"]],
 };
-const unusedServiceFields = ["banners", "grants", "isChildService"];
-const lazyLoadedServiceAssociations = [
+const unusedServiceFields = [
   "redirects",
   "postLogoutRedirects",
   "grantTypes",
   "responseTypes",
+  "banners",
+  "grants",
+  "isChildService",
 ];
-
-// REMOVE THIS once all lazy loaded associations have been given primary keys.
-const removeLazyAssociations = (queryOptions) => {
-  // Make a copy of queryOptions so the original isn't modified.
-  const newQueryOptions = { ...queryOptions };
-  newQueryOptions.include = queryOptions.include.filter(
-    (x) => !lazyLoadedServiceAssociations.includes(x),
-  );
-  return newQueryOptions;
-};
 
 const mapEntity = async (entity, queryOptions) => {
   if (!entity) {
@@ -29,16 +21,16 @@ const mapEntity = async (entity, queryOptions) => {
   const { include: associations } = queryOptions;
 
   const redirects = associations.includes("redirects")
-    ? ((await entity.getRedirects()) || []).map((e) => e.redirectUrl)
+    ? (entity.redirects || []).map((e) => e.redirectUrl)
     : [];
   const postLogoutRedirects = associations.includes("postLogoutRedirects")
-    ? ((await entity.getPostLogoutRedirects()) || []).map((e) => e.redirectUrl)
+    ? (entity.postLogoutRedirects || []).map((e) => e.redirectUrl)
     : [];
   const grantTypes = associations.includes("grantTypes")
-    ? ((await entity.getGrantTypes()) || []).map((e) => e.grantType)
+    ? (entity.grantTypes || []).map((e) => e.grantType)
     : [];
   const responseTypes = associations.includes("responseTypes")
-    ? ((await entity.getResponseTypes()) || []).map((e) => e.responseType)
+    ? (entity.responseTypes || []).map((e) => e.responseType)
     : [];
   const paramsArray = (entity.params || []).filter((e) => e.paramName != null);
   const params = {};
@@ -91,10 +83,8 @@ const mapEntities = async (entities, queryOptions) =>
 // NSA-7220, but that seems to have stalled.  Possibly remove this if not needed
 // in the future?
 const findAndCountAll = async (queryOptions) => {
-  const optimisedOptions = removeLazyAssociations(queryOptions);
   const resultSet = await services.findAndCountAll({
     ...defaultQueryOpts,
-    ...optimisedOptions,
     distinct: true,
   });
   return {
@@ -104,10 +94,8 @@ const findAndCountAll = async (queryOptions) => {
 };
 
 const findAll = async (queryOptions) => {
-  const optimisedOptions = removeLazyAssociations(queryOptions);
   const resultSet = await services.findAll({
     ...defaultQueryOpts,
-    ...optimisedOptions,
   });
   return {
     services: await mapEntities(resultSet, queryOptions),
@@ -115,10 +103,8 @@ const findAll = async (queryOptions) => {
 };
 
 const find = async (queryOptions) => {
-  const optimisedOptions = removeLazyAssociations(queryOptions);
   const service = await services.findOne({
     ...defaultQueryOpts,
-    ...optimisedOptions,
   });
   return mapEntity(service, queryOptions);
 };
@@ -127,6 +113,5 @@ module.exports = {
   findAndCountAll,
   findAll,
   find,
-  lazyLoadedServiceAssociations,
   unusedServiceFields,
 };
