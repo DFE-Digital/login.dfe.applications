@@ -14,7 +14,14 @@ const { v4: uuid } = require("uuid");
 const defaultQueryOpts = {
   order: [["name", "ASC"]],
   // Use eager loading on associations that have primary keys.
-  include: ["params", "assertions"],
+  include: [
+    "redirects",
+    "postLogoutRedirects",
+    "grantTypes",
+    "responseTypes",
+    "params",
+    "assertions",
+  ],
 };
 
 const mapEntity = async (entity) => {
@@ -22,18 +29,12 @@ const mapEntity = async (entity) => {
     return undefined;
   }
 
-  const redirects = ((await entity.getRedirects()) || []).map(
+  const redirects = (entity.redirects || []).map((e) => e.redirectUrl);
+  const postLogoutRedirects = (entity.postLogoutRedirects || []).map(
     (e) => e.redirectUrl,
   );
-  const postLogoutRedirects = (
-    (await entity.getPostLogoutRedirects()) || []
-  ).map((e) => e.redirectUrl);
-  const grantTypes = ((await entity.getGrantTypes()) || []).map(
-    (e) => e.grantType,
-  );
-  const responseTypes = ((await entity.getResponseTypes()) || []).map(
-    (e) => e.responseType,
-  );
+  const grantTypes = (entity.grantTypes || []).map((e) => e.grantType);
+  const responseTypes = (entity.responseTypes || []).map((e) => e.responseType);
   const paramsArray = (entity.params || []).filter((e) => e.paramName != null);
   const params = {};
   paramsArray.forEach(({ paramName, paramValue }) => {
