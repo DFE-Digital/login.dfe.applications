@@ -35,7 +35,14 @@ describe("when getting users of services", () => {
     expect(services.findOne).toHaveBeenCalledTimes(1);
     expect(services.findOne.mock.calls[0][0]).toEqual({
       order: [["name", "ASC"]],
-      include: ["params", "assertions"],
+      include: [
+        "redirects",
+        "postLogoutRedirects",
+        "grantTypes",
+        "responseTypes",
+        "params",
+        "assertions",
+      ],
       where: {
         clientId: {
           [Op.eq]: "gias",
@@ -50,7 +57,14 @@ describe("when getting users of services", () => {
     expect(services.findOne).toHaveBeenCalledTimes(2);
     expect(services.findOne.mock.calls[0][0]).toEqual({
       order: [["name", "ASC"]],
-      include: ["params", "assertions"],
+      include: [
+        "redirects",
+        "postLogoutRedirects",
+        "grantTypes",
+        "responseTypes",
+        "params",
+        "assertions",
+      ],
       where: {
         id: {
           [Op.eq]: id,
