@@ -1,4 +1,4 @@
-const { Op } = require("sequelize");
+// const { Op } = require("sequelize");
 const mockUtils = require("../../utils");
 
 jest.mock("./../../../src/infrastructure/repository", () => {
@@ -171,11 +171,11 @@ jest.mock("./../../../src/infrastructure/logger", () => mockUtils.mockLogger());
 
 const { services } = require("../../../src/infrastructure/repository");
 const getSummaries = require("../../../src/app/serviceSummaries");
-const getServiceById = require("../../../src/app/services/getServiceById");
+// const getServiceById = require("../../../src/app/services/getServiceById");
 const {
   unusedServiceFields,
 } = require("../../../src/app/serviceSummaries/data");
-const { isUUID } = require("../../../src/app/utils");
+// const { isUUID } = require("../../../src/app/utils");
 
 let req;
 const res = mockUtils.mockResponse();
