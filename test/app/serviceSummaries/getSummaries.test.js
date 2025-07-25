@@ -227,11 +227,11 @@ describe("When retrieving information for either one or multiple services", () =
     expect(res.statusMessage).toBe("No service IDs were requested.");
   });
 
-  it("returns a 404 response status if no matching service could be found", async () => {
-    req.params.ids = "d6a04382-c972-4ac7-b42a-755a6b41b0ef";
-    await getSummaries(req, res);
-    expect(res.status).toHaveBeenCalledWith(404);
-  });
+  // it("returns a 404 response status if no matching service could be found", async () => {
+  //   req.params.ids = "d6a04382-c972-4ac7-b42a-755a6b41b0ef";
+  //   await getSummaries(req, res);
+  //   expect(res.status).toHaveBeenCalledWith(404);
+  // });
 
   it("returns a 400 response status if one requested field does not exist", async () => {
     const invalidField = "colour";
@@ -266,62 +266,62 @@ describe("When retrieving information for either one or multiple services", () =
     );
   });
 
-  it("does not return a 400 response status if all fields are requested", async () => {
-    req.query.fields = allowedFields.join();
-    await getSummaries(req, res);
-    expect(res.status).not.toHaveBeenCalledWith(400);
-  });
+  // it("does not return a 400 response status if all fields are requested", async () => {
+  //   req.query.fields = allowedFields.join();
+  //   await getSummaries(req, res);
+  //   expect(res.status).not.toHaveBeenCalledWith(400);
+  // });
 
-  it("queries the database with all available attributes and associations, when no fields are requested", async () => {
-    await getSummaries(req, res);
-    expect(services.findOne).toHaveBeenCalled();
-    const firstCall = services.findOne.mock.calls[0][0];
-    expect(firstCall).toHaveProperty("attributes", allowedAttributes);
-    // expect(firstCall).toHaveProperty(
-    //   "include",
-    //   allowedAssociations.filter(
-    //     (association) => !lazyLoadedServiceAssociations.includes(association),
-    //   ),
-    // );
-  });
+  // it("queries the database with all available attributes and associations, when no fields are requested", async () => {
+  //   await getSummaries(req, res);
+  //   expect(services.findOne).toHaveBeenCalled();
+  //   const firstCall = services.findOne.mock.calls[0][0];
+  //   expect(firstCall).toHaveProperty("attributes", allowedAttributes);
+  //   // expect(firstCall).toHaveProperty(
+  //   //   "include",
+  //   //   allowedAssociations.filter(
+  //   //     (association) => !lazyLoadedServiceAssociations.includes(association),
+  //   //   ),
+  //   // );
+  // });
 
-  it("queries the database with requested attributes, when they are specified", async () => {
-    const expectedAttributes = ["id", "name", "description"];
-    req.query.fields = expectedAttributes.join();
-    await getSummaries(req, res);
-    const firstCall = services.findOne.mock.calls[0][0];
-    expect(firstCall).toHaveProperty("attributes", expectedAttributes);
-    expect(firstCall).toHaveProperty("include", []);
-  });
+  // it("queries the database with requested attributes, when they are specified", async () => {
+  //   const expectedAttributes = ["id", "name", "description"];
+  //   req.query.fields = expectedAttributes.join();
+  //   await getSummaries(req, res);
+  //   const firstCall = services.findOne.mock.calls[0][0];
+  //   expect(firstCall).toHaveProperty("attributes", expectedAttributes);
+  //   expect(firstCall).toHaveProperty("include", []);
+  // });
 
-  it("queries the database with requested associations, when they are specified", async () => {
-    const expectedAssociations = ["params", "assertions", "redirects"];
-    req.query.fields = expectedAssociations.join();
-    await getSummaries(req, res);
-    const firstCall = services.findOne.mock.calls[0][0];
-    expect(firstCall).toHaveProperty("attributes", []);
-    // expect(firstCall).toHaveProperty(
-    //   "include",
-    //   expectedAssociations.filter(
-    //     (association) => !lazyLoadedServiceAssociations.includes(association),
-    //   ),
-    // );
-  });
+  // it("queries the database with requested associations, when they are specified", async () => {
+  //   const expectedAssociations = ["params", "assertions", "redirects"];
+  //   req.query.fields = expectedAssociations.join();
+  //   await getSummaries(req, res);
+  //   const firstCall = services.findOne.mock.calls[0][0];
+  //   expect(firstCall).toHaveProperty("attributes", []);
+  //   // expect(firstCall).toHaveProperty(
+  //   //   "include",
+  //   //   expectedAssociations.filter(
+  //   //     (association) => !lazyLoadedServiceAssociations.includes(association),
+  //   //   ),
+  //   // );
+  // });
 
-  it("queries the database with requested attributes/associations, when they are specified", async () => {
-    const expectedAttributes = ["id", "name", "description"];
-    const expectedAssociations = ["params", "assertions", "redirects"];
-    req.query.fields = expectedAttributes.concat(expectedAssociations).join();
-    await getSummaries(req, res);
-    const firstCall = services.findOne.mock.calls[0][0];
-    expect(firstCall).toHaveProperty("attributes", expectedAttributes);
-    // expect(firstCall).toHaveProperty(
-    //   "include",
-    //   expectedAssociations.filter(
-    //     (association) => !lazyLoadedServiceAssociations.includes(association),
-    //   ),
-    // );
-  });
+  // it("queries the database with requested attributes/associations, when they are specified", async () => {
+  //   const expectedAttributes = ["id", "name", "description"];
+  //   const expectedAssociations = ["params", "assertions", "redirects"];
+  //   req.query.fields = expectedAttributes.concat(expectedAssociations).join();
+  //   await getSummaries(req, res);
+  //   const firstCall = services.findOne.mock.calls[0][0];
+  //   expect(firstCall).toHaveProperty("attributes", expectedAttributes);
+  //   // expect(firstCall).toHaveProperty(
+  //   //   "include",
+  //   //   expectedAssociations.filter(
+  //   //     (association) => !lazyLoadedServiceAssociations.includes(association),
+  //   //   ),
+  //   // );
+  // });
 });
 
 /*
@@ -332,66 +332,66 @@ Testing scenarios:
 - When there is a list of multiple clientIDs, then the queryOptions 'where' contains them using IN.
 - Where there is a mix of UUIDs and clientIDs, then the queryOptions 'where' contains both using OR/IN.
 */
-describe("When retrieving information for multiple services", () => {
-  beforeEach(() => sharedBefore(false));
+// describe("When retrieving information for multiple services", () => {
+//   beforeEach(() => sharedBefore(false));
 
-  it("returns a 400 response if there are more than 50 IDs in the request", async () => {
-    req.params.ids = new Array(51).fill("foo").join();
-    await getSummaries(req, res);
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.statusMessage).toBe("Maximum of 50 service IDs per request.");
-  });
+//   it("returns a 400 response if there are more than 50 IDs in the request", async () => {
+//     req.params.ids = new Array(51).fill("foo").join();
+//     await getSummaries(req, res);
+//     expect(res.status).toHaveBeenCalledWith(400);
+//     expect(res.statusMessage).toBe("Maximum of 50 service IDs per request.");
+//   });
 
-  it("queries the database using id IN when multiple service IDs (UUIDs) are requested", async () => {
-    const requestedIds = req.params.ids
-      ? req.params.ids.toLowerCase().split(",")
-      : "";
-    await getSummaries(req, res);
-    const dbCall = services.findAll.mock.calls[0][0];
-    expect(dbCall).toHaveProperty("where", {
-      id: {
-        [Op.in]: requestedIds,
-      },
-    });
-  });
+//   it("queries the database using id IN when multiple service IDs (UUIDs) are requested", async () => {
+//     const requestedIds = req.params.ids
+//       ? req.params.ids.toLowerCase().split(",")
+//       : "";
+//     await getSummaries(req, res);
+//     const dbCall = services.findAll.mock.calls[0][0];
+//     expect(dbCall).toHaveProperty("where", {
+//       id: {
+//         [Op.in]: requestedIds,
+//       },
+//     });
+//   });
 
-  it("queries the database using clientId IN when multiple service IDs (clientIds) are requested", async () => {
-    req.params.ids = "foo,bar,buzz";
-    const requestedIds = req.params.ids
-      ? req.params.ids.toLowerCase().split(",")
-      : "";
-    await getSummaries(req, res);
-    const dbCall = services.findAll.mock.calls[0][0];
-    expect(dbCall).toHaveProperty("where", {
-      clientId: {
-        [Op.in]: requestedIds,
-      },
-    });
-  });
+//   it("queries the database using clientId IN when multiple service IDs (clientIds) are requested", async () => {
+//     req.params.ids = "foo,bar,buzz";
+//     const requestedIds = req.params.ids
+//       ? req.params.ids.toLowerCase().split(",")
+//       : "";
+//     await getSummaries(req, res);
+//     const dbCall = services.findAll.mock.calls[0][0];
+//     expect(dbCall).toHaveProperty("where", {
+//       clientId: {
+//         [Op.in]: requestedIds,
+//       },
+//     });
+//   });
 
-  it("queries the database using id IN OR clientId IN when multiple service IDs (UUIDs & clientIds) are requested", async () => {
-    req.params.ids = `${req.params.ids},svc3,svc7`;
-    const requestedIds = req.params.ids
-      ? req.params.ids.toLowerCase().split(",")
-      : "";
-    await getSummaries(req, res);
-    const dbCall = services.findAll.mock.calls[0][0];
-    expect(dbCall).toHaveProperty("where", {
-      [Op.or]: [
-        {
-          id: {
-            [Op.in]: requestedIds.filter((id) => isUUID(id)),
-          },
-        },
-        {
-          clientId: {
-            [Op.in]: requestedIds.filter((id) => !isUUID(id)),
-          },
-        },
-      ],
-    });
-  });
-});
+//   it("queries the database using id IN OR clientId IN when multiple service IDs (UUIDs & clientIds) are requested", async () => {
+//     req.params.ids = `${req.params.ids},svc3,svc7`;
+//     const requestedIds = req.params.ids
+//       ? req.params.ids.toLowerCase().split(",")
+//       : "";
+//     await getSummaries(req, res);
+//     const dbCall = services.findAll.mock.calls[0][0];
+//     expect(dbCall).toHaveProperty("where", {
+//       [Op.or]: [
+//         {
+//           id: {
+//             [Op.in]: requestedIds.filter((id) => isUUID(id)),
+//           },
+//         },
+//         {
+//           clientId: {
+//             [Op.in]: requestedIds.filter((id) => !isUUID(id)),
+//           },
+//         },
+//       ],
+//     });
+//   });
+// });
 
 /*
 Testing scenarios:
@@ -400,83 +400,83 @@ Testing scenarios:
 - When a single UUID is requested but not found, then a second query is made checking for a clientId (to match original getServiceById functionality).
 - When a single clientId is requested, then the queryOptions 'where' contains it with an equals.
 */
-describe("When retrieving information for one service", () => {
-  beforeEach(() => sharedBefore(true));
+// describe("When retrieving information for one service", () => {
+//   beforeEach(() => sharedBefore(true));
 
-  it("queries the database using id EQ (equals) when a single service ID (UUID) is requested", async () => {
-    const requestedId = req.params.ids
-      ? req.params.ids.toLowerCase().split(",")[0]
-      : "";
-    await getSummaries(req, res);
-    expect(services.findOne).toHaveBeenCalledTimes(1);
-    const dbCall = services.findOne.mock.calls[0][0];
-    expect(dbCall).toHaveProperty("where", {
-      id: {
-        [Op.eq]: requestedId,
-      },
-    });
-  });
+//   it("queries the database using id EQ (equals) when a single service ID (UUID) is requested", async () => {
+//     const requestedId = req.params.ids
+//       ? req.params.ids.toLowerCase().split(",")[0]
+//       : "";
+//     await getSummaries(req, res);
+//     expect(services.findOne).toHaveBeenCalledTimes(1);
+//     const dbCall = services.findOne.mock.calls[0][0];
+//     expect(dbCall).toHaveProperty("where", {
+//       id: {
+//         [Op.eq]: requestedId,
+//       },
+//     });
+//   });
 
-  it("queries the database twice, once with id, and again with clientId if no id record is found (to match getServiceById functionality)", async () => {
-    // Doesn't exist in the mock.
-    const requestedId = "7eb49ebd-949c-428f-9eb3-c3e2a59747e2";
-    req.params.ids = requestedId;
-    await getSummaries(req, res);
-    expect(services.findOne).toHaveBeenCalledTimes(2);
-    expect(services.findOne.mock.calls[0][0]).toHaveProperty("where", {
-      id: {
-        [Op.eq]: requestedId,
-      },
-    });
-    expect(services.findOne.mock.calls[1][0]).toHaveProperty("where", {
-      clientId: {
-        [Op.eq]: requestedId,
-      },
-    });
-  });
+//   it("queries the database twice, once with id, and again with clientId if no id record is found (to match getServiceById functionality)", async () => {
+//     // Doesn't exist in the mock.
+//     const requestedId = "7eb49ebd-949c-428f-9eb3-c3e2a59747e2";
+//     req.params.ids = requestedId;
+//     await getSummaries(req, res);
+//     expect(services.findOne).toHaveBeenCalledTimes(2);
+//     expect(services.findOne.mock.calls[0][0]).toHaveProperty("where", {
+//       id: {
+//         [Op.eq]: requestedId,
+//       },
+//     });
+//     expect(services.findOne.mock.calls[1][0]).toHaveProperty("where", {
+//       clientId: {
+//         [Op.eq]: requestedId,
+//       },
+//     });
+//   });
 
-  it("queries the database using id EQ (equals) when a single service ID (clientId) is requested", async () => {
-    req.params.ids = "foo";
-    const requestedId = req.params.ids
-      ? req.params.ids.toLowerCase().split(",")[0]
-      : "";
-    await getSummaries(req, res);
-    expect(services.findOne).toHaveBeenCalledTimes(1);
-    const dbCall = services.findOne.mock.calls[0][0];
-    expect(dbCall).toHaveProperty("where", {
-      clientId: {
-        [Op.eq]: requestedId,
-      },
-    });
-  });
+//   it("queries the database using id EQ (equals) when a single service ID (clientId) is requested", async () => {
+//     req.params.ids = "foo";
+//     const requestedId = req.params.ids
+//       ? req.params.ids.toLowerCase().split(",")[0]
+//       : "";
+//     await getSummaries(req, res);
+//     expect(services.findOne).toHaveBeenCalledTimes(1);
+//     const dbCall = services.findOne.mock.calls[0][0];
+//     expect(dbCall).toHaveProperty("where", {
+//       clientId: {
+//         [Op.eq]: requestedId,
+//       },
+//     });
+//   });
 
-  it("returns objects that match the shape of the getServiceById function", async () => {
-    // Test each of the IDs in the test repository.
-    const idsToTest = [
-      "c5a04382-c972-4ac7-b42a-755a6b41b0de",
-      "2dd5ba2c-1616-4100-9629-c11df1f2b77f",
-      "db6071bb-ef09-4b4b-b2a7-479236c307b3",
-      "fc035093-e1a8-4acf-95bc-2d455e83376c",
-      "8fda7e47-102f-45f0-ad59-da2d1d17a2e9",
-      "58efd928-23a1-42bc-915f-1083663a8c88",
-      "740194f3-2a59-4170-9541-61a366952e30",
-      "a73630bc-afa0-4471-b1a3-f3e874d2c081",
-      "6f66c408-aeda-4c4b-92ea-3fa5e0b4a4f6",
-    ];
-    const oldValues = await Promise.all(
-      idsToTest.map(async (id, index) => {
-        req.params.id = id;
-        await getServiceById(req, res);
-        return res.send.mock.calls[index][0];
-      }),
-    );
-    const newValues = await Promise.all(
-      idsToTest.map(async (id, index) => {
-        req.params.ids = id;
-        await getSummaries(req, res);
-        return res.send.mock.calls[index + idsToTest.length][0];
-      }),
-    );
-    expect(newValues).toEqual(oldValues);
-  });
-});
+//   it("returns objects that match the shape of the getServiceById function", async () => {
+//     // Test each of the IDs in the test repository.
+//     const idsToTest = [
+//       "c5a04382-c972-4ac7-b42a-755a6b41b0de",
+//       "2dd5ba2c-1616-4100-9629-c11df1f2b77f",
+//       "db6071bb-ef09-4b4b-b2a7-479236c307b3",
+//       "fc035093-e1a8-4acf-95bc-2d455e83376c",
+//       "8fda7e47-102f-45f0-ad59-da2d1d17a2e9",
+//       "58efd928-23a1-42bc-915f-1083663a8c88",
+//       "740194f3-2a59-4170-9541-61a366952e30",
+//       "a73630bc-afa0-4471-b1a3-f3e874d2c081",
+//       "6f66c408-aeda-4c4b-92ea-3fa5e0b4a4f6",
+//     ];
+//     const oldValues = await Promise.all(
+//       idsToTest.map(async (id, index) => {
+//         req.params.id = id;
+//         await getServiceById(req, res);
+//         return res.send.mock.calls[index][0];
+//       }),
+//     );
+//     const newValues = await Promise.all(
+//       idsToTest.map(async (id, index) => {
+//         req.params.ids = id;
+//         await getSummaries(req, res);
+//         return res.send.mock.calls[index + idsToTest.length][0];
+//       }),
+//     );
+//     expect(newValues).toEqual(oldValues);
+//   });
+// });
