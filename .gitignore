@@ -62,7 +62,4 @@ junit.xml
 # Dev env
 /config/
 
-.idea/workspace.xml
-.idea/watcherTasks.xml
 access.log
-\.idea/markdown-exported-files\.xml
