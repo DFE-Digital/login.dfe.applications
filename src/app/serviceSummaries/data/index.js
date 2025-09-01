@@ -3,15 +3,7 @@ const { services } = require("../../../infrastructure/repository");
 const defaultQueryOpts = {
   order: [["name", "ASC"]],
 };
-const unusedServiceFields = [
-  "redirects",
-  "postLogoutRedirects",
-  "grantTypes",
-  "responseTypes",
-  "banners",
-  "grants",
-  "isChildService",
-];
+const unusedServiceFields = ["banners", "grants", "isChildService"];
 
 const mapEntity = async (entity, queryOptions) => {
   if (!entity) {
