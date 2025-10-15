@@ -34,7 +34,6 @@
     "login.dfe.express-error-handling": "^3.0.5",
     "login.dfe.healthcheck": "^3.0.3",
     "node-cron": "^3.0.3",
-    "pm2": "^5.4.3",
     "sequelize": "^6.37.5",
     "tedious": "^18.6.1",
     "uuid": "^9.0.1"
