@@ -1,15 +1,65 @@
-# DfE Sign-in applications api
+# DfE Sign-in Applications
 
-[![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest) [![jest](https://jestjs.io/img/jest-badge.svg)](https://github.com/facebook/jest)
+**DfE Sign-in Applications** provides an API used to retrieve client-application information from the Organisations database and manage relying-party application records. This service is part of the wider **login.dfe** project.
 
-## Prerequisite
+## Getting Started
 
----
+### Install Dependencies
 
-1. Add audit sql host name to keyvault with name `auditSqlHostName` - added
-2. Add audit sql db name to keyvault with name `auditSqlDbName` - added
-3. Add Applications host name to keyvault with name `standaloneApplicationsHostName` - added
-4. Add app insights instrumentation Key to keyvault with name `appInsightsInstrumentationKey` - added
-5. Add tenant Url to keyvault with name `tenantUrl` - added
-6. Add aad shd app id to keyvault with name `aadshdappid` - added
-7. Add platform Global Slack Feed in the keyvault with name `platformGlobalSlackFeed`
+```
+npm install
+```
+
+### Run application
+
+Start the application with:
+
+```
+npm run dev
+```
+
+Once the service is running, to test the API locally:
+
+```
+curl https://localhost:44380/services
+```
+
+When deployed to an environment, a bearer token is required. The token can be generated with https://github.com/DFE-Digital/login.dfe.jwt-strategies. Once you have the token you can append it to the curl command in the following way:
+
+```
+curl https://<host>/services --header 'Authorization: Bearer <bearer token here>'
+```
+
+### Run Tests
+
+Run all tests with:
+
+```
+npm run test
+```
+
+### Code Quality and Formatting
+
+Run ESLint:
+
+```
+npm run lint
+```
+
+Automatically fix lint issues:
+
+```
+npm run lint:fix
+```
+
+### Development Checks
+
+Run linting and tests together:
+
+```
+npm run dev:checks
+```
+
+### Pre-commit Hooks
+
+Pre-commit hooks are handled automatically via Husky. No additional setup is required.
