@@ -11,6 +11,7 @@ const upsertServiceBanner = require("./upsertServiceBanner");
 const getBannerById = require("./getServiceBannerById");
 const removeBanner = require("./removeServiceBanner");
 const grants = require("./grants");
+const updateServiceParam = require("./updateServiceParam");
 
 const router = express.Router({ mergeParams: true });
 
@@ -25,6 +26,8 @@ const buildArea = () => {
 
   router.get("/:id/banners/:bid", asyncWrapper(getBannerById));
   router.delete("/:id/banners/:bid", asyncWrapper(removeBanner));
+
+  router.put("/:id/params/:key", asyncWrapper(updateServiceParam));
 
   router.use("/:id/grants", grants());
   return router;
