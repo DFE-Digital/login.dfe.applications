@@ -201,7 +201,6 @@ const update = async (id, service) => {
     serviceHome: updatedService.serviceHome,
     postResetUrl: updatedService.postResetUrl,
     tokenEndpointAuthMethod: updatedService.tokenEndpointAuthMethod,
-    isHiddenService: updatedService.isHiddenService,
   });
 };
 

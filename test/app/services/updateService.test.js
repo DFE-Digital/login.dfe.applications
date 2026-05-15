@@ -149,7 +149,7 @@ describe("when updating a service", () => {
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.send).toHaveBeenCalledTimes(1);
     expect(res.send.mock.calls[0][0]).toEqual(
-      "notPatchable is not a patchable property. Patchable properties name,description,clientId,apiSecret,clientSecret,serviceHome,redirect_uris,post_logout_redirect_uris,grant_types,response_types,postResetUrl,tokenEndpointAuthMethod,consentTitle,consentBody,isHiddenService",
+      "notPatchable is not a patchable property. Patchable properties name,description,clientId,apiSecret,clientSecret,serviceHome,redirect_uris,post_logout_redirect_uris,grant_types,response_types,postResetUrl,tokenEndpointAuthMethod,consentTitle,consentBody",
     );
   });
 
