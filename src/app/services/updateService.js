@@ -29,6 +29,7 @@ const patchableProperties = [
   "tokenEndpointAuthMethod",
   "consentTitle",
   "consentBody",
+  "isHiddenService",
 ];
 
 const validate = (req) => {
