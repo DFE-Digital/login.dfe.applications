@@ -6,6 +6,7 @@ jest.mock("./../../../src/app/services/data", () => ({
   find: jest.fn(),
   findServiceParam: jest.fn(),
   updateServiceParamValue: jest.fn(),
+  addServiceParam: jest.fn(),
 }));
 
 jest.mock("./../../../src/infrastructure/config", () =>
@@ -18,6 +19,7 @@ const {
   find,
   findServiceParam,
   updateServiceParamValue,
+  addServiceParam,
 } = require("./../../../src/app/services/data");
 const updateServiceParam = require("./../../../src/app/services/updateServiceParam");
 
@@ -51,6 +53,7 @@ describe("when updating a service param", () => {
       paramValue: "false",
     });
     updateServiceParamValue.mockReset().mockResolvedValue();
+    addServiceParam.mockReset().mockResolvedValue();
 
     res.mockResetAll();
   });
@@ -124,11 +127,15 @@ describe("when updating a service param", () => {
       expect(findServiceParam).not.toHaveBeenCalled();
     });
 
-    it("should return 404 when param does not exist for the service", async () => {
+    it("should create param and return 200 when param does not exist for the service", async () => {
       findServiceParam.mockResolvedValue(null);
       await updateServiceParam(req, res);
-      expect(res.status).toHaveBeenCalledWith(404);
-      expect(res.send).toHaveBeenCalledTimes(1);
+      expect(addServiceParam).toHaveBeenCalledWith(
+        SERVICE_ID,
+        PARAM_NAME,
+        PARAM_VALUE,
+      );
+      expect(res.status).toHaveBeenCalledWith(200);
     });
 
     it("should not call updateServiceParamValue when param does not exist", async () => {

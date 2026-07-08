@@ -1,5 +1,10 @@
 const { Op } = require("sequelize");
-const { find, findServiceParam, updateServiceParamValue } = require("./data");
+const {
+  find,
+  findServiceParam,
+  updateServiceParamValue,
+  addServiceParam,
+} = require("./data");
 const logger = require("../../infrastructure/logger");
 const { isUUID } = require("../utils");
 
@@ -111,14 +116,14 @@ const updateServiceParam = async (req, res) => {
 
     const existingParam = await findServiceParam(existingService.id, paramName);
     if (!existingParam) {
-      return res.status(404).send();
+      await addServiceParam(existingService.id, paramName, String(paramValue));
+    } else {
+      await updateServiceParamValue(
+        existingService.id,
+        paramName,
+        String(paramValue),
+      );
     }
-
-    await updateServiceParamValue(
-      existingService.id,
-      paramName,
-      String(paramValue),
-    );
 
     return res.status(200).send({
       serviceId: existingService.id,
