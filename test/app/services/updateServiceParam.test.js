@@ -126,7 +126,9 @@ describe("when updating a service param", () => {
       await updateServiceParam(req, res);
       expect(findServiceParam).not.toHaveBeenCalled();
     });
+  });
 
+  describe("upsert cases", () => {
     it("should create param and return 200 when param does not exist for the service", async () => {
       findServiceParam.mockResolvedValue(null);
       await updateServiceParam(req, res);
