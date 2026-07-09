@@ -53,21 +53,29 @@ const mapEntity = async (entity, queryOptions) => {
     friendlyName: e.friendlyName || undefined,
   }));
 
-  const idOnlyHidden =
-    isTruthy(entity.isHiddenService) &&
-    isTruthy(params.hideApprover) &&
-    isTruthy(params.hideSupport) &&
-    isTruthy(params.helpHidden);
+  const hasVisibilityData = associations.includes("params");
 
-  const isHiddenForApprover = entity.isIdOnlyService
-    ? idOnlyHidden
-    : isTruthy(params.hideApprover);
-  const isHiddenForSupport = entity.isIdOnlyService
-    ? idOnlyHidden
-    : isTruthy(params.hideSupport);
-  const isHiddenForHelp = entity.isIdOnlyService
-    ? idOnlyHidden
-    : isTruthy(params.helpHidden);
+  let isHiddenForApprover;
+  let isHiddenForSupport;
+  let isHiddenForHelp;
+
+  if (hasVisibilityData) {
+    const idOnlyHidden =
+      isTruthy(entity.isHiddenService) &&
+      isTruthy(params.hideApprover) &&
+      isTruthy(params.hideSupport) &&
+      isTruthy(params.helpHidden);
+
+    isHiddenForApprover = entity.isIdOnlyService
+      ? idOnlyHidden
+      : isTruthy(params.hideApprover);
+    isHiddenForSupport = entity.isIdOnlyService
+      ? idOnlyHidden
+      : isTruthy(params.hideSupport);
+    isHiddenForHelp = entity.isIdOnlyService
+      ? idOnlyHidden
+      : isTruthy(params.helpHidden);
+  }
 
   let saml;
   if (assertions.length > 0) {
@@ -83,9 +91,11 @@ const mapEntity = async (entity, queryOptions) => {
     isExternalService: entity.isExternalService,
     isMigrated: entity.isMigrated,
     parentId: entity.parentId || undefined,
-    isHiddenForApprover,
-    isHiddenForSupport,
-    isHiddenForHelp,
+    ...(hasVisibilityData && {
+      isHiddenForApprover,
+      isHiddenForSupport,
+      isHiddenForHelp,
+    }),
     relyingParty: {
       client_id: entity.clientId,
       client_secret: entity.clientSecret,

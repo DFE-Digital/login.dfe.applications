@@ -451,6 +451,24 @@ describe("When retrieving information for one service", () => {
     });
   });
 
+  it("omits isHiddenFor* flags when params association is not requested", async () => {
+    req.query.fields = "name";
+    await getSummaries(req, res);
+    const result = res.send.mock.calls[0][0];
+    expect(result).not.toHaveProperty("isHiddenForApprover");
+    expect(result).not.toHaveProperty("isHiddenForSupport");
+    expect(result).not.toHaveProperty("isHiddenForHelp");
+  });
+
+  it("includes isHiddenFor* flags when params association is loaded", async () => {
+    req.query.fields = "";
+    await getSummaries(req, res);
+    const result = res.send.mock.calls[0][0];
+    expect(result).toHaveProperty("isHiddenForApprover");
+    expect(result).toHaveProperty("isHiddenForSupport");
+    expect(result).toHaveProperty("isHiddenForHelp");
+  });
+
   it("returns objects that match the shape of the getServiceById function", async () => {
     // Test each of the IDs in the test repository.
     const idsToTest = [
