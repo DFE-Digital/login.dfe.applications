@@ -11,6 +11,8 @@ const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 const { v4: uuid } = require("uuid");
 
+const isTruthy = require("../../utils/isTruthy");
+
 const defaultQueryOpts = {
   order: [["name", "ASC"]],
   // Use eager loading on associations that have primary keys.
@@ -45,6 +47,22 @@ const mapEntity = async (entity) => {
     friendlyName: e.friendlyName || undefined,
   }));
 
+  const idOnlyHidden =
+    isTruthy(entity.isHiddenService) &&
+    isTruthy(params.hideApprover) &&
+    isTruthy(params.hideSupport) &&
+    isTruthy(params.helpHidden);
+
+  const isHiddenForApprover = entity.isIdOnlyService
+    ? idOnlyHidden
+    : isTruthy(params.hideApprover);
+  const isHiddenForSupport = entity.isIdOnlyService
+    ? idOnlyHidden
+    : isTruthy(params.hideSupport);
+  const isHiddenForHelp = entity.isIdOnlyService
+    ? idOnlyHidden
+    : isTruthy(params.helpHidden);
+
   let saml;
   if (assertions.length > 0) {
     saml = {
@@ -61,6 +79,9 @@ const mapEntity = async (entity) => {
     isHiddenService: entity.isHiddenService,
     isMigrated: entity.isMigrated,
     parentId: entity.parentId || undefined,
+    isHiddenForApprover,
+    isHiddenForSupport,
+    isHiddenForHelp,
     relyingParty: {
       client_id: entity.clientId,
       client_secret: entity.clientSecret,
@@ -201,6 +222,7 @@ const update = async (id, service) => {
     serviceHome: updatedService.serviceHome,
     postResetUrl: updatedService.postResetUrl,
     tokenEndpointAuthMethod: updatedService.tokenEndpointAuthMethod,
+    isHiddenService: updatedService.isHiddenService,
   });
 };
 

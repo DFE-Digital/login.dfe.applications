@@ -7,6 +7,7 @@ const {
 const InvalidInputError = require("./InvalidInputError");
 const { forEachAsync } = require("./async");
 const isUUID = require("./isUUID");
+const isTruthy = require("./isTruthy");
 
 module.exports = {
   extractPageParam,
@@ -16,4 +17,5 @@ module.exports = {
   InvalidInputError,
   forEachAsync,
   isUUID,
+  isTruthy,
 };

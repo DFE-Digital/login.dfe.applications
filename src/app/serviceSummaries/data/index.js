@@ -1,5 +1,7 @@
 const { services } = require("../../../infrastructure/repository");
 
+const isTruthy = require("../../utils/isTruthy");
+
 const defaultQueryOpts = {
   order: [["name", "ASC"]],
 };
@@ -51,6 +53,30 @@ const mapEntity = async (entity, queryOptions) => {
     friendlyName: e.friendlyName || undefined,
   }));
 
+  const hasVisibilityData = associations.includes("params");
+
+  let isHiddenForApprover;
+  let isHiddenForSupport;
+  let isHiddenForHelp;
+
+  if (hasVisibilityData) {
+    const idOnlyHidden =
+      isTruthy(entity.isHiddenService) &&
+      isTruthy(params.hideApprover) &&
+      isTruthy(params.hideSupport) &&
+      isTruthy(params.helpHidden);
+
+    isHiddenForApprover = entity.isIdOnlyService
+      ? idOnlyHidden
+      : isTruthy(params.hideApprover);
+    isHiddenForSupport = entity.isIdOnlyService
+      ? idOnlyHidden
+      : isTruthy(params.hideSupport);
+    isHiddenForHelp = entity.isIdOnlyService
+      ? idOnlyHidden
+      : isTruthy(params.helpHidden);
+  }
+
   let saml;
   if (assertions.length > 0) {
     saml = {
@@ -65,6 +91,11 @@ const mapEntity = async (entity, queryOptions) => {
     isExternalService: entity.isExternalService,
     isMigrated: entity.isMigrated,
     parentId: entity.parentId || undefined,
+    ...(hasVisibilityData && {
+      isHiddenForApprover,
+      isHiddenForSupport,
+      isHiddenForHelp,
+    }),
     relyingParty: {
       client_id: entity.clientId,
       client_secret: entity.clientSecret,
