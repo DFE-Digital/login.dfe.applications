@@ -63,7 +63,6 @@ const config = {
     }
   },
   notifications: {
-    slackWebHookUrl: process.env.PLATFORM_GLOBAL_SLACK_FEED,
     envName: process.env.ENVIRONMENT_NAME
   }
 }
